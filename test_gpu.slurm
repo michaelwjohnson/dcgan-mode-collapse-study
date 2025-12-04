@@ -14,7 +14,7 @@
 mkdir -p logs
 
 # Load Apptainer if needed
-module load apptainer
+module load apptainer/1.3.4-gcc-14.2.0-g7o5w4g
 
 # Path to your container
 CONTAINER=container/dcgan_diffusion.sif

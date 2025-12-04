@@ -208,8 +208,6 @@ This creates `container/dcgan_diffusion.sif` - your custom container with all de
 
 ### Step 1.6: Create a Test Slurm Job
 
-### Step 1.6: Create a Test Slurm Job
-
 Create `test_gpu.slurm`:
 ```bash
 #!/bin/bash
@@ -247,8 +245,6 @@ if torch.cuda.is_available():
 
 ### Step 1.7: Submit and Verify
 
-### Step 1.7: Submit and Verify
-
 ```bash
 # Create logs directory
 mkdir -p logs
@@ -274,8 +270,6 @@ Number of GPUs: 1
 
 ### Step 1.8: Create Project Structure
 
-### Step 1.8: Create Project Structure
-
 ```bash
 cd ~/ML_Course/as4
 mkdir -p {data,models,outputs,logs,scripts,notebooks}
@@ -294,8 +288,6 @@ mkdir -p {data,models,outputs,logs,scripts,notebooks}
 # ├── *.slurm           # Slurm job files
 # └── README.md         # Documentation
 ```
-
-### Step 1.9: Document Container Setup
 
 ### Step 1.9: Document Container Setup
 

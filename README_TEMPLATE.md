@@ -54,7 +54,7 @@ as4/
 - **PyTorch Version:** 2.5.0
 - **CUDA Version:** 12.6
 - **Python Version:** 3.10
-- **Container Location:** `/home1/michael2024/ML_Course/container/pytorch_25.09-py3.sif`
+- **Container Location:** `container/dcgan_diffusion.sif`
 
 ### Cluster Configuration
 
