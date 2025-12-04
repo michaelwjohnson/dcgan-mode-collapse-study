@@ -1,0 +1,5 @@
+PyTorch version: 2.9.0a0+50eac811a6.nv25.09
+CUDA available: True
+CUDA version: 13.0
+GPU device: NVIDIA A100-SXM4-40GB
+Number of GPUs: 1
