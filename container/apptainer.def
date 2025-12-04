@@ -1,0 +1,117 @@
+Bootstrap: localimage
+From: /home1/michael2024/ML_Course/container/pytorch_25.09-py3.sif
+
+# Alternative: Download from Docker Hub (slower but works without local image)
+# Bootstrap: docker
+# From: nvcr.io/nvidia/pytorch:25.09-py3
+
+%post
+    # Update system packages
+    apt-get update && apt-get install -y \
+        wget \
+        git \
+        vim \
+        && rm -rf /var/lib/apt/lists/*
+    
+    # Upgrade pip
+    pip install --upgrade pip
+    
+    # Install additional Python dependencies (use latest compatible versions)
+    pip install --no-cache-dir \
+        pandas \
+        matplotlib \
+        seaborn \
+        scikit-learn \
+        pillow \
+        tqdm \
+        tensorboard \
+        transformers \
+        tokenizers \
+        scipy \
+        torch \
+        torchmetrics \
+        torchvision \
+        torchsummary \
+        diffusers \
+        accelerate \
+        nvidia-cublas-cu12 \
+        nvidia-cuda-cupti-cu12 \
+        nvidia-cuda-nvrtc-cu12 \
+        nvidia-cuda-runtime-cu12 \
+        nvidia-cudnn-cu12 \
+        nvidia-cufft-cu12 \
+        nvidia-cufile-cu12 \
+        nvidia-curand-cu12 \
+        nvidia-cusolver-cu12 \
+        nvidia-cusparse-cu12 \
+        nvidia-cusparselt-cu12 \
+        nvidia-ml-py \
+        nvidia-nccl-cu12 \
+        nvidia-nvjitlink-cu12 \
+        nvidia-nvshmem-cu12 \
+        nvidia-nvtx-cu12 
+    
+    # Create working directories
+    mkdir -p /workspace/as4
+    mkdir -p /workspace/data
+    mkdir -p /workspace/results
+
+%environment
+    # Set environment variables
+    export LC_ALL=C
+    export PYTHONUNBUFFERED=1
+    export CUDA_VISIBLE_DEVICES=0
+    export OMP_NUM_THREADS=8
+    
+    # PyTorch settings
+    export TORCH_HOME=/workspace/.torch
+    export CUDA_LAUNCH_BLOCKING=0
+    
+    # Add workspace to Python path
+    export PYTHONPATH=/workspace/as4/scripts:$PYTHONPATH
+
+%runscript
+    # Default run script
+    echo "AS4 DCGAN & Diffusion Container"
+    echo "PyTorch Version: $(python -c 'import torch; print(torch.__version__)')"
+    echo "CUDA Available: $(python -c 'import torch; print(torch.cuda.is_available())')"
+    echo "GPU: $(python -c 'import torch; print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else \"N/A\")')"
+    exec "$@"
+
+%labels
+    Author "Michael Johnson"
+    Assignment "AS4"
+    Description "DCGAN and Diffusion Models for MNIST"
+    Version "1.0"
+    CUDA "12.2"
+    BaseImage "nvcr.io/nvidia/pytorch:25.09-py3"
+
+%help
+    This container provides a complete environment for the AS4 GAN and diffusion model workflow using MNIST.
+    
+    Based on NVIDIA NGC PyTorch container with additional dependencies:
+    - PyTorch 2.1.0 with CUDA 12.2 support
+    - torchvision for dataset handling
+    - scikit-learn for preprocessing and metrics
+    - matplotlib/seaborn for visualization
+    
+    Usage:
+        # Build the container
+        apptainer build dcgan_diffusion.sif container/apptainer.def
+        
+        # Run DCGAN training (MNIST)
+        apptainer exec --nv dcgan_diffusion.sif python /workspace/as4/scripts/dcgan.py
+        
+        # Run diffusion model (MNIST)
+        apptainer exec --nv dcgan_diffusion.sif python /workspace/as4/scripts/diffusion.py
+        
+        # Evaluate and compare
+        apptainer exec --nv dcgan_diffusion.sif python /workspace/as4/scripts/evaluate.py
+    
+    Required Bindings:
+        --bind /path/to/as4:/workspace/as4
+        --bind /path/to/data:/workspace/data
+        --bind /path/to/results:/workspace/results
+    
+    GPU Support:
+        Use --nv flag for NVIDIA GPU support

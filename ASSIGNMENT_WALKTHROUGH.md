@@ -125,7 +125,7 @@ module load apptainer
 module load singularity
 ```
 
-### Step 1.3: Pull the Container
+### Step 1.3: Pull the Base Container
 
 Create a directory for containers:
 ```bash
@@ -136,9 +136,79 @@ cd /home1/michael2024/ML_Course/container
 apptainer pull docker://nvcr.io/nvidia/pytorch:25.09-py3
 ```
 
-This creates a `.sif` file (e.g., `pytorch_25.09-py3.sif`)
+This creates a base `.sif` file (e.g., `pytorch_25.09-py3.sif`)
 
-### Step 1.4: Create a Test Slurm Job
+### Step 1.4: Create Custom Container Definition
+
+Create `container/apptainer.def` in your as4 directory to customize the base container with additional dependencies:
+
+```bash
+cd /home1/michael2024/ML_Course/as4
+mkdir -p container
+```
+
+Create `container/apptainer.def`:
+```
+Bootstrap: localimage
+From: /home1/michael2024/ML_Course/container/pytorch_25.09-py3.sif
+
+%post
+    # Update system packages
+    apt-get update && apt-get install -y \
+        wget \
+        git \
+        vim \
+        && rm -rf /var/lib/apt/lists/*
+    
+    # Upgrade pip
+    pip install --upgrade pip
+    
+    # Install additional Python dependencies for GANs and Diffusion models
+    pip install --no-cache-dir \
+        pandas \
+        matplotlib \
+        seaborn \
+        scikit-learn \
+        pillow \
+        tqdm \
+        tensorboard \
+        scipy \
+        torchsummary \
+        diffusers \
+        transformers \
+        accelerate
+    
+    # Create working directories
+    mkdir -p /workspace/as4
+    mkdir -p /workspace/data
+    mkdir -p /workspace/results
+
+%environment
+    export LC_ALL=C
+    export PYTHONUNBUFFERED=1
+    export PYTHONPATH=/workspace/as4/scripts:$PYTHONPATH
+
+%labels
+    Author "Your Name"
+    Assignment "AS4"
+    Description "DCGAN and Diffusion Models for MNIST"
+```
+
+### Step 1.5: Build Your Custom Container
+
+Build the custom container from the definition file:
+```bash
+cd /home1/michael2024/ML_Course/as4
+
+# Build the container (creates .sif file in container/ directory)
+apptainer build container/dcgan_diffusion.sif container/apptainer.def
+```
+
+This creates `container/dcgan_diffusion.sif` - your custom container with all dependencies.
+
+### Step 1.6: Create a Test Slurm Job
+
+### Step 1.6: Create a Test Slurm Job
 
 Create `test_gpu.slurm`:
 ```bash
@@ -160,8 +230,8 @@ mkdir -p logs
 # Load Apptainer if needed
 # module load apptainer
 
-# Path to your container
-CONTAINER=/home1/michael2024/ML_Course/container/pytorch_25.09-py3.sif
+# Path to your custom container
+CONTAINER=/home1/michael2024/ML_Course/as4/container/dcgan_diffusion.sif
 
 # Test GPU access
 apptainer exec --nv $CONTAINER python3 -c "
@@ -175,7 +245,9 @@ if torch.cuda.is_available():
 "
 ```
 
-### Step 1.5: Submit and Verify
+### Step 1.7: Submit and Verify
+
+### Step 1.7: Submit and Verify
 
 ```bash
 # Create logs directory
@@ -200,7 +272,9 @@ GPU device: [Your GPU Name]
 Number of GPUs: 1
 ```
 
-### Step 1.6: Create Project Structure
+### Step 1.8: Create Project Structure
+
+### Step 1.8: Create Project Structure
 
 ```bash
 cd ~/ML_Course/as4
@@ -208,6 +282,9 @@ mkdir -p {data,models,outputs,logs,scripts,notebooks}
 
 # Project structure:
 # as4/
+# ├── container/         # Container definition and built .sif file
+# │   ├── apptainer.def
+# │   └── dcgan_diffusion.sif
 # ├── data/              # Datasets
 # ├── models/            # Saved model checkpoints
 # ├── outputs/           # Generated images
@@ -218,15 +295,18 @@ mkdir -p {data,models,outputs,logs,scripts,notebooks}
 # └── README.md         # Documentation
 ```
 
-### Step 1.7: Document Container Setup
+### Step 1.9: Document Container Setup
+
+### Step 1.9: Document Container Setup
 
 Update your `README.md` with:
-- Container image and version
-- How to pull the container
+- Base container image and version
+- Custom container definition location
+- How to build the custom container
 - How to run test jobs
 - Any cluster-specific instructions
 
-✅ **Checkpoint:** You should now have a working GPU environment with the NVIDIA container.
+✅ **Checkpoint:** You should now have a working GPU environment with your custom container built from `container/apptainer.def`.
 
 ---
 
@@ -545,8 +625,8 @@ mkdir -p logs outputs/dcgan models
 # Load Apptainer if needed
 # module load apptainer
 
-# Path to container
-CONTAINER=/home1/michael2024/ML_Course/container/pytorch_25.09-py3.sif
+# Path to custom container
+CONTAINER=/home1/michael2024/ML_Course/as4/container/dcgan_diffusion.sif
 
 # Dataset to use (mnist or fashion-mnist)
 DATASET=mnist
@@ -658,9 +738,10 @@ Create `install_diffusers.slurm`:
 #SBATCH --mem=16G
 #SBATCH --time=00:30:00
 
-CONTAINER=/home1/michael2024/ML_Course/container/pytorch_25.09-py3.sif
+CONTAINER=/home1/michael2024/ML_Course/as4/container/dcgan_diffusion.sif
 
-# Install diffusers and dependencies
+# Note: diffusers should already be installed in the custom container
+# If you need to install additional packages:
 apptainer exec --nv $CONTAINER pip3 install --user \
     diffusers \
     transformers \
@@ -910,7 +991,7 @@ Create `train_diffusion.slurm`:
 
 mkdir -p logs outputs/diffusion models
 
-CONTAINER=/home1/michael2024/ML_Course/container/pytorch_25.09-py3.sif
+CONTAINER=/home1/michael2024/ML_Course/as4/container/dcgan_diffusion.sif
 
 echo "Starting diffusion model training"
 echo "Job ID: $SLURM_JOB_ID"

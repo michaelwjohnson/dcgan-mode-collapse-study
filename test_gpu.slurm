@@ -14,10 +14,10 @@
 mkdir -p logs
 
 # Load Apptainer if needed
-module load apptainer/1.3.4-gcc-14.2.0-g7o5w4g  
+module load apptainer
 
 # Path to your container
-CONTAINER=/home1/michael2024/ML_Course/container/pytorch_25.09-py3.sif
+CONTAINER=container/dcgan_diffusion.sif
 
 # Test GPU access
 apptainer exec --nv $CONTAINER python3 -c "

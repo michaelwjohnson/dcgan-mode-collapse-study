@@ -1,0 +1,1 @@
+FATAL:   While checking container encryption: could not open image /home1/michael2024/ML_Course/as4/as4/container/dcgan_diffusion.sif: failed to retrieve path for /home1/michael2024/ML_Course/as4/as4/container/dcgan_diffusion.sif: lstat /home1/michael2024/ML_Course/as4/as4: no such file or directory
