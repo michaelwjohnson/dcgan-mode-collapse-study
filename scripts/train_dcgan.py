@@ -11,16 +11,6 @@ from datetime import datetime
 from tqdm import tqdm
 import argparse
 
-# Hyperparameters
-LATENT_DIM = 100
-IMAGE_SIZE = 28  # 28 for MNIST, 32 for CIFAR-10
-CHANNELS = 1     # 1 for MNIST, 3 for CIFAR-10
-BATCH_SIZE = 128
-NUM_EPOCHS = 50
-LR = 0.0002
-BETA1 = 0.5
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 # Generator Network
 class Generator(nn.Module):
     def __init__(self, latent_dim=100, channels=1):
@@ -107,15 +97,17 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
         batch_size: Batch size for training
         beta1: Beta1 parameter for Adam optimizer
     """
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
     print(f"Training DCGAN on {dataset_name}")
-    print(f"Device: {DEVICE}")
+    print(f"Device: {device}")
     print(
         f"Configuration: latent_dim={latent_dim}, lr={lr}, batch_size={batch_size}, beta1={beta1}")
 
     # Create output directories
     os.makedirs(save_dir, exist_ok=True)
     os.makedirs(f"{save_dir}/samples", exist_ok=True)
-    os.makedirs("models", exist_ok=True)
+    os.makedirs(f"{save_dir}/models", exist_ok=True)
 
     # Load dataset
     if dataset_name.lower() == 'mnist':
@@ -138,11 +130,11 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
         raise ValueError(f"Dataset {dataset_name} not supported")
 
     dataloader = DataLoader(dataset, batch_size=batch_size,
-                            shuffle=True, num_workers=4)
+                            shuffle=True, num_workers=4, pin_memory=True)
 
     # Initialize models
-    generator = Generator(latent_dim, channels).to(DEVICE)
-    discriminator = Discriminator(channels).to(DEVICE)
+    generator = Generator(latent_dim, channels).to(device)
+    discriminator = Discriminator(channels).to(device)
 
     generator.apply(weights_init)
     discriminator.apply(weights_init)
@@ -155,7 +147,7 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
                              lr=lr, betas=(beta1, 0.999))
 
     # Fixed noise for visualization
-    fixed_noise = torch.randn(64, latent_dim, 1, 1, device=DEVICE)
+    fixed_noise = torch.randn(64, latent_dim, 1, 1, device=device)
 
     # Training loop
     print("Starting Training...")
@@ -167,11 +159,11 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
     for epoch in range(num_epochs):
         for i, (real_images, _) in enumerate(dataloader):
             batch_size = real_images.size(0)
-            real_images = real_images.to(DEVICE)
+            real_images = real_images.to(device)
 
             # Labels
-            real_labels = torch.ones(batch_size, 1, device=DEVICE)
-            fake_labels = torch.zeros(batch_size, 1, device=DEVICE)
+            real_labels = torch.ones(batch_size, 1, device=device)
+            fake_labels = torch.zeros(batch_size, 1, device=device)
 
             # ============================================
             # Train Discriminator
@@ -183,7 +175,7 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
             loss_D_real = criterion(output_real, real_labels)
 
             # Fake images
-            noise = torch.randn(batch_size, latent_dim, 1, 1, device=DEVICE)
+            noise = torch.randn(batch_size, latent_dim, 1, 1, device=device)
             fake_images = generator(noise)
             output_fake = discriminator(fake_images.detach())
             loss_D_fake = criterion(output_fake, fake_labels)
@@ -216,6 +208,21 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
             })
             pbar.update(1)
 
+        # Save checkpoints every 10 epochs
+        if (epoch + 1) % 10 == 0:
+            checkpoint_dir = f'{save_dir}/checkpoints'
+            os.makedirs(checkpoint_dir, exist_ok=True)
+            torch.save({
+                'epoch': epoch + 1,
+                'generator_state_dict': generator.state_dict(),
+                'discriminator_state_dict': discriminator.state_dict(),
+                'optimizer_G_state_dict': optimizer_G.state_dict(),
+                'optimizer_D_state_dict': optimizer_D.state_dict(),
+                'G_losses': G_losses,
+                'D_losses': D_losses,
+            }, f'{checkpoint_dir}/checkpoint_epoch_{epoch+1:03d}.pth')
+            print(f"\nCheckpoint saved at epoch {epoch+1}")
+
         # Generate and save sample images
         if (epoch + 1) % 5 == 0 or epoch == 0:
             with torch.no_grad():
@@ -229,11 +236,13 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
                 plt.savefig(f'{save_dir}/samples/epoch_{epoch+1:03d}.png')
                 plt.close()
 
-    # Save final models
+    pbar.close()
+    
+    # Save final models directly to save_dir
     torch.save(generator.state_dict(),
-               f'models/dcgan_generator_{dataset_name}.pth')
+               f'{save_dir}/models/dcgan_generator_{dataset_name}.pth')
     torch.save(discriminator.state_dict(),
-               f'models/dcgan_discriminator_{dataset_name}.pth')
+               f'{save_dir}/models/dcgan_discriminator_{dataset_name}.pth')
 
     # Plot losses
     plt.figure(figsize=(10, 5))

@@ -1,0 +1,6 @@
+Starting DCGAN BASELINE training
+Job ID: 146528
+Node: gpu04
+GPU: 0
+Configuration: Baseline (latent_dim=100, lr=0.0002)
+Baseline training complete!

@@ -1,0 +1,6 @@
+Starting DCGAN MODIFIED training
+Job ID: 146529
+Node: gpu04
+GPU: 0
+Configuration: Modified (latent_dim=200, lr=0.0005)
+Modified training complete!

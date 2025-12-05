@@ -1,0 +1,7 @@
+Loading apptainer/1.3.4-gcc-14.2.0-g7o5w4g
+  Loading requirement: glibc/2.35-gcc-14.2.0-yphg5zd
+    openssl/3.4.0-gcc-14.2.0-v33guyd util-linux-uuid/2.40.2-gcc-14.2.0-rbariaf
+    python/3.11.9-gcc-14.2.0-ecbnyqe
+WARNING: group: unknown groupid 1443600513
+/usr/bin/python3: can't open file '/home1/michael2024/ML_Course/as4/scripts/dcgan.py': [Errno 2] No such file or directory
+mv: cannot stat 'models/dcgan_*.pth': No such file or directory
