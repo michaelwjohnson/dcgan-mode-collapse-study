@@ -441,12 +441,23 @@ def weights_init(m):
         nn.init.constant_(m.bias.data, 0)
 
 
-def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan'):
+def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
+                latent_dim=100, lr=0.0002, batch_size=128, beta1=0.5):
     """
     Train DCGAN on specified dataset
+    
+    Args:
+        dataset_name: Name of dataset ('mnist' or 'fashion-mnist')
+        num_epochs: Number of training epochs
+        save_dir: Directory to save outputs
+        latent_dim: Dimension of latent space
+        lr: Learning rate
+        batch_size: Batch size for training
+        beta1: Beta1 parameter for Adam optimizer
     """
     print(f"Training DCGAN on {dataset_name}")
     print(f"Device: {DEVICE}")
+    print(f"Configuration: latent_dim={latent_dim}, lr={lr}, batch_size={batch_size}, beta1={beta1}")
     
     # Create output directories
     os.makedirs(save_dir, exist_ok=True)
@@ -473,11 +484,11 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan'):
     else:
         raise ValueError(f"Dataset {dataset_name} not supported")
     
-    dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, 
+    dataloader = DataLoader(dataset, batch_size=batch_size, 
                           shuffle=True, num_workers=4)
     
     # Initialize models
-    generator = Generator(LATENT_DIM, channels).to(DEVICE)
+    generator = Generator(latent_dim, channels).to(DEVICE)
     discriminator = Discriminator(channels).to(DEVICE)
     
     generator.apply(weights_init)
@@ -485,11 +496,11 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan'):
     
     # Loss and optimizers
     criterion = nn.BCELoss()
-    optimizer_G = optim.Adam(generator.parameters(), lr=LR, betas=(BETA1, 0.999))
-    optimizer_D = optim.Adam(discriminator.parameters(), lr=LR, betas=(BETA1, 0.999))
+    optimizer_G = optim.Adam(generator.parameters(), lr=lr, betas=(beta1, 0.999))
+    optimizer_D = optim.Adam(discriminator.parameters(), lr=lr, betas=(beta1, 0.999))
     
     # Fixed noise for visualization
-    fixed_noise = torch.randn(64, LATENT_DIM, 1, 1, device=DEVICE)
+    fixed_noise = torch.randn(64, latent_dim, 1, 1, device=DEVICE)
     
     # Training loop
     print("Starting Training...")
@@ -515,7 +526,7 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan'):
             loss_D_real = criterion(output_real, real_labels)
             
             # Fake images
-            noise = torch.randn(batch_size, LATENT_DIM, 1, 1, device=DEVICE)
+            noise = torch.randn(batch_size, latent_dim, 1, 1, device=DEVICE)
             fake_images = generator(noise)
             output_fake = discriminator(fake_images.detach())
             loss_D_fake = criterion(output_fake, fake_labels)
@@ -588,83 +599,34 @@ if __name__ == "__main__":
                        help='Number of epochs')
     parser.add_argument('--output-dir', type=str, default='outputs/dcgan',
                        help='Output directory')
+    # Configuration parameters for experiments
+    parser.add_argument('--latent-dim', type=int, default=100,
+                       help='Latent dimension for generator')
+    parser.add_argument('--lr', type=float, default=0.0002,
+                       help='Learning rate')
+    parser.add_argument('--batch-size', type=int, default=128,
+                       help='Batch size')
+    parser.add_argument('--beta1', type=float, default=0.5,
+                       help='Beta1 for Adam optimizer')
     
     args = parser.parse_args()
     
-    train_dcgan(args.dataset, args.epochs, args.output_dir)
+    # Pass all parameters to train_dcgan
+    train_dcgan(
+        dataset_name=args.dataset,
+        num_epochs=args.epochs,
+        save_dir=args.output_dir,
+        latent_dim=args.latent_dim,
+        lr=args.lr,
+        batch_size=args.batch_size,
+        beta1=args.beta1
+    )
 ```
+### Step 2.4: Run Two Training Configurations (EXPERIMENTS REQUIRED)
 
-### Step 2.4: Create Slurm Job for DCGAN Training
-
-Create `train_dcgan.slurm`:
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=train_dcgan
-#SBATCH --output=logs/dcgan_%j.out
-#SBATCH --error=logs/dcgan_%j.err
-#SBATCH --partition=gpu
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
-#SBATCH --gres=gpu:1
-#SBATCH --mem=32G
-#SBATCH --time=04:00:00
-
-# Create necessary directories
-mkdir -p logs outputs/dcgan models
-
-# Load Apptainer if needed
-# module load apptainer
-
-# Path to custom container
-CONTAINER=/home1/michael2024/ML_Course/as4/container/dcgan_diffusion.sif
-
-# Dataset to use (mnist or fashion-mnist)
-DATASET=mnist
-EPOCHS=50
-
-echo "Starting DCGAN training on $DATASET"
-echo "Job ID: $SLURM_JOB_ID"
-echo "Node: $SLURM_NODELIST"
-echo "GPU: $CUDA_VISIBLE_DEVICES"
-
-# Run training
-apptainer exec --nv $CONTAINER python3 scripts/dcgan.py \
-    --dataset $DATASET \
-    --epochs $EPOCHS \
-    --output-dir outputs/dcgan
-
-echo "Training complete!"
-```
-
-### Step 2.5: Submit Training Job
-
-```bash
-# Submit the job
-sbatch train_dcgan.slurm
-
-# Monitor progress
-tail -f logs/dcgan_*.out
-
-# Check job status
-squeue -u $USER
-```
-
-### Step 2.6: Run Two Training Configurations (EXPERIMENTS REQUIRED)
-
-To meet assignment requirements, you must run **at least two different training configurations**:
+To meet assignment requirements, you must run **at least two different training configurations** using the same Python script with different arguments:
 
 #### **Configuration 1: Baseline**
-
-Keep your current settings:
-```python
-# In scripts/dcgan.py
-LATENT_DIM = 100
-LR = 0.0002
-BETA1 = 0.5
-NUM_EPOCHS = 50
-```
 
 Create `train_dcgan_baseline.slurm`:
 ```bash
@@ -686,11 +648,18 @@ CONTAINER=/home1/michael2024/ML_Course/as4/container/dcgan_diffusion.sif
 
 echo "Starting DCGAN BASELINE training"
 echo "Job ID: $SLURM_JOB_ID"
+echo "Node: $SLURM_NODELIST"
+echo "GPU: $CUDA_VISIBLE_DEVICES"
+echo "Configuration: Baseline (latent_dim=100, lr=0.0002)"
 
-# Run training
+# Run training with baseline configuration
 apptainer exec --nv $CONTAINER python3 scripts/dcgan.py \
     --dataset mnist \
     --epochs 50 \
+    --latent-dim 100 \
+    --lr 0.0002 \
+    --batch-size 128 \
+    --beta1 0.5 \
     --output-dir outputs/dcgan_baseline
 
 # Move models to baseline directory
@@ -701,20 +670,11 @@ echo "Baseline training complete!"
 
 #### **Configuration 2: Modified**
 
-Pick **one or more** modifications:
-- **Option A: Change latent dimension** (e.g., LATENT_DIM = 50 or 200)
-- **Option B: Change learning rate** (e.g., LR = 0.0005)
-- **Option C: Add dropout** to discriminator
-- **Option D: Change model depth** (add/remove layers)
-
-Create `scripts/dcgan_modified.py` by copying `dcgan.py` and modifying hyperparameters:
-```python
-# Example: Modified configuration
-LATENT_DIM = 200  # Changed from 100
-LR = 0.0005       # Changed from 0.0002
-BETA1 = 0.5
-NUM_EPOCHS = 50
-```
+Pick **one or more** modifications and pass them as arguments:
+- **Option A: Change latent dimension** (e.g., `--latent-dim 200`)
+- **Option B: Change learning rate** (e.g., `--lr 0.0005`)
+- **Option C: Change batch size** (e.g., `--batch-size 64`)
+- **Option D: Combination** (e.g., change multiple parameters)
 
 Create `train_dcgan_modified.slurm`:
 ```bash
@@ -736,11 +696,18 @@ CONTAINER=/home1/michael2024/ML_Course/as4/container/dcgan_diffusion.sif
 
 echo "Starting DCGAN MODIFIED training"
 echo "Job ID: $SLURM_JOB_ID"
+echo "Node: $SLURM_NODELIST"
+echo "GPU: $CUDA_VISIBLE_DEVICES"
+echo "Configuration: Modified (latent_dim=200, lr=0.0005)"
 
-# Run training
-apptainer exec --nv $CONTAINER python3 scripts/dcgan_modified.py \
+# Run training with modified configuration
+apptainer exec --nv $CONTAINER python3 scripts/dcgan.py \
     --dataset mnist \
     --epochs 50 \
+    --latent-dim 200 \
+    --lr 0.0005 \
+    --batch-size 128 \
+    --beta1 0.5 \
     --output-dir outputs/dcgan_modified
 
 # Move models to modified directory
@@ -755,6 +722,8 @@ Update your training loop in `dcgan.py` to save checkpoints every 10 epochs:
 ```python
 # Inside the training loop, after each epoch:
 if (epoch + 1) % 10 == 0:
+    checkpoint_dir = f'{save_dir}/checkpoints'
+    os.makedirs(checkpoint_dir, exist_ok=True)
     torch.save({
         'epoch': epoch + 1,
         'generator_state_dict': generator.state_dict(),
@@ -763,11 +732,11 @@ if (epoch + 1) % 10 == 0:
         'optimizer_D_state_dict': optimizer_D.state_dict(),
         'G_losses': G_losses,
         'D_losses': D_losses,
-    }, f'models/checkpoint_epoch_{epoch+1:03d}.pth')
+    }, f'{checkpoint_dir}/checkpoint_epoch_{epoch+1:03d}.pth')
     print(f"Checkpoint saved at epoch {epoch+1}")
 ```
 
-#### **Run Both Configurations**
+### Step 2.6: Submit Training Jobs
 
 ```bash
 # Submit both jobs
@@ -777,6 +746,9 @@ sbatch train_dcgan_modified.slurm
 # Monitor progress
 tail -f logs/dcgan_baseline_*.out
 tail -f logs/dcgan_modified_*.out
+
+# Check job status
+squeue -u $USER
 ```
 
 ### Step 2.7: Analyze DCGAN Results (REQUIRED ANALYSIS)
