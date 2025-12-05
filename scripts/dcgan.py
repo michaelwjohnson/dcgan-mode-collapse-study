@@ -185,4 +185,42 @@ def train_dcgan(dataset='mnist', epochs=NUM_EPOCHS, save_dir='outputs/dcgan'):
             'Epoch': epoch + 1, 'Loss D': loss_D.item(), 'Loss G': loss_G.item()})
 
         # Generate and save sample images
+        if (epoch + 1) % 10 == 0 or epoch == 0:
+            with torch.no_grad():
+                fake_samples = generator(fixed_noise).detach().cpu()
+                img_grid = vutils.make_grid(fake_samples, padding=2, normalize=True)
+                plt.figure(figsize=(10, 10))
+                plt.imshow(np.transpose(img_grid, (1, 2, 0))) # Convert from CHW to HWC (Height, Width, Channels)
+                plt.axis('off')
+                plt.savefig(f'{save_dir}/samples/epoch_{epoch+1:03d}.png')
+                plt.close()
+        
+    # Save final models
+    torch.save(generator.state_dict(), f'models/dcgan_generator_{dataset}.pth')
+    torch.save(discriminator.state_dict(), f'models/dcgan_discriminator_{dataset}.pth')
+
+    # Plot losses after training
+    plt.figure(figsize=(10, 5))
+    plt.plot(G_losses, label='Generator Loss', alpha=0.7)
+    plt.plot(D_losses, label='Discriminator Loss', alpha=0.7)
+    plt.xlabel('Iterations')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.title('DCGAN Training Losses')
+    plt.savefig(f'{save_dir}/dcgan_training_losses.png')
+    plt.close()
+
+    print(f'Training complete. Models saved to models/')
+    print(f'Sample images saved to {save_dir}/samples/')
+
+    return generator, discriminator, G_losses, D_losses
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser(description='DCGAN Training Script')
+    parser.add_argument('--epochs', type=int, default=NUM_EPOCHS, help='number of epochs to train')
+    parser.add_argument('--save_dir', type=str, default='outputs/dcgan', help='directory to save outputs')
+    args = parser.parse_args()
+    train_dcgan(args.epochs, args.save_dir)
+
         
