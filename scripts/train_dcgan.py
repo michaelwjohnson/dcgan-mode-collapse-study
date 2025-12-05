@@ -140,6 +140,8 @@ def train_dcgan(dataset_name="mnist", epochs=NUM_EPOCHS, save_dir="outputs/dcgan
     G_losses = []
     D_losses = []
 
+    pbar = tqdm(total=epochs * len(dataloader), desc="Training DCGAN", unit="batch")
+    
     for epoch in range(epochs):
         for i, (real_images, _) in enumerate(dataloader):
             batch_size = real_images.size(0)
@@ -184,23 +186,28 @@ def train_dcgan(dataset_name="mnist", epochs=NUM_EPOCHS, save_dir="outputs/dcgan
             G_losses.append(loss_G.item())
             D_losses.append(loss_D.item())
 
-            # Update tqdm
-            tqdm.write(
-                f"Epoch [{epoch+1}/{epochs}] Batch [{i+1}/{len(dataloader)}] Loss D: {loss_D.item():.4f} Loss G: {loss_G.item():.4f}"
-            )
+            # Update progress bar every batch (interactive terminal)
+            pbar.set_postfix({
+                "Epoch": f"{epoch+1}/{epochs}",
+                "Loss D": f"{loss_D.item():.4f}",
+                "Loss G": f"{loss_G.item():.4f}"
+            })
+            pbar.update(1)
 
-            # Generate and save sample images
-            if (epoch + 1) % 10 == 0 or epoch == 0:
-                with torch.no_grad():
-                    fake_samples = generator(fixed_noise).detach().cpu()
-                    img_grid = vutils.make_grid(fake_samples, padding=2, normalize=True)
-                    plt.figure(figsize=(10, 10))
-                    plt.imshow(
-                        np.transpose(img_grid, (1, 2, 0))
-                    )  # Convert from CHW to HWC (Height, Width, Channels)
-                    plt.axis("off")
-                    plt.savefig(f"{save_dir}/samples/epoch_{epoch+1:03d}.png")
-                    plt.close()
+        # Generate and save sample images
+        if (epoch + 1) % 10 == 0 or epoch == 0:
+            with torch.no_grad():
+                fake_samples = generator(fixed_noise).detach().cpu()
+                img_grid = vutils.make_grid(fake_samples, padding=2, normalize=True)
+                plt.figure(figsize=(10, 10))
+                plt.imshow(
+                    np.transpose(img_grid, (1, 2, 0))
+                )  # Convert from CHW to HWC (Height, Width, Channels)
+                plt.axis("off")
+                plt.savefig(f"{save_dir}/samples/epoch_{epoch+1:03d}.png")
+                plt.close()
+    
+    pbar.close()
 
     # Save final models
     torch.save(generator.state_dict(), f"models/dcgan_generator_{dataset_name}.pth")

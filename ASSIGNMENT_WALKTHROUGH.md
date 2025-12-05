@@ -651,50 +651,366 @@ tail -f logs/dcgan_*.out
 squeue -u $USER
 ```
 
-### Step 2.6: Analyze DCGAN Results
+### Step 2.6: Run Two Training Configurations (EXPERIMENTS REQUIRED)
 
-After training completes:
+To meet assignment requirements, you must run **at least two different training configurations**:
 
-1. **Check generated images:**
+#### **Configuration 1: Baseline**
+
+Keep your current settings:
+```python
+# In scripts/dcgan.py
+LATENT_DIM = 100
+LR = 0.0002
+BETA1 = 0.5
+NUM_EPOCHS = 50
+```
+
+Create `train_dcgan_baseline.slurm`:
+```bash
+#!/bin/bash
+#SBATCH --job-name=dcgan_base
+#SBATCH --output=logs/dcgan_baseline_%j.out
+#SBATCH --error=logs/dcgan_baseline_%j.err
+#SBATCH --partition=gpu
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --gres=gpu:1
+#SBATCH --mem=32G
+#SBATCH --time=04:00:00
+
+mkdir -p logs outputs/dcgan_baseline models/dcgan_baseline
+
+CONTAINER=/home1/michael2024/ML_Course/as4/container/dcgan_diffusion.sif
+
+echo "Starting DCGAN BASELINE training"
+echo "Job ID: $SLURM_JOB_ID"
+
+# Run training
+apptainer exec --nv $CONTAINER python3 scripts/dcgan.py \
+    --dataset mnist \
+    --epochs 50 \
+    --output-dir outputs/dcgan_baseline
+
+# Move models to baseline directory
+mv models/dcgan_*.pth models/dcgan_baseline/
+
+echo "Baseline training complete!"
+```
+
+#### **Configuration 2: Modified**
+
+Pick **one or more** modifications:
+- **Option A: Change latent dimension** (e.g., LATENT_DIM = 50 or 200)
+- **Option B: Change learning rate** (e.g., LR = 0.0005)
+- **Option C: Add dropout** to discriminator
+- **Option D: Change model depth** (add/remove layers)
+
+Create `scripts/dcgan_modified.py` by copying `dcgan.py` and modifying hyperparameters:
+```python
+# Example: Modified configuration
+LATENT_DIM = 200  # Changed from 100
+LR = 0.0005       # Changed from 0.0002
+BETA1 = 0.5
+NUM_EPOCHS = 50
+```
+
+Create `train_dcgan_modified.slurm`:
+```bash
+#!/bin/bash
+#SBATCH --job-name=dcgan_mod
+#SBATCH --output=logs/dcgan_modified_%j.out
+#SBATCH --error=logs/dcgan_modified_%j.err
+#SBATCH --partition=gpu
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --gres=gpu:1
+#SBATCH --mem=32G
+#SBATCH --time=04:00:00
+
+mkdir -p logs outputs/dcgan_modified models/dcgan_modified
+
+CONTAINER=/home1/michael2024/ML_Course/as4/container/dcgan_diffusion.sif
+
+echo "Starting DCGAN MODIFIED training"
+echo "Job ID: $SLURM_JOB_ID"
+
+# Run training
+apptainer exec --nv $CONTAINER python3 scripts/dcgan_modified.py \
+    --dataset mnist \
+    --epochs 50 \
+    --output-dir outputs/dcgan_modified
+
+# Move models to modified directory
+mv models/dcgan_*.pth models/dcgan_modified/
+
+echo "Modified training complete!"
+```
+
+#### **Save Model Checkpoints at Multiple Stages**
+
+Update your training loop in `dcgan.py` to save checkpoints every 10 epochs:
+```python
+# Inside the training loop, after each epoch:
+if (epoch + 1) % 10 == 0:
+    torch.save({
+        'epoch': epoch + 1,
+        'generator_state_dict': generator.state_dict(),
+        'discriminator_state_dict': discriminator.state_dict(),
+        'optimizer_G_state_dict': optimizer_G.state_dict(),
+        'optimizer_D_state_dict': optimizer_D.state_dict(),
+        'G_losses': G_losses,
+        'D_losses': D_losses,
+    }, f'models/checkpoint_epoch_{epoch+1:03d}.pth')
+    print(f"Checkpoint saved at epoch {epoch+1}")
+```
+
+#### **Run Both Configurations**
+
+```bash
+# Submit both jobs
+sbatch train_dcgan_baseline.slurm
+sbatch train_dcgan_modified.slurm
+
+# Monitor progress
+tail -f logs/dcgan_baseline_*.out
+tail -f logs/dcgan_modified_*.out
+```
+
+### Step 2.7: Analyze DCGAN Results (REQUIRED ANALYSIS)
+
+After both configurations complete, perform the following analysis:
+
+#### **A. Visual Quality Assessment**
+
+1. **Compare generated samples:**
    ```bash
-   ls outputs/dcgan/samples/
+   ls outputs/dcgan_baseline/samples/
+   ls outputs/dcgan_modified/samples/
    ```
 
-2. **View training losses:**
+2. **Look for mode collapse:**
+   - Are images in either configuration nearly identical?
+   - Do all images look like the same digit(s)?
+   - Is there variety within each configuration?
+
+3. **Assess image quality:**
+   - Are digits recognizable?
+   - Are images sharp or blurry?
+   - Any artifacts or noise?
+
+#### **B. Training Stability Analysis**
+
+1. **Examine loss curves:**
    ```bash
-   display outputs/dcgan/training_losses.png
+   # View both loss plots
+   display outputs/dcgan_baseline/training_losses.png
+   display outputs/dcgan_modified/training_losses.png
    ```
 
-3. **Generate new samples:**
-   Create `scripts/generate_dcgan.py`:
-   ```python
-   import torch
-   from dcgan import Generator
-   import torchvision.utils as vutils
-   import matplotlib.pyplot as plt
-   
-   device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-   
-   # Load generator
-   generator = Generator(latent_dim=100, channels=1).to(device)
-   generator.load_state_dict(torch.load('models/dcgan_generator_mnist.pth'))
-   generator.eval()
-   
-   # Generate samples
-   with torch.no_grad():
-       noise = torch.randn(64, 100, 1, 1, device=device)
-       fake_images = generator(noise).cpu()
-   
-   # Display
-   img_grid = vutils.make_grid(fake_images, padding=2, normalize=True, nrow=8)
-   plt.figure(figsize=(10, 10))
-   plt.imshow(img_grid.permute(1, 2, 0))
-   plt.axis('off')
-   plt.savefig('outputs/dcgan/final_samples.png')
-   plt.show()
-   ```
+2. **Check for instability signs:**
+   - Do losses diverge or oscillate wildly?
+   - Does one network dominate the other?
+   - Do losses converge to reasonable values?
 
-✅ **Checkpoint:** You should have trained DCGAN model with generated image samples.
+3. **Compare convergence:**
+   - Which config converged faster?
+   - Which was more stable?
+
+#### **C. Create Analysis Script**
+
+Create `scripts/analyze_dcgan.py`:
+```python
+import torch
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image
+import os
+
+def analyze_mode_collapse(samples_dir):
+    """
+    Check for mode collapse by analyzing sample diversity
+    """
+    # Load all generated samples
+    sample_files = sorted([f for f in os.listdir(samples_dir) if f.endswith('.png')])
+    
+    print(f"\n=== Mode Collapse Analysis for {samples_dir} ===")
+    print(f"Total sample images: {len(sample_files)}")
+    
+    # Visual inspection needed - print instructions
+    print("\nVisual Inspection Checklist:")
+    print("1. Are all generated images very similar?")
+    print("2. Do images show only 1-2 digit types instead of all 10?")
+    print("3. Are there repeated patterns across samples?")
+    print("\nIf YES to above: Mode collapse detected")
+    print("If NO: Good diversity")
+    
+    return sample_files
+
+def compare_training_stability(baseline_losses, modified_losses):
+    """
+    Compare training stability between configurations
+    """
+    # Load loss data if saved separately, or extract from plots
+    print("\n=== Training Stability Comparison ===")
+    
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    
+    # Baseline
+    axes[0].plot(baseline_losses['G'], label='Generator', alpha=0.7)
+    axes[0].plot(baseline_losses['D'], label='Discriminator', alpha=0.7)
+    axes[0].set_xlabel('Iterations')
+    axes[0].set_ylabel('Loss')
+    axes[0].set_title('Baseline Configuration')
+    axes[0].legend()
+    axes[0].grid(True)
+    
+    # Modified
+    axes[1].plot(modified_losses['G'], label='Generator', alpha=0.7)
+    axes[1].plot(modified_losses['D'], label='Discriminator', alpha=0.7)
+    axes[1].set_xlabel('Iterations')
+    axes[1].set_ylabel('Loss')
+    axes[1].set_title('Modified Configuration')
+    axes[1].legend()
+    axes[1].grid(True)
+    
+    plt.tight_layout()
+    plt.savefig('outputs/comparison/stability_comparison.png')
+    print("Stability comparison saved to outputs/comparison/stability_comparison.png")
+    
+def create_side_by_side_comparison():
+    """
+    Create side-by-side comparison of both configs
+    """
+    fig, axes = plt.subplots(2, 8, figsize=(16, 4))
+    
+    # Load final epoch samples from both configs
+    baseline_samples = f'outputs/dcgan_baseline/samples/epoch_050.png'
+    modified_samples = f'outputs/dcgan_modified/samples/epoch_050.png'
+    
+    print("\n=== Creating Visual Comparison ===")
+    print(f"Comparing final samples from both configurations")
+    
+    # Instructions for manual comparison
+    print("\nComparison Points:")
+    print("1. Image Quality: Which looks sharper/more realistic?")
+    print("2. Diversity: Which shows more variety?")
+    print("3. Artifacts: Which has fewer visual artifacts?")
+    
+    os.makedirs('outputs/comparison', exist_ok=True)
+
+def generate_analysis_report():
+    """
+    Generate structured analysis report
+    """
+    report = """
+# DCGAN Experiment Analysis
+
+## Configuration Comparison
+
+| Aspect | Baseline | Modified | Observation |
+|--------|----------|----------|-------------|
+| Latent Dim | 100 | [your value] | [your observation] |
+| Learning Rate | 0.0002 | [your value] | [your observation] |
+| Training Stability | [stable/unstable] | [stable/unstable] | [describe differences] |
+| Mode Collapse | [yes/no] | [yes/no] | [describe if observed] |
+| Image Quality | [good/fair/poor] | [good/fair/poor] | [compare quality] |
+| Diversity | [high/med/low] | [high/med/low] | [compare variety] |
+
+## Mode Collapse Analysis
+
+**Baseline Configuration:**
+- [Describe what you observe in the generated images]
+- [Are there repeated/identical samples?]
+- [Do images cover all digit classes?]
+
+**Modified Configuration:**
+- [Describe what you observe in the generated images]
+- [Are there repeated/identical samples?]
+- [Do images cover all digit classes?]
+
+## Training Instability Analysis
+
+**Baseline Configuration:**
+- [Do losses diverge or oscillate?]
+- [Is training stable throughout?]
+- [Does one network dominate?]
+
+**Modified Configuration:**
+- [Do losses diverge or oscillate?]
+- [Is training stable throughout?]
+- [Does one network dominate?]
+
+## Relation to Lecture Notes on GAN Issues
+
+**Mode Collapse:**
+According to the lecture notes, mode collapse occurs when the generator produces limited variety 
+of outputs. In our experiments, [describe your observations and relate to theory].
+
+**Training Instability:**
+The lecture notes discuss that GANs can suffer from training instability due to [cite specific 
+points from notes]. In our experiments, [describe what you observed and how it relates].
+
+**Mitigation Strategies:**
+From the lecture notes, recommended strategies include [list strategies]. In our experiments, 
+[describe which strategies you used and their effectiveness].
+
+## Conclusions
+
+1. [Key finding 1]
+2. [Key finding 2]
+3. [Key finding 3]
+
+## Recommendations
+
+Based on our analysis:
+- [Recommendation 1]
+- [Recommendation 2]
+"""
+    
+    with open('outputs/comparison/DCGAN_ANALYSIS.md', 'w') as f:
+        f.write(report)
+    
+    print("\nAnalysis report template created: outputs/comparison/DCGAN_ANALYSIS.md")
+    print("Fill in your observations based on the generated samples and loss curves.")
+
+if __name__ == "__main__":
+    print("Starting DCGAN Analysis...")
+    
+    # Analyze mode collapse
+    analyze_mode_collapse('outputs/dcgan_baseline/samples')
+    analyze_mode_collapse('outputs/dcgan_modified/samples')
+    
+    # Create comparison visualizations
+    create_side_by_side_comparison()
+    
+    # Generate report template
+    generate_analysis_report()
+    
+    print("\n✅ Analysis complete! Review the outputs and fill in the report.")
+```
+
+Run the analysis:
+```bash
+python3 scripts/analyze_dcgan.py
+```
+
+#### **D. Document Your Findings**
+
+Fill in the generated `outputs/comparison/DCGAN_ANALYSIS.md` with your observations, including:
+1. **Mode collapse evidence** (screenshots, descriptions)
+2. **Training stability comparison** (loss curve analysis)
+3. **Relation to course notes** (cite specific GAN issues discussed)
+4. **Recommendations** based on your experiments
+
+✅ **Checkpoint:** You should have:
+- ✅ Two trained DCGAN configurations with different hyperparameters
+- ✅ Model checkpoints saved at multiple stages (every 10 epochs)
+- ✅ Generated samples from both configurations
+- ✅ Analysis of mode collapse and training instability
+- ✅ Documented findings relating to lecture notes on GAN issues
 
 ---
 

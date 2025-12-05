@@ -42,3 +42,26 @@ module load apptainer/1.3.4-gcc-14.2.0-g7o5w4g
 ---
 
 ✅ **Checkpoint:** You should now have a working GPU environment with your custom container built from `container/apptainer.def`.
+
+## How to Train DCGAN Model
+
+- Submit the DCGAN training job:
+```bash
+sbatch train_dcgan.slurm
+```
+- Monitor job status:
+```bash
+squeue -u $USER
+```
+- View training output and progress:
+```bash
+tail -f logs/dcgan_*.out
+tail -f logs/dcgan_*.err
+```
+- Generated model checkpoints will be saved in `models/`
+- Generated image samples will be saved in `outputs/dcgan/samples/`
+- Training loss plots will be saved in `outputs/dcgan/dcgan_training_losses.png`
+
+---
+
+✅ **Checkpoint:** You should have trained DCGAN model with generated image samples.
