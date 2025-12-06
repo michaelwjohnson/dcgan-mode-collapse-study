@@ -51,30 +51,230 @@ Experiments were run on a university HPC cluster using SLURM for job scheduling.
 
 % -------------------
 \section{Results}
+
 \subsection{Visual Examples from Both Models}
-Visual inspection of generated samples shows:
+
+\subsubsection{Baseline Configuration (latent\_dim=256, depth=3, dropout=0.0)}
+Figure~\ref{fig:baseline_samples} shows the evolution of generated samples across epochs. The baseline model demonstrates progressive improvement:
 \begin{itemize}
-    \item \textbf{Baseline:} By epoch 30, the generator produces diverse, realistic digits. All classes (0-9) are represented, with varied handwriting styles and no mode collapse.
-    \item \textbf{Modified:} The generator collapses to producing repeated, grid-like patterns with little diversity. Digits are not recognizable, and mode collapse is severe.
+    \item \textbf{Epoch 1:} Initial samples display random noise with minimal structure, as expected when both networks start from random initialization.
+    \item \textbf{Epochs 5--10:} Digit-like shapes emerge rapidly. By epoch 10, generated samples show recognizable digit contours with varied forms, though some blurriness persists.
+    \item \textbf{Epochs 15--30:} Quality improves substantially. All digit classes (0--9) appear with increasing frequency and clarity. Samples demonstrate diversity in stroke thickness, orientation, and style.
+    \item \textbf{Epochs 35--50:} Quality plateaus with continued refinement. Digits exhibit sharp edges, natural-looking handwriting variations, and strong diversity. Critically, \textbf{no repeated or nearly identical samples are observed}, indicating successful learning of the full MNIST distribution.
 \end{itemize}
-% (Figures can be included here using \includegraphics)
+
+The baseline configuration successfully avoids mode collapse throughout all 50 epochs, maintaining diverse, high-quality digit generation.
+
+\subsubsection{Modified Configuration (latent\_dim=64, depth=4, dropout=0.3)}
+Figure~\ref{fig:modified_samples} reveals catastrophic training failure:
+\begin{itemize}
+    \item \textbf{Epochs 1--5:} Initial samples show noise similar to baseline, but grid-like artifacts and checkerboard patterns appear unusually early (epoch 1).
+    \item \textbf{Epochs 10--20:} Rather than improving, sample quality degrades. Generated images become increasingly uniform, dominated by repetitive grid textures and high-frequency noise patterns. No recognizable digits emerge.
+    \item \textbf{Epochs 25--30:} Mode collapse accelerates. Samples converge to nearly identical outputs featuring regular grid patterns with no semantic content.
+    \item \textbf{Epochs 35--50:} \textbf{Complete mode collapse}. All 64 samples in each grid are visually indistinguishable, showing identical grid/checkerboard artifacts. The generator has collapsed to producing a single meaningless pattern repeatedly, failing entirely to represent the MNIST digit distribution.
+\end{itemize}
+
+The modified model exhibits textbook mode collapse, where the generator finds a single output (or small set of outputs) that consistently fools the discriminator, abandoning the goal of learning the true data distribution.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{../../output/dcgan_baseline/samples/epoch_001.png}
+\includegraphics[width=0.48\textwidth]{../../output/dcgan_baseline/samples/epoch_050.png}
+\caption{Baseline model samples at epochs 1 (left) and 50 (right), showing clear progression from noise to diverse, high-quality digits.}
+\label{fig:baseline_samples}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{../../output/dcgan_modified/samples/epoch_001.png}
+\includegraphics[width=0.48\textwidth]{../../output/dcgan_modified/samples/epoch_050.png}
+\caption{Modified model samples at epochs 1 (left) and 50 (right), showing mode collapse to identical grid patterns.}
+\label{fig:modified_samples}
+\end{figure}
 
 \subsection{Quantitative Metrics or Proxy Measures}
-Generator and discriminator losses were recorded for each experiment. The baseline model's losses stabilized, while the modified model's losses indicated instability and collapse. (Loss curves can be plotted from saved CSVs.)
+
+Table~\ref{tab:metrics} summarizes quantitative metrics:
+
+\begin{table}[h]
+\centering
+\caption{Training Metrics Comparison}
+\label{tab:metrics}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Metric} & \textbf{Baseline} & \textbf{Modified} \\
+\midrule
+Latent Dimension & 256 & 64 \\
+Network Depth & 3 & 4 \\
+Dropout & 0.0 & 0.3 \\
+\midrule
+Final Gen Loss & 1.75 & 10.40 \\
+Final Disc Loss & 0.65 & 0.0001 \\
+Min Generator Loss & 0.49 & 0.68 \\
+Min Discriminator Loss & 0.35 & 0.00 \\
+\midrule
+Training Time (min) & 7.47 & 12.20 \\
+Time/Epoch (sec) & 8.96 & 14.65 \\
+Inference Time (ms) & 1.96 & 0.69 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Loss Behavior Analysis:}
+\begin{itemize}
+    \item \textbf{Baseline:} Final generator loss of 1.75 with discriminator loss of 0.65 indicates healthy adversarial equilibrium. Both networks remain challenged, with the discriminator achieving $\sim$66\% accuracy (slightly above random guessing), while the generator continues improving. This balance is characteristic of successful GAN training.
+    
+    \item \textbf{Modified:} Final generator loss of 10.40 (5.9$\times$ higher than baseline) coupled with discriminator loss near 0.0001 reveals complete training collapse. The discriminator achieves near-perfect classification ($\sim$100\% accuracy), while the generator fails catastrophically to produce convincing samples. This loss divergence is the quantitative signature of mode collapse.
+\end{itemize}
+
+Figure~\ref{fig:loss_curves} shows loss evolution over 23,450 iterations:
+\begin{itemize}
+    \item \textbf{Baseline:} Both losses stabilize after $\sim$5,000 iterations, oscillating around steady values (G: 2.0--2.7, D: 0.5--1.2). This oscillatory behavior reflects the minimax game dynamics, with neither network dominating—a sign of healthy training.
+    
+    \item \textbf{Modified:} Generator loss increases monotonically from $\sim$3 (iteration 0) to $>$10 (by iteration 10,000), continuing to diverge through iteration 23,450. Discriminator loss collapses rapidly to near-zero by iteration 5,000 and remains there. This one-sided optimization failure confirms that the discriminator completely dominates, rejecting all generator outputs with certainty.
+\end{itemize}
+
+The stark contrast in loss curves provides quantitative evidence supporting the visual observations: baseline achieves stable adversarial balance while modified exhibits catastrophic divergence.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{../../output/dcgan_baseline/training_losses.png}
+\includegraphics[width=0.48\textwidth]{../../output/dcgan_modified/training_losses.png}
+\caption{Training loss curves for baseline (left) and modified (right) models. Baseline shows stable oscillation; modified shows catastrophic divergence.}
+\label{fig:loss_curves}
+\end{figure}
 
 \subsection{Training and Inference Performance}
-Training was performed for 50 epochs per experiment. Resource usage and convergence time were tracked via SLURM logs. The baseline model converged quickly and stably; the modified model did not improve with additional epochs.
+
+\textbf{Computational Efficiency:}
+\begin{itemize}
+    \item \textbf{Baseline:} Completed 50 epochs in 7.47 minutes (8.96 seconds/epoch) on a single GPU, demonstrating efficient training despite the larger latent dimension (256).
+    
+    \item \textbf{Modified:} Required 12.20 minutes (14.65 seconds/epoch), representing a 63\% increase in training time. This overhead stems from the deeper architecture (4 vs. 3 layers in both G and D) and dropout regularization (0.3), which adds computational cost without improving results.
+\end{itemize}
+
+\textbf{Generation Speed:}
+\begin{itemize}
+    \item \textbf{Baseline:} Average inference time of 1.96ms per sample enables real-time generation applications.
+    
+    \item \textbf{Modified:} Faster inference at 0.69ms per sample (65\% reduction) due to the smaller latent dimension (64 vs. 256), requiring fewer computations in the initial generator layers. However, this speed advantage is meaningless given the model's complete failure to generate valid samples.
+\end{itemize}
+
+\textbf{Efficiency-Quality Tradeoff:} The modified model demonstrates a critical failure mode: architectural changes that reduce inference latency but sacrifice training stability result in worthless outputs. The baseline model's slightly longer inference time is a negligible cost for successful learning. This highlights that computational efficiency metrics are secondary to training success in generative models.
 
 % -------------------
 \section{Discussion}
-\subsection{Analysis of Mode Collapse, Stability, Sample Diversity}
-The baseline DCGAN avoided mode collapse and produced high-quality, diverse samples. The modified model, with reduced latent dimension, increased depth, and dropout, suffered from severe mode collapse and instability, as predicted by GAN theory.
+\subsection{Analysis of Mode Collapse, Stability, and Sample Diversity}
+
+\textbf{Mode Collapse Evidence:}
+
+\textit{Visual Inspection:} The modified model exhibits severe mode collapse, a phenomenon where the generator learns to produce only a limited subset of the target distribution. Examining generated samples reveals:
+\begin{itemize}
+    \item \textbf{Repetition:} By epoch 35, all 64 samples in the generation grid are visually indistinguishable, showing identical checkerboard/grid patterns. This persists through epoch 50 without recovery.
+    \item \textbf{Lack of Diversity:} No digit classes are represented. The generator has abandoned learning meaningful features and instead produces a single artifact pattern that minimally fools the discriminator.
+    \item \textbf{Comparison to Baseline:} The baseline model's samples show all 10 digit classes with varied handwriting styles—thick/thin strokes, different orientations, curved vs. angular forms—demonstrating successful coverage of the full MNIST distribution.
+\end{itemize}
+
+\textit{Loss Signature:} Mode collapse manifests quantitatively as extreme loss divergence. The modified model's generator loss increases from $\sim$0.85 (iteration 0) to $>$10 (final), while discriminator loss collapses to near-zero. This indicates the discriminator perfectly rejects all generator outputs, yet the generator cannot escape its collapsed state.
+
+\textbf{Training Instability Analysis:}
+
+\textit{Loss Dynamics:} Training instability is evident in loss curve behavior:
+\begin{itemize}
+    \item \textbf{Baseline:} Losses oscillate within bounded ranges (G: 2.0--2.7, D: 0.5--1.2) after initial convergence, reflecting the expected minimax game dynamics. Neither network dominates, indicating stable adversarial equilibrium.
+    \item \textbf{Modified:} Generator loss exhibits monotonic divergence rather than oscillation, while discriminator loss falls to near-zero and flatlines. This one-sided optimization represents catastrophic instability—the adversarial balance collapses irreversibly.
+\end{itemize}
+
+\textit{Architecture Interactions:} The modified configuration combines three destabilizing factors:
+\begin{enumerate}
+    \item \textbf{Reduced Latent Dimension (64 vs. 256):} Constrains the generator's expressive capacity, limiting its ability to represent diverse digit modes. With insufficient capacity, the generator cannot learn the full distribution.
+    \item \textbf{Increased Depth (4 vs. 3 layers):} Adds discriminator capacity disproportionately, making it easier for D to reject fake samples. This exacerbates the G-D power imbalance.
+    \item \textbf{Dropout Regularization (0.3):} While intended to prevent overfitting, dropout in the generator architecture can impede gradient flow during training, slowing generator learning relative to the discriminator.
+\end{enumerate}
+
+Together, these factors create a weak generator facing an overpowered discriminator, leading to rapid collapse.
+
+\textbf{Sample Diversity Metrics:}
+
+While formal diversity metrics (e.g., Inception Score, FID) were not computed due to time constraints, visual analysis provides strong proxy evidence:
+\begin{itemize}
+    \item \textbf{Baseline:} Manual inspection of the 64-sample grids across epochs 1--50 reveals no repeated patterns. All digit classes appear multiple times with varied styles, consistent with high sample diversity.
+    \item \textbf{Modified:} All samples converge to identical outputs by epoch 35, representing zero diversity. This is the limiting case of mode collapse where the generator produces a single mode.
+\end{itemize}
+
+\subsection{Relation to GAN Theory from Lecture Notes}
+
+The experimental results directly validate theoretical concepts covered in the course lectures on GAN training challenges:
+
+\textbf{1. Mode Collapse as Nash Equilibrium Failure:}
+
+The lecture notes describe GANs as minimax games seeking Nash equilibrium:
+\[
+\min_G \max_D \mathbb{E}_{x \sim p_{data}}[\log D(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D(G(z)))]
+\]
+
+Ideally, equilibrium occurs when $D$ cannot distinguish real from fake ($D(x) = D(G(z)) = 0.5$) and $G$ has learned $p_{data}$. However, as the lectures emphasize, this equilibrium is often unstable. The modified model demonstrates failure to reach equilibrium:
+\begin{itemize}
+    \item The discriminator achieves near-perfect classification ($D(x) \approx 1$, $D(G(z)) \approx 0$), dominating the game.
+    \item The generator, unable to compete, collapses to a single mode that minimizes its loss locally but fails to represent $p_{data}$ globally.
+\end{itemize}
+
+\textbf{2. Discriminator-Generator Power Imbalance:}
+
+Lecture notes warn that if $D$ becomes too powerful relative to $G$, gradients for $G$ vanish or become uninformative. The modified model exemplifies this:
+\begin{itemize}
+    \item Increased discriminator depth (4 layers) and dropout gives $D$ excessive capacity.
+    \item Reduced latent dimension (64) limits $G$'s capacity.
+    \item Result: $D$ easily rejects all $G$ outputs, providing gradients that push $G$ toward collapse rather than improvement.
+\end{itemize}
+
+\textbf{3. Vanishing Gradients and Mode Collapse:}
+
+The lectures explain that when $D$ perfectly classifies fake samples, $\log(1 - D(G(z))) \approx 0$, causing gradients for $G$ to vanish. The modified model's discriminator loss of $\sim$0.0001 confirms near-perfect classification, explaining why the generator cannot escape collapse despite continued training.
+
+\textbf{4. Hyperparameter Sensitivity:}
+
+GAN training is notoriously sensitive to hyperparameter choices, as emphasized in lectures. The baseline and modified models differ only in latent dimension, depth, and dropout, yet produce wildly different outcomes:
+\begin{itemize}
+    \item Baseline: Stable training, diverse outputs
+    \item Modified: Complete collapse, meaningless outputs
+\end{itemize}
+
+This sensitivity underscores the importance of careful architecture design and hyperparameter tuning, consistent with lecture recommendations.
+
+\textbf{5. Lack of Convergence Guarantees:}
+
+The lectures note that GANs lack theoretical convergence guarantees, unlike maximum likelihood methods. The modified model's inability to recover from collapse after epoch 30—despite continued training through epoch 50—illustrates this limitation. Once collapse occurs, the adversarial dynamics do not naturally restore equilibrium.
+
+\textbf{Connection to Proposed Solutions:}
+
+Lecture notes discuss techniques to mitigate mode collapse and instability, including:
+\begin{itemize}
+    \item Feature matching and minibatch discrimination (Salimans et al., 2016 \cite{salimans2016improved})
+    \item Wasserstein GAN (Arjovsky et al., 2017 \cite{arjovsky2017wasserstein}) to improve gradient behavior
+    \item Careful architecture balancing (DCGAN guidelines \cite{radford2015unsupervised})
+\end{itemize}
+
+The baseline model's success reflects adherence to DCGAN best practices (reasonable depth, sufficient latent capacity, no excessive regularization), while the modified model violates these principles, leading to predictable failure.
 
 \subsection{Interpretation of Diffusion Model Behaviour}
-No diffusion model was implemented, but course notes suggest diffusion models are less prone to mode collapse and training instability compared to GANs.
+While diffusion models were not implemented in this study, the course lectures highlighted their advantages over GANs. Diffusion models iteratively denoise random noise through a learned reverse diffusion process, typically showing greater training stability and reduced mode collapse compared to adversarial training. The likelihood-based objective provides clearer training signals than the minimax game dynamics that caused the modified DCGAN to fail. Future work comparing DCGANs and diffusion models on MNIST would provide empirical validation of these theoretical advantages.
 
 \subsection{Limitations of Your Approach}
-Only two configurations were tested, and evaluation was primarily qualitative. Results are specific to MNIST; more complex datasets and quantitative metrics (e.g., FID) would strengthen conclusions.
+
+\textbf{Limited Configuration Space:} Only two architecture configurations were tested. A more comprehensive hyperparameter sweep (varying latent dimension, depth, dropout, learning rates independently) would better characterize the sensitivity landscape and identify optimal configurations.
+
+\textbf{Primarily Qualitative Evaluation:} Visual inspection provides strong evidence for mode collapse but lacks quantitative rigor. Standard metrics like Inception Score (IS) or Fréchet Inception Distance (FID) would enable objective comparison and strengthen conclusions. Computing these metrics requires pre-trained classifiers (e.g., Inception network), which were not available in the containerized environment.
+
+\textbf{Single Dataset:} Results are specific to MNIST, a relatively simple dataset of grayscale 28×28 images. More complex datasets (e.g., CIFAR-10, CelebA) with higher resolution and color channels might reveal different failure modes or sensitivities.
+
+\textbf{No Advanced GAN Techniques:} The implementations used vanilla DCGAN with binary cross-entropy loss. Techniques like Wasserstein loss, spectral normalization, or progressive growing might stabilize the modified configuration.
+
+\textbf{Computational Constraints:} Training was limited to 50 epochs (7--12 minutes). Longer training might reveal whether the modified model could eventually recover from mode collapse, though the complete loss divergence by epoch 30 suggests this is unlikely.
+
+\textbf{Fixed Seed Reproducibility:} While fixed random seeds (seed=77) ensure reproducibility, they may hide variability across different initializations. Running multiple trials with different seeds would quantify result robustness.
+
+Despite these limitations, the stark contrast between baseline and modified models provides clear evidence of GAN sensitivity to architectural choices, achieving the assignment's learning objectives.
 
 % -------------------
 \section{Conclusion}

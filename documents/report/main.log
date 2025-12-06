@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.5)  6 DEC 2025 14:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.5)  6 DEC 2025 16:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**main.tex
-(./main.tex
+**/home1/michael2024/ML_Course/as4/documents/report/main
+(/home1/michael2024/ML_Course/as4/documents/report/main.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-14>
 (/home1/michael2024/texlive/texmf-dist/tex/latex/ieeetran/IEEEtran.cls
@@ -404,12 +404,69 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Trying to load font information for U+msb on input line 41.
  (/home1/michael2024/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1{/home1/michael2024/texlive/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/home1/michael2024/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}
+)
+Underfull \hbox (badness 10000) in paragraph at lines 58--60
+ \OT1/ptm/m/it/10 1) Base-line Con-fig-u-ra-tion (la-tent[]dim=256, depth=3,
+ []
+
+[1{/home1/michael2024/texlive/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/home1/michael2024/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
 ]
-** WARNING: Ignoring useless \section in Appendix (line 85).
-** WARNING: Ignoring useless \section in Appendix (line 93).
+Underfull \hbox (badness 10000) in paragraph at lines 69--71
+ \OT1/ptm/m/it/10 2) Mod-i-fied Con-fig-u-ra-tion (la-tent[]dim=64, depth=4,
+ []
+
+<../../output/dcgan_baseline/samples/epoch_001.png, id=112, 722.7pt x 722.7pt>
+File: ../../output/dcgan_baseline/samples/epoch_001.png Graphic file (type png)
+<use ../../output/dcgan_baseline/samples/epoch_001.png>
+Package pdftex.def Info: ../../output/dcgan_baseline/samples/epoch_001.png  used on input line 81.
+(pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
+<../../output/dcgan_baseline/samples/epoch_050.png, id=114, 722.7pt x 722.7pt>
+File: ../../output/dcgan_baseline/samples/epoch_050.png Graphic file (type png)
+<use ../../output/dcgan_baseline/samples/epoch_050.png>
+Package pdftex.def Info: ../../output/dcgan_baseline/samples/epoch_050.png  used on input line 82.
+(pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
+<../../output/dcgan_modified/samples/epoch_001.png, id=115, 722.7pt x 722.7pt>
+File: ../../output/dcgan_modified/samples/epoch_001.png Graphic file (type png)
+<use ../../output/dcgan_modified/samples/epoch_001.png>
+Package pdftex.def Info: ../../output/dcgan_modified/samples/epoch_001.png  used on input line 89.
+(pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
+<../../output/dcgan_modified/samples/epoch_050.png, id=116, 722.7pt x 722.7pt>
+File: ../../output/dcgan_modified/samples/epoch_050.png Graphic file (type png)
+<use ../../output/dcgan_modified/samples/epoch_050.png>
+Package pdftex.def Info: ../../output/dcgan_modified/samples/epoch_050.png  used on input line 90.
+(pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
+[2 <../../output/dcgan_baseline/samples/epoch_001.png> <../../output/dcgan_baseline/samples/epoch_050.png>]
+Underfull \vbox (badness 1342) has occurred while \output is active []
+
+<../../output/dcgan_baseline/training_losses.png, id=128, 722.7pt x 361.35pt>
+File: ../../output/dcgan_baseline/training_losses.png Graphic file (type png)
+<use ../../output/dcgan_baseline/training_losses.png>
+Package pdftex.def Info: ../../output/dcgan_baseline/training_losses.png  used on input line 141.
+(pdftex.def)             Requested size: 247.6778pt x 123.83882pt.
+<../../output/dcgan_modified/training_losses.png, id=129, 722.7pt x 361.35pt>
+File: ../../output/dcgan_modified/training_losses.png Graphic file (type png)
+<use ../../output/dcgan_modified/training_losses.png>
+Package pdftex.def Info: ../../output/dcgan_modified/training_losses.png  used on input line 142.
+(pdftex.def)             Requested size: 247.6778pt x 123.83882pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 153--154
+[]\OT1/ptm/b/n/10 Modified: \OT1/ptm/m/n/10 Re-quired 12.20 min-utes (14.65
+ []
+
+[3 <../../output/dcgan_modified/samples/epoch_001.png> <../../output/dcgan_modified/samples/epoch_050.png> <../../output/dcgan_baseline/training_losses.png> <../../output/dcgan_modified/training_losses.png>]
+Underfull \hbox (badness 1460) in paragraph at lines 218--219
+[]\OT1/ptm/m/n/10 The dis-crim-i-na-tor achieves near-perfect clas-si-fi-ca-tion
+ []
+
+[4]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 269.
+ (/home1/michael2024/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
+** WARNING: Ignoring useless \section in Appendix (line 285).
+** WARNING: Ignoring useless \section in Appendix (line 293).
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -421,29 +478,27 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[2
-
-] (./main.aux)
+[5] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-14>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 8504BB75641521028F4EB9E760534D19;3683.
+(rerunfilecheck)             Checksum: 6FE7606243315ED3979570711218774D;4770.
  ) 
 Here is how much of TeX's memory you used:
- 11311 strings out of 467538
- 175377 string characters out of 5417989
- 610802 words of memory out of 5000000
- 40059 multiletter control sequences out of 15000+600000
- 661030 words of font info for 98 fonts, out of 8000000 for 9000
+ 11434 strings out of 467538
+ 179023 string characters out of 5417989
+ 611294 words of memory out of 5000000
+ 40155 multiletter control sequences out of 15000+600000
+ 667275 words of font info for 114 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,8n,79p,911b,445s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (2 pages, 100536 bytes).
+ 75i,8n,79p,957b,533s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (5 pages, 1789927 bytes).
 PDF statistics:
- 148 PDF objects out of 1000 (max. 8388607)
- 126 compressed objects within 2 object streams
- 27 named destinations out of 1000 (max. 500000)
- 153 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 218 PDF objects out of 1000 (max. 8388607)
+ 175 compressed objects within 2 object streams
+ 40 named destinations out of 1000 (max. 500000)
+ 207 words of extra memory for PDF output out of 10000 (max. 10000000)
 
