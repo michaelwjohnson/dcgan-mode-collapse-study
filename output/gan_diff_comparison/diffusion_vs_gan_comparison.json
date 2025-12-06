@@ -1,0 +1,85 @@
+{
+    "diffusion": {
+        "experiment": "denoising_diffusion",
+        "num_samples": 8,
+        "num_inference_steps": 50,
+        "results": [
+            {
+                "noise_level": 0.3,
+                "time_seconds": 1.9055092334747314,
+                "time_per_sample_ms": 238.18865418434143,
+                "num_steps": 50
+            },
+            {
+                "noise_level": 0.5,
+                "time_seconds": 0.7846424579620361,
+                "time_per_sample_ms": 98.08030724525452,
+                "num_steps": 50
+            },
+            {
+                "noise_level": 0.7,
+                "time_seconds": 0.7856709957122803,
+                "time_per_sample_ms": 98.20887446403503,
+                "num_steps": 50
+            }
+        ]
+    },
+    "gan_baseline": {
+        "configuration": {
+            "dataset": "mnist",
+            "epochs": 50,
+            "latent_dim": 256,
+            "learning_rate": 0.0002,
+            "batch_size": 96,
+            "generator_depth": 3,
+            "discriminator_depth": 3,
+            "dropout": 0.0,
+            "beta1": 0.5
+        },
+        "training_performance": {
+            "total_training_time_seconds": 448.25,
+            "total_training_time_minutes": 7.47,
+            "time_per_epoch_seconds": 8.96,
+            "total_iterations": 23450
+        },
+        "inference_performance": {
+            "average_inference_time_ms": 1.96,
+            "std_inference_time_ms": 15.78
+        },
+        "loss_metrics": {
+            "final_generator_loss": 1.7525,
+            "final_discriminator_loss": 0.6527,
+            "min_generator_loss": 0.4879,
+            "min_discriminator_loss": 0.3542
+        }
+    },
+    "gan_modified": {
+        "configuration": {
+            "dataset": "mnist",
+            "epochs": 50,
+            "latent_dim": 64,
+            "learning_rate": 0.0002,
+            "batch_size": 96,
+            "generator_depth": 4,
+            "discriminator_depth": 4,
+            "dropout": 0.3,
+            "beta1": 0.5
+        },
+        "training_performance": {
+            "total_training_time_seconds": 732.25,
+            "total_training_time_minutes": 12.2,
+            "time_per_epoch_seconds": 14.65,
+            "total_iterations": 23450
+        },
+        "inference_performance": {
+            "average_inference_time_ms": 0.69,
+            "std_inference_time_ms": 2.2
+        },
+        "loss_metrics": {
+            "final_generator_loss": 10.3982,
+            "final_discriminator_loss": 0.0001,
+            "min_generator_loss": 0.6786,
+            "min_discriminator_loss": 0.0
+        }
+    }
+}

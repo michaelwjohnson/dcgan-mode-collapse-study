@@ -1,0 +1,25 @@
+{
+    "experiment": "denoising_diffusion",
+    "num_samples": 8,
+    "num_inference_steps": 50,
+    "results": [
+        {
+            "noise_level": 0.3,
+            "time_seconds": 1.9055092334747314,
+            "time_per_sample_ms": 238.18865418434143,
+            "num_steps": 50
+        },
+        {
+            "noise_level": 0.5,
+            "time_seconds": 0.7846424579620361,
+            "time_per_sample_ms": 98.08030724525452,
+            "num_steps": 50
+        },
+        {
+            "noise_level": 0.7,
+            "time_seconds": 0.7856709957122803,
+            "time_per_sample_ms": 98.20887446403503,
+            "num_steps": 50
+        }
+    ]
+}
