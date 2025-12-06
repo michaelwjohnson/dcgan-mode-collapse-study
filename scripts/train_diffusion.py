@@ -55,10 +55,15 @@ def denoise_images_experiment(output_dir='output/diffusion_denoise', num_samples
     # Load or create a simple diffusion model
     print("Loading diffusion model...")
     try:
-        # Try to load pre-trained DDPM model (trained on similar sized images)
+        # Load pre-trained DDPM model (trained on RGB CIFAR-10)
         model = DDPMPipeline.from_pretrained("google/ddpm-cifar10-32").to(device)
         scheduler = model.scheduler
         unet = model.unet
+        
+        # Convert grayscale MNIST to 3 channels to match CIFAR-10 model
+        print("Converting grayscale MNIST to RGB format for pretrained model...")
+        real_images = real_images.repeat(1, 3, 1, 1)  # Repeat channels: [B, 1, H, W] -> [B, 3, H, W]
+        
     except Exception as e:
         print(f"Could not load pretrained model: {e}")
         print("Using custom UNet for denoising...")
@@ -112,20 +117,25 @@ def denoise_images_experiment(output_dir='output/diffusion_denoise', num_samples
         fig, axes = plt.subplots(3, num_samples, figsize=(16, 6))
         
         for i in range(num_samples):
+            # Convert back to grayscale for visualization (take first channel)
+            orig_img = (real_images[i, 0].cpu() + 1) / 2
+            noisy_img = (noisy_images[i, 0].cpu() + 1) / 2
+            denoise_img = (denoised_images[i, 0].cpu() + 1) / 2
+            
             # Original
-            axes[0, i].imshow((real_images[i, 0].cpu() + 1) / 2, cmap='gray')
+            axes[0, i].imshow(orig_img, cmap='gray')
             axes[0, i].axis('off')
             if i == 0:
                 axes[0, i].set_ylabel('Original', rotation=0, labelpad=40, fontsize=12)
             
             # Noisy
-            axes[1, i].imshow((noisy_images[i, 0].cpu() + 1) / 2, cmap='gray')
+            axes[1, i].imshow(noisy_img, cmap='gray')
             axes[1, i].axis('off')
             if i == 0:
                 axes[1, i].set_ylabel(f'Noisy\n(σ={noise_std})', rotation=0, labelpad=40, fontsize=12)
             
             # Denoised
-            axes[2, i].imshow((denoised_images[i, 0].cpu() + 1) / 2, cmap='gray')
+            axes[2, i].imshow(denoise_img, cmap='gray')
             axes[2, i].axis('off')
             if i == 0:
                 axes[2, i].set_ylabel('Denoised', rotation=0, labelpad=40, fontsize=12)
