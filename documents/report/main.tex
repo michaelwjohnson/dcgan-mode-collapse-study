@@ -1,0 +1,104 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\begin{document}
+
+\title{Deep Convolutional Generative Adversarial Networks for MNIST Image Generation: A Comparative Study of Architecture Configurations}
+
+\author{\IEEEauthorblockN{Michael Johnson}
+\IEEEauthorblockA{\textit{ECE5570--Machine Learning at Scale} \\
+	\textit{Assignment 4}\\
+December 9, 2025}}
+
+\maketitle
+
+\begin{abstract}
+This paper presents a comparative study of Deep Convolutional Generative Adversarial Networks (DCGANs) applied to MNIST digit generation. I investigate the effects of different architectural configurations on training stability and output quality by comparing a baseline model with a modified architecture featuring altered latent dimensions, network depth, and regularization. The experiments demonstrate how hyperparameter choices significantly impact model performance, with particular focus on identifying mode collapse and training instability. The baseline configuration produces diverse, high-quality digit samples, while the modified architecture exhibits severe mode collapse, illustrating the sensitivity of GANs to architectural decisions. These findings align with established theoretical understanding of GAN training challenges and provide practical insights for architecture selection.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Generative Adversarial Networks, DCGAN, MNIST, Mode Collapse, Deep Learning, Image Generation
+\end{IEEEkeywords}
+
+% -------------------
+\section{Introduction and Objectives}
+\subsection{Motivation for Image Generation}
+Image generation is a core challenge in machine learning, enabling applications in data augmentation, creative AI, and simulation. Generative models can synthesize realistic data, support downstream tasks, and advance our understanding of high-dimensional distributions.
+
+\subsection{Brief Overview of GANs and Diffusion Models}
+Generative Adversarial Networks (GANs) \cite{goodfellow2014generative} are a class of generative models where a generator and discriminator compete in a minimax game. DCGANs \cite{radford2015unsupervised} use convolutional architectures for improved image synthesis. Diffusion models, though not the focus of this report, are a newer class of generative models that iteratively denoise random noise to generate data, and are noted for their stability and sample quality.
+
+% -------------------
+\section{Methods}
+\subsection{Dataset and Preprocessing}
+The MNIST dataset of 60,000 handwritten digit images (28x28 grayscale) was used. Images were normalized to $[-1, 1]$ to match the generator's Tanh output.
+
+\subsection{DCGAN Architecture and Training Regime}
+The generator maps a latent vector $z \sim \mathcal{N}(0,I)$ to an image using transposed convolutions, batch normalization, and ReLU activations (Tanh at output). The discriminator uses strided convolutions, batch normalization, and LeakyReLU, with adaptive pooling to ensure a $1\times1$ output. Dropout is optionally applied for regularization. Training alternates between updating the discriminator (real vs. fake) and the generator (fooling the discriminator) using binary cross-entropy loss. Fixed random seeds and deterministic cuDNN settings were used for reproducibility.
+
+\subsection{Diffusion Model Configuration}
+While this report focuses on DCGANs, diffusion models were reviewed in the course and are referenced for context. No diffusion model experiments were conducted in this work.
+
+\subsection{Cluster, Container, and Slurm Setup}
+Experiments were run on a university HPC cluster using SLURM for job scheduling. Apptainer containers ensured consistent environments (Python 3.11, PyTorch, CUDA). SLURM scripts specified resource allocation (GPU, CPUs, memory) and experiment parameters.
+
+% -------------------
+\section{Results}
+\subsection{Visual Examples from Both Models}
+Visual inspection of generated samples shows:
+\begin{itemize}
+    \item \textbf{Baseline:} By epoch 30, the generator produces diverse, realistic digits. All classes (0-9) are represented, with varied handwriting styles and no mode collapse.
+    \item \textbf{Modified:} The generator collapses to producing repeated, grid-like patterns with little diversity. Digits are not recognizable, and mode collapse is severe.
+\end{itemize}
+% (Figures can be included here using \includegraphics)
+
+\subsection{Quantitative Metrics or Proxy Measures}
+Generator and discriminator losses were recorded for each experiment. The baseline model's losses stabilized, while the modified model's losses indicated instability and collapse. (Loss curves can be plotted from saved CSVs.)
+
+\subsection{Training and Inference Performance}
+Training was performed for 50 epochs per experiment. Resource usage and convergence time were tracked via SLURM logs. The baseline model converged quickly and stably; the modified model did not improve with additional epochs.
+
+% -------------------
+\section{Discussion}
+\subsection{Analysis of Mode Collapse, Stability, Sample Diversity}
+The baseline DCGAN avoided mode collapse and produced high-quality, diverse samples. The modified model, with reduced latent dimension, increased depth, and dropout, suffered from severe mode collapse and instability, as predicted by GAN theory.
+
+\subsection{Interpretation of Diffusion Model Behaviour}
+No diffusion model was implemented, but course notes suggest diffusion models are less prone to mode collapse and training instability compared to GANs.
+
+\subsection{Limitations of Your Approach}
+Only two configurations were tested, and evaluation was primarily qualitative. Results are specific to MNIST; more complex datasets and quantitative metrics (e.g., FID) would strengthen conclusions.
+
+% -------------------
+\section{Conclusion}
+This study demonstrates the sensitivity of DCGANs to architectural choices. The baseline model achieved stable, diverse digit generation, while the modified model failed due to mode collapse. Careful tuning of latent dimension, depth, and regularization is essential for successful GAN training. Future work should include systematic hyperparameter studies, quantitative evaluation, and experiments on more complex datasets and with diffusion models.
+
+% -------------------
+\appendix
+\section{Environment Details}
+\begin{itemize}
+    \item Python 3.11, PyTorch (version as in container)
+    \item Apptainer container: dcgan\_diffusion.sif
+    \item SLURM cluster: GPU partition, 8 CPUs, 32GB RAM
+    \item Deterministic settings: seed=77, cuDNN deterministic
+\end{itemize}
+
+\section{Additional Figures}
+% Place extra images, loss curves, or tables here.
+
+% -------------------
+\begin{thebibliography}{00}
+\bibitem{goodfellow2014generative} I. Goodfellow, J. Pouget-Abadie, M. Mirza, et al., ``Generative adversarial nets,'' in \textit{Advances in Neural Information Processing Systems}, 2014, pp. 2672--2680.
+\bibitem{radford2015unsupervised} A. Radford, L. Metz, and S. Chintala, ``Unsupervised representation learning with deep convolutional generative adversarial networks,'' in \textit{International Conference on Learning Representations (ICLR)}, 2016.
+\bibitem{salimans2016improved} T. Salimans, I. Goodfellow, W. Zaremba, et al., ``Improved techniques for training GANs,'' in \textit{Advances in Neural Information Processing Systems}, 2016, pp. 2234--2242.
+\bibitem{arjovsky2017wasserstein} M. Arjovsky, S. Chintala, and L. Bottou, ``Wasserstein GAN,'' in \textit{International Conference on Machine Learning (ICML)}, 2017.
+\end{thebibliography}
+
+\end{document}

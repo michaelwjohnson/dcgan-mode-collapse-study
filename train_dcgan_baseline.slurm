@@ -9,7 +9,7 @@
 #SBATCH --mem=32G
 #SBATCH --time=04:00:00
 
-mkdir -p logs outputs/dcgan_baseline models/dcgan_baseline
+mkdir -p logs output/dcgan_baseline models/dcgan_baseline
 
 # Load apptainer
 module load apptainer/1.3.4-gcc-14.2.0-g7o5w4g
@@ -32,6 +32,6 @@ apptainer exec --nv $CONTAINER python3 scripts/train_dcgan.py \
     --gen-depth 3 \
     --disc-depth 3 \
     --dropout 0.0 \
-    --output-dir outputs/dcgan_baseline
+    --output-dir output/dcgan_baseline
 
 echo "Baseline training complete!"

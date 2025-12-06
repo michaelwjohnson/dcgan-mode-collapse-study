@@ -9,7 +9,7 @@
 #SBATCH --mem=32G
 #SBATCH --time=04:00:00
 
-mkdir -p logs outputs/dcgan_modified models/dcgan_modified
+mkdir -p logs output/dcgan_modified models/dcgan_modified
 
 # Load apptainer
 module load apptainer/1.3.4-gcc-14.2.0-g7o5w4g
@@ -32,7 +32,7 @@ apptainer exec --nv $CONTAINER python3 scripts/train_dcgan.py \
     --gen-depth 4 \
     --disc-depth 4 \
     --dropout 0.3 \
-    --output-dir outputs/dcgan_modified
+    --output-dir output/dcgan_modified
 
 # Rationale:
 

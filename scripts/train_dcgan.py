@@ -14,6 +14,9 @@ import argparse
 import random
 import numpy as np
 import torch
+import csv
+import time
+import json
 
 SEED = 77  # You can choose any integer
 random.seed(SEED)
@@ -123,7 +126,7 @@ def weights_init(m):
         nn.init.constant_(m.bias.data, 0)
 
 
-def train_dcgan(dataset_name='mnist', num_epochs=50, output_dir='outputs/dcgan',
+def train_dcgan(dataset_name='mnist', num_epochs=50, output_dir='output/',
                 latent_dim=100, lr=0.0002, batch_size=128, beta1=0.5,
                 gen_depth=3, disc_depth=3, dropout=0.0):
     """
@@ -197,6 +200,9 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, output_dir='outputs/dcgan',
     print("Starting Training...")
     G_losses = []
     D_losses = []
+    
+    # Start timing
+    start_time = time.time()
 
     pbar = tqdm(total=num_epochs * len(dataloader), desc="Training DCGAN", unit="batch")
     
@@ -282,6 +288,40 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, output_dir='outputs/dcgan',
 
     pbar.close()
     
+    # End timing
+    end_time = time.time()
+    total_training_time = end_time - start_time
+    
+    print(f"\nTotal training time: {total_training_time:.2f} seconds ({total_training_time/60:.2f} minutes)")
+    
+    # Calculate inference time (average over 100 samples)
+    print("Measuring inference time...")
+    inference_times = []
+    generator.eval()
+    with torch.no_grad():
+        for _ in range(100):
+            test_noise = torch.randn(1, latent_dim, 1, 1, device=device)
+            inf_start = time.time()
+            _ = generator(test_noise)
+            inf_end = time.time()
+            inference_times.append(inf_end - inf_start)
+    
+    avg_inference_time = np.mean(inference_times)
+    std_inference_time = np.std(inference_times)
+    
+    print(f"Average inference time: {avg_inference_time*1000:.2f} ms (±{std_inference_time*1000:.2f} ms)")
+    
+    # Calculate metrics
+    final_G_loss = np.mean(G_losses[-100:])  # Average of last 100 iterations
+    final_D_loss = np.mean(D_losses[-100:])
+    min_G_loss = np.min(G_losses)
+    min_D_loss = np.min(D_losses)
+    
+    print(f"\nFinal Generator Loss (avg last 100): {final_G_loss:.4f}")
+    print(f"Final Discriminator Loss (avg last 100): {final_D_loss:.4f}")
+    print(f"Min Generator Loss: {min_G_loss:.4f}")
+    print(f"Min Discriminator Loss: {min_D_loss:.4f}")
+    
     # Save final models directly to output_dir
     torch.save(generator.state_dict(),
                f'{output_dir}/models/dcgan_generator_{dataset_name}.pth')
@@ -299,8 +339,51 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, output_dir='outputs/dcgan',
     plt.savefig(f'{output_dir}/training_losses.png')
     plt.close()
 
-    print(f"Training complete! Models saved to models/")
+    # Save losses to CSV
+    # Save losses to CSV
+    with open(f'{output_dir}/losses.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['Iteration', 'Generator Loss', 'Discriminator Loss'])
+        for i, (g_loss, d_loss) in enumerate(zip(G_losses, D_losses)):
+            writer.writerow([i, g_loss, d_loss])
+    
+    # Save metrics to JSON
+    metrics = {
+        "configuration": {
+            "dataset": dataset_name,
+            "epochs": num_epochs,
+            "latent_dim": latent_dim,
+            "learning_rate": lr,
+            "batch_size": batch_size,
+            "generator_depth": gen_depth,
+            "discriminator_depth": disc_depth,
+            "dropout": dropout,
+            "beta1": beta1
+        },
+        "training_performance": {
+            "total_training_time_seconds": round(total_training_time, 2),
+            "total_training_time_minutes": round(total_training_time / 60, 2),
+            "time_per_epoch_seconds": round(total_training_time / num_epochs, 2),
+            "total_iterations": len(G_losses)
+        },
+        "inference_performance": {
+            "average_inference_time_ms": round(avg_inference_time * 1000, 2),
+            "std_inference_time_ms": round(std_inference_time * 1000, 2)
+        },
+        "loss_metrics": {
+            "final_generator_loss": round(final_G_loss, 4),
+            "final_discriminator_loss": round(final_D_loss, 4),
+            "min_generator_loss": round(min_G_loss, 4),
+            "min_discriminator_loss": round(min_D_loss, 4)
+        }
+    }
+    
+    with open(f'{output_dir}/metrics.json', 'w') as f:
+        json.dump(metrics, f, indent=4)
+
+    print(f"Training complete! Models saved to {output_dir}/models/")
     print(f"Samples saved to {output_dir}/samples/")
+    print(f"Metrics saved to {output_dir}/metrics.json")
 
     return generator, discriminator, G_losses, D_losses
 
@@ -312,7 +395,7 @@ if __name__ == "__main__":
                         help='Dataset to use')
     parser.add_argument('--epochs', type=int, default=50,
                         help='Number of epochs')
-    parser.add_argument('--output-dir', type=str, default='outputs/dcgan',
+    parser.add_argument('--output-dir', type=str, default='output',
                         help='Output directory')
     # Configuration parameters for experiments
     parser.add_argument('--latent-dim', type=int, default=100,
