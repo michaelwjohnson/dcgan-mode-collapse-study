@@ -6,20 +6,20 @@
         "results": [
             {
                 "noise_level": 0.3,
-                "time_seconds": 1.9055092334747314,
-                "time_per_sample_ms": 238.18865418434143,
+                "time_seconds": 1.822862148284912,
+                "time_per_sample_ms": 227.857768535614,
                 "num_steps": 50
             },
             {
                 "noise_level": 0.5,
-                "time_seconds": 0.7846424579620361,
-                "time_per_sample_ms": 98.08030724525452,
+                "time_seconds": 0.7895665168762207,
+                "time_per_sample_ms": 98.69581460952759,
                 "num_steps": 50
             },
             {
                 "noise_level": 0.7,
-                "time_seconds": 0.7856709957122803,
-                "time_per_sample_ms": 98.20887446403503,
+                "time_seconds": 0.7909832000732422,
+                "time_per_sample_ms": 98.87290000915527,
                 "num_steps": 50
             }
         ]
