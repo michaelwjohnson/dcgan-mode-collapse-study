@@ -1,7 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=train_dcgan_modified
 #SBATCH --output=logs/dcgan_modified_%j.out
-#SBATCH --error=logs/dcgan_modified_%j.err
 #SBATCH --partition=gpu1
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -10,7 +9,7 @@
 #SBATCH --mem=32G
 #SBATCH --time=04:00:00
 
-mkdir -p logs outputs/dcgan_baseline models/dcgan_modified
+mkdir -p logs outputs/dcgan_modified models/dcgan_modified
 
 # Load apptainer
 module load apptainer/1.3.4-gcc-14.2.0-g7o5w4g
@@ -21,19 +20,18 @@ echo "Starting DCGAN MODIFIED training"
 echo "Job ID: $SLURM_JOB_ID"
 echo "Node: $SLURM_NODELIST"
 echo "GPU: $CUDA_VISIBLE_DEVICES"
-echo "Configuration: Modified (latent_dim=200, lr=0.0005)"
 
 # Run training with modified configuration
 apptainer exec --nv $CONTAINER python3 scripts/train_dcgan.py \
     --dataset mnist \
     --epochs 50 \
-    --latent-dim 64 \ # reduce from 200 to 64
+    --latent-dim 64 \
     --lr 0.0002 \
     --batch-size 128 \
     --beta1 0.5 \
-    --gen-depth 4 \ # increase depth from 3 to 4 \
-    --disc-depth 4 \ # increase depth from 3 to 4 \
-    --dropout 0.3 \ # add dropout to prevent overfitting \
+    --gen-depth 4 \
+    --disc-depth 4 \
+    --dropout 0.3 \
     --output-dir outputs/dcgan_modified
 
 # Rationale:

@@ -146,7 +146,7 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, output_dir='outputs/dcgan',
     print(f"Training DCGAN on {dataset_name}")
     print(f"Device: {device}")
     print(
-        f"Configuration: latent_dim={latent_dim}, lr={lr}, batch_size={batch_size}, beta1={beta1}")
+        f"Configuration: latent_dim={latent_dim}, lr={lr}, batch_size={batch_size}, beta1={beta1}, gen_depth={gen_depth}, disc_depth={disc_depth}, dropout={dropout}")
 
     # Create output directories
     os.makedirs(output_dir, exist_ok=True)
