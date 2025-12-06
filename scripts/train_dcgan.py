@@ -174,7 +174,7 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, output_dir='outputs/dcgan',
         raise ValueError(f"Dataset {dataset_name} not supported")
 
     dataloader = DataLoader(dataset, batch_size=batch_size,
-                            shuffle=True, num_workers=4, pin_memory=True)
+                            shuffle=True, num_workers=8, pin_memory=True)
 
     # Initialize models
     generator = Generator(latent_dim, channels, depth=gen_depth, dropout=dropout).to(device)
