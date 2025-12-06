@@ -31,6 +31,9 @@ apptainer exec --nv $CONTAINER python3 scripts/train_dcgan.py \
     --lr 0.0002 \
     --batch-size 128 \
     --beta1 0.5 \
+    --gen-depth 3 \
+    --disc-depth 3 \
+    --dropout 0.0 \
     --output-dir outputs/dcgan_baseline
 
 echo "Baseline training complete!"

@@ -11,33 +11,56 @@ from datetime import datetime
 from tqdm import tqdm
 import argparse
 
+import random
+import numpy as np
+import torch
+
+SEED = 77  # You can choose any integer
+random.seed(SEED)
+np.random.seed(SEED)
+torch.manual_seed(SEED)
+torch.cuda.manual_seed_all(SEED)
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
+
 # Generator Network
 class Generator(nn.Module):
-    def __init__(self, latent_dim=100, channels=1):
+    def __init__(self, latent_dim=100, channels=1, depth=3, dropout=0.0):
         super(Generator, self).__init__()
 
+        layers = []
+        # Define channel progression based on depth
+        channel_multipliers = [256, 128, 64, 32][:depth]
+        
         # For 28x28 images (MNIST)
-        self.main = nn.Sequential(
-            # Input: latent_dim x 1 x 1
-            nn.ConvTranspose2d(latent_dim, 256, 7, 1, 0, bias=False),
-            nn.BatchNorm2d(256),
-            nn.ReLU(True),
-            # State: 256 x 7 x 7
+        # Input: latent_dim x 1 x 1
+        layers.extend([
+            nn.ConvTranspose2d(latent_dim, channel_multipliers[0], 7, 1, 0, bias=False),
+            nn.BatchNorm2d(channel_multipliers[0]),
+            nn.ReLU(True)
+        ])
+        if dropout > 0:
+            layers.append(nn.Dropout2d(dropout))
+        # State: channel_multipliers[0] x 7 x 7
 
-            nn.ConvTranspose2d(256, 128, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(128),
-            nn.ReLU(True),
-            # State: 128 x 14 x 14
+        # Middle layers based on depth
+        for i in range(1, depth):
+            layers.extend([
+                nn.ConvTranspose2d(channel_multipliers[i-1], channel_multipliers[i], 4, 2, 1, bias=False),
+                nn.BatchNorm2d(channel_multipliers[i]),
+                nn.ReLU(True)
+            ])
+            if dropout > 0:
+                layers.append(nn.Dropout2d(dropout))
 
-            nn.ConvTranspose2d(128, 64, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(64),
-            nn.ReLU(True),
-            # State: 64 x 28 x 28
-
-            nn.Conv2d(64, channels, 3, 1, 1),
+        # Output layer
+        layers.extend([
+            nn.Conv2d(channel_multipliers[depth-1], channels, 3, 1, 1),
             nn.Tanh()
-            # Output: channels x 28 x 28
-        )
+        ])
+        # Output: channels x 28 x 28
+        
+        self.main = nn.Sequential(*layers)
 
     def forward(self, x):
         return self.main(x)
@@ -45,29 +68,41 @@ class Generator(nn.Module):
 
 # Discriminator Network
 class Discriminator(nn.Module):
-    def __init__(self, channels=1):
+    def __init__(self, channels=1, depth=3, dropout=0.0):
         super(Discriminator, self).__init__()
 
-        self.main = nn.Sequential(
-            # Input: channels x 28 x 28
-            nn.Conv2d(channels, 64, 4, 2, 1, bias=False),
-            nn.LeakyReLU(0.2, inplace=True),
-            # State: 64 x 14 x 14
+        layers = []
+        # Define channel progression based on depth
+        channel_multipliers = [64, 128, 256, 512][:depth]
+        
+        # Input: channels x 28 x 28
+        layers.extend([
+            nn.Conv2d(channels, channel_multipliers[0], 4, 2, 1, bias=False),
+            nn.LeakyReLU(0.2, inplace=True)
+        ])
+        if dropout > 0:
+            layers.append(nn.Dropout2d(dropout))
+        # State: channel_multipliers[0] x 14 x 14
 
-            nn.Conv2d(64, 128, 4, 2, 1, bias=False),
-            nn.BatchNorm2d(128),
-            nn.LeakyReLU(0.2, inplace=True),
-            # State: 128 x 7 x 7
+        # Middle layers based on depth
+        for i in range(1, depth):
+            stride = 2 if i < depth - 1 else 1
+            layers.extend([
+                nn.Conv2d(channel_multipliers[i-1], channel_multipliers[i], 4 if i < depth - 1 else 3, stride, 1, bias=False),
+                nn.BatchNorm2d(channel_multipliers[i]),
+                nn.LeakyReLU(0.2, inplace=True)
+            ])
+            if dropout > 0:
+                layers.append(nn.Dropout2d(dropout))
 
-            nn.Conv2d(128, 256, 3, 2, 1, bias=False),
-            nn.BatchNorm2d(256),
-            nn.LeakyReLU(0.2, inplace=True),
-            # State: 256 x 4 x 4
-
-            nn.Conv2d(256, 1, 4, 1, 0, bias=False),
+        # Output layer
+        layers.extend([
+            nn.Conv2d(channel_multipliers[depth-1], 1, 4, 1, 0, bias=False),
             nn.Sigmoid()
-            # Output: 1 x 1 x 1
-        )
+        ])
+        # Output: 1 x 1 x 1
+        
+        self.main = nn.Sequential(*layers)
 
     def forward(self, x):
         return self.main(x).view(-1, 1)
@@ -84,7 +119,8 @@ def weights_init(m):
 
 
 def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
-                latent_dim=100, lr=0.0002, batch_size=128, beta1=0.5):
+                latent_dim=100, lr=0.0002, batch_size=128, beta1=0.5,
+                gen_depth=3, disc_depth=3, dropout=0.0):
     """
     Train DCGAN on specified dataset
 
@@ -96,6 +132,9 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
         lr: Learning rate
         batch_size: Batch size for training
         beta1: Beta1 parameter for Adam optimizer
+        gen_depth: Number of layers in generator
+        disc_depth: Number of layers in discriminator
+        dropout: Dropout rate for regularization
     """
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
@@ -133,8 +172,8 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
                             shuffle=True, num_workers=4, pin_memory=True)
 
     # Initialize models
-    generator = Generator(latent_dim, channels).to(device)
-    discriminator = Discriminator(channels).to(device)
+    generator = Generator(latent_dim, channels, depth=gen_depth, dropout=dropout).to(device)
+    discriminator = Discriminator(channels, depth=disc_depth, dropout=dropout).to(device)
 
     generator.apply(weights_init)
     discriminator.apply(weights_init)
@@ -279,6 +318,12 @@ if __name__ == "__main__":
                         help='Batch size')
     parser.add_argument('--beta1', type=float, default=0.5,
                         help='Beta1 for Adam optimizer')
+    parser.add_argument('--gen-depth', type=int, default=3,
+                        help='Number of layers in generator (default: 3)')
+    parser.add_argument('--disc-depth', type=int, default=3,
+                        help='Number of layers in discriminator (default: 3)')
+    parser.add_argument('--dropout', type=float, default=0.0,
+                        help='Dropout rate for regularization (default: 0.0)')
 
     args = parser.parse_args()
 
@@ -290,5 +335,8 @@ if __name__ == "__main__":
         latent_dim=args.latent_dim,
         lr=args.lr,
         batch_size=args.batch_size,
-        beta1=args.beta1
+        beta1=args.beta1,
+        gen_depth=args.gen_depth,
+        disc_depth=args.disc_depth,
+        dropout=args.dropout
     )

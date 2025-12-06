@@ -27,10 +27,27 @@ echo "Configuration: Modified (latent_dim=200, lr=0.0005)"
 apptainer exec --nv $CONTAINER python3 scripts/train_dcgan.py \
     --dataset mnist \
     --epochs 50 \
-    --latent-dim 200 \
-    --lr 0.0005 \
+    --latent-dim 64 \ # reduce from 200 to 64
+    --lr 0.0002 \
     --batch-size 128 \
     --beta1 0.5 \
+    --gen-depth 4 \ # increase depth from 3 to 4
+    --disc-depth 4 \ # increase depth from 3 to 4
+    --dropout 0.3 \ # add dropout to prevent overfitting
     --output-dir outputs/dcgan_modified
 
+# Rationale:
+
+# Reduced latent dimension (64): Should produce less diverse images and potentially show mode collapse more clearly
+# Increased depth (4 layers): Adds model complexity, which can improve quality but may also increase training instability
+# Dropout (0.3): Adds regularization to prevent overfitting and potentially improve generalization
+# Same learning rate: Keeps training speed comparable for fair comparison
+# This combination will help observe:
+
+# Effects of latent space size on diversity
+# Impact of network depth on image quality and training stability
+# How regularization affects mode collapse and generalization
+
+
 echo "Modified training complete!"
+
