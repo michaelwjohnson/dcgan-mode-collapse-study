@@ -1,7 +1,0 @@
-Starting DCGAN training on mnist dataset for 50 epochs.
-Job ID: 146518
-GPU Node: gpu04
-GPU: 0
-Training DCGAN on 50
-Device: cuda
-DCGAN training complete

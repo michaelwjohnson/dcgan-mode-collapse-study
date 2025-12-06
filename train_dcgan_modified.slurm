@@ -31,9 +31,9 @@ apptainer exec --nv $CONTAINER python3 scripts/train_dcgan.py \
     --lr 0.0002 \
     --batch-size 128 \
     --beta1 0.5 \
-    --gen-depth 4 \ # increase depth from 3 to 4
-    --disc-depth 4 \ # increase depth from 3 to 4
-    --dropout 0.3 \ # add dropout to prevent overfitting
+    --gen-depth 4 \ # increase depth from 3 to 4 \
+    --disc-depth 4 \ # increase depth from 3 to 4 \
+    --dropout 0.3 \ # add dropout to prevent overfitting \
     --output-dir outputs/dcgan_modified
 
 # Rationale:

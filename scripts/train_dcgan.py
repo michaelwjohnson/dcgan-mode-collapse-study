@@ -86,26 +86,31 @@ class Discriminator(nn.Module):
 
         # Middle layers based on depth
         for i in range(1, depth):
-            stride = 2 if i < depth - 1 else 1
+            stride = 2
             layers.extend([
-                nn.Conv2d(channel_multipliers[i-1], channel_multipliers[i], 4 if i < depth - 1 else 3, stride, 1, bias=False),
+                nn.Conv2d(channel_multipliers[i-1], channel_multipliers[i], 4, stride, 1, bias=False),
                 nn.BatchNorm2d(channel_multipliers[i]),
                 nn.LeakyReLU(0.2, inplace=True)
             ])
             if dropout > 0:
                 layers.append(nn.Dropout2d(dropout))
 
-        # Output layer
-        layers.extend([
-            nn.Conv2d(channel_multipliers[depth-1], 1, 4, 1, 0, bias=False),
-            nn.Sigmoid()
-        ])
-        # Output: 1 x 1 x 1
-        
         self.main = nn.Sequential(*layers)
+        
+        # Adaptive pooling to ensure 1x1 output regardless of depth
+        self.adaptive_pool = nn.AdaptiveAvgPool2d(1)
+        
+        # Final classification layer
+        self.final = nn.Sequential(
+            nn.Conv2d(channel_multipliers[depth-1], 1, 1, 1, 0, bias=False),
+            nn.Sigmoid()
+        )
 
     def forward(self, x):
-        return self.main(x).view(-1, 1)
+        out = self.main(x)
+        out = self.adaptive_pool(out)
+        out = self.final(out)
+        return out.view(x.size(0), 1)
 
 
 # Weight initialization
@@ -118,7 +123,7 @@ def weights_init(m):
         nn.init.constant_(m.bias.data, 0)
 
 
-def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
+def train_dcgan(dataset_name='mnist', num_epochs=50, output_dir='outputs/dcgan',
                 latent_dim=100, lr=0.0002, batch_size=128, beta1=0.5,
                 gen_depth=3, disc_depth=3, dropout=0.0):
     """
@@ -127,7 +132,7 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
     Args:
         dataset_name: Name of dataset ('mnist' or 'fashion-mnist')
         num_epochs: Number of training epochs
-        save_dir: Directory to save outputs
+        output_dir: Directory to save outputs
         latent_dim: Dimension of latent space
         lr: Learning rate
         batch_size: Batch size for training
@@ -144,9 +149,9 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
         f"Configuration: latent_dim={latent_dim}, lr={lr}, batch_size={batch_size}, beta1={beta1}")
 
     # Create output directories
-    os.makedirs(save_dir, exist_ok=True)
-    os.makedirs(f"{save_dir}/samples", exist_ok=True)
-    os.makedirs(f"{save_dir}/models", exist_ok=True)
+    os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(f"{output_dir}/samples", exist_ok=True)
+    os.makedirs(f"{output_dir}/models", exist_ok=True)
 
     # Load dataset
     if dataset_name.lower() == 'mnist':
@@ -249,7 +254,7 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
 
         # Save checkpoints every 10 epochs
         if (epoch + 1) % 10 == 0:
-            checkpoint_dir = f'{save_dir}/checkpoints'
+            checkpoint_dir = f'{output_dir}/checkpoints'
             os.makedirs(checkpoint_dir, exist_ok=True)
             torch.save({
                 'epoch': epoch + 1,
@@ -272,16 +277,16 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
                 plt.imshow(np.transpose(img_grid, (1, 2, 0)))
                 plt.axis('off')
                 plt.title(f'Epoch {epoch+1}')
-                plt.savefig(f'{save_dir}/samples/epoch_{epoch+1:03d}.png')
+                plt.savefig(f'{output_dir}/samples/epoch_{epoch+1:03d}.png')
                 plt.close()
 
     pbar.close()
     
-    # Save final models directly to save_dir
+    # Save final models directly to output_dir
     torch.save(generator.state_dict(),
-               f'{save_dir}/models/dcgan_generator_{dataset_name}.pth')
+               f'{output_dir}/models/dcgan_generator_{dataset_name}.pth')
     torch.save(discriminator.state_dict(),
-               f'{save_dir}/models/dcgan_discriminator_{dataset_name}.pth')
+               f'{output_dir}/models/dcgan_discriminator_{dataset_name}.pth')
 
     # Plot losses
     plt.figure(figsize=(10, 5))
@@ -291,11 +296,11 @@ def train_dcgan(dataset_name='mnist', num_epochs=50, save_dir='outputs/dcgan',
     plt.ylabel('Loss')
     plt.legend()
     plt.title('DCGAN Training Losses')
-    plt.savefig(f'{save_dir}/training_losses.png')
+    plt.savefig(f'{output_dir}/training_losses.png')
     plt.close()
 
     print(f"Training complete! Models saved to models/")
-    print(f"Samples saved to {save_dir}/samples/")
+    print(f"Samples saved to {output_dir}/samples/")
 
     return generator, discriminator, G_losses, D_losses
 
@@ -331,7 +336,7 @@ if __name__ == "__main__":
     train_dcgan(
         dataset_name=args.dataset,
         num_epochs=args.epochs,
-        save_dir=args.output_dir,
+        output_dir=args.output_dir,
         latent_dim=args.latent_dim,
         lr=args.lr,
         batch_size=args.batch_size,
