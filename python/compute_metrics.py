@@ -118,6 +118,11 @@ def compute_denoising_metrics(denoised_path):
     original_row = img_array[:row_h, :]
     denoised_row = img_array[2*row_h:, :]
     
+    # Ensure both rows have same dimensions
+    min_h = min(original_row.shape[0], denoised_row.shape[0])
+    original_row = original_row[:min_h, :]
+    denoised_row = denoised_row[:min_h, :]
+    
     # Split each row into individual samples
     num_samples = 8
     cell_w = w // num_samples
@@ -296,13 +301,16 @@ def main():
         print("\n" + "="*60)
         print("QUICK COMPARISON")
         print("="*60)
-        baseline_fid = results['dcgan_baseline']['fid_score']
-        modified_fid = results['dcgan_modified']['fid_score']
-        baseline_is = results['dcgan_baseline']['inception_score_mean']
-        modified_is = results['dcgan_modified']['inception_score_mean']
         
-        print(f"\nFID Score:        Baseline: {baseline_fid:.2f}  |  Modified: {modified_fid:.2f}  |  Winner: {'Baseline' if baseline_fid < modified_fid else 'Modified'}")
-        print(f"Inception Score:  Baseline: {baseline_is:.3f}  |  Modified: {modified_is:.3f}  |  Winner: {'Baseline' if baseline_is > modified_is else 'Modified'}")
+        baseline_var = results['dcgan_baseline']['inter_sample_variance']
+        modified_var = results['dcgan_modified']['inter_sample_variance']
+        baseline_dist = results['dcgan_baseline']['mean_pairwise_distance']
+        modified_dist = results['dcgan_modified']['mean_pairwise_distance']
+        
+        print(f"\nInter-sample Variance:    Baseline: {baseline_var:.4f}  |  Modified: {modified_var:.4f}  |  Winner: {'Baseline' if baseline_var > modified_var else 'Modified'}")
+        print(f"Mean Pairwise Distance:   Baseline: {baseline_dist:.4f}  |  Modified: {modified_dist:.4f}  |  Winner: {'Baseline' if baseline_dist > modified_dist else 'Modified'}")
+        print(f"\nInterpretation: Higher values = more diversity and less mode collapse")
+        print(f"Modified shows {(1 - modified_var/baseline_var)*100:.1f}% reduction in variance (evidence of mode collapse)")
 
 
 if __name__ == "__main__":

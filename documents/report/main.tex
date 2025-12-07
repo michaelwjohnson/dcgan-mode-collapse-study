@@ -121,6 +121,9 @@ Inference Time (ms) & 1.29 & 0.70 \\
 GPU Utilization (\%) & 100 & 100 \\
 GPU Memory (MB) & 12631 & 12631 \\
 Memory Utilization (\%) & 28--31 & 28--31 \\
+\midrule
+Inter-sample Variance & 0.226 & 0.082 \\
+Mean Pairwise Distance & 0.451 & 0.154 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -130,6 +133,13 @@ Memory Utilization (\%) & 28--31 & 28--31 \\
     \item \textbf{Baseline:} Final generator loss of 1.75 with discriminator loss of 0.65 indicates healthy adversarial equilibrium. Both networks remain challenged, with the discriminator achieving $\sim$66\% accuracy (slightly above random guessing), while the generator continues improving. This balance is characteristic of successful GAN training.
     
     \item \textbf{Modified:} Final generator loss of 10.40 (5.9$\times$ higher than baseline) coupled with discriminator loss near 0.0001 reveals complete training collapse. The discriminator achieves near-perfect classification ($\sim$100\% accuracy), while the generator fails catastrophically to produce convincing samples. This loss divergence is the quantitative signature of mode collapse.
+\end{itemize}
+
+\textbf{Diversity Metrics Analysis:}
+\begin{itemize}
+    \item \textbf{Inter-sample Variance:} Baseline (0.226) vs Modified (0.082) shows 63.8\% reduction in sample diversity—direct quantitative evidence of mode collapse. Lower variance indicates generated samples cluster in a narrow region of the output space.
+    
+    \item \textbf{Mean Pairwise Distance:} Baseline (0.451) vs Modified (0.154) shows 65.8\% reduction in inter-sample distance. This confirms samples are nearly identical, characteristic of the generator producing limited distinct outputs regardless of input noise.
 \end{itemize}
 
 Figure~\ref{fig:loss_curves} shows loss evolution over 23,450 iterations:
@@ -333,7 +343,16 @@ GPU Utilization & 100\% & 45--99\% \\
 
 \textit{Training Stability Proxy:} Loss curve behavior serves as a stability proxy. The DCGAN baseline shows oscillating losses (healthy adversarial balance), while the modified DCGAN exhibits divergence (collapse). Diffusion models inherently avoid adversarial instability through likelihood-based training, though this experiment used a pretrained model.
 
-\textit{Metric Limitations:} Formal metrics like Inception Score (IS) or Fréchet Inception Distance (FID) require pretrained classifiers unavailable in this environment. The denoising task differs from unconditional generation, making direct quality comparison challenging. Runtime measurements provide objective comparison but don't capture perceptual quality differences.
+\textit{Denoising Quality Metrics:} The diffusion model's reconstruction quality was evaluated using pixel-level metrics across three noise levels:
+\begin{itemize}
+    \item \textbf{MSE (Mean Squared Error):} 18,888--19,414 (increasing with noise level). High MSE values confirm the model does not perform pixel-wise reconstruction but rather generates new samples from the learned distribution.
+    \item \textbf{PSNR (Peak Signal-to-Noise Ratio):} 5.27--5.38 dB. Extremely low PSNR (<20 dB indicates poor reconstruction) quantitatively validates the visual observation that denoised outputs differ substantially from originals.
+    \item \textbf{Correlation:} 0.347--0.369 (weak positive correlation). Low correlation coefficients confirm the generative (vs. reconstructive) nature—the model produces plausible MNIST digits but not the specific original digits.
+\end{itemize}
+
+These metrics, consistent across noise levels, provide quantitative evidence that diffusion models generate samples from the learned distribution rather than reconstructing inputs. This behavior contrasts with deterministic denoisers (e.g., denoising autoencoders) which would show PSNR $>$30 dB and correlation $>$0.9.
+
+\textit{Metric Limitations:} Formal metrics like Inception Score (IS) or Fréchet Inception Distance (FID) require pretrained classifiers unavailable in this environment due to filesystem constraints. The denoising task differs from unconditional generation, making direct quality comparison challenging. However, diversity metrics (inter-sample variance, pairwise distance) and reconstruction metrics (MSE, PSNR, correlation) provide objective quantitative comparison.
 
 \subsubsection{Training and Inference Cost Analysis}
 
