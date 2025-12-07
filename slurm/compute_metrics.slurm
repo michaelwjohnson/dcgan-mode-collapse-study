@@ -23,7 +23,7 @@ echo "GPU: $CUDA_VISIBLE_DEVICES"
 echo ""
 
 # Run metrics computation
-apptainer exec --nv $CONTAINER python3 scripts/compute_metrics.py \
+apptainer exec --nv $CONTAINER python3 python/compute_metrics.py \
     --device cuda \
     --output-dir output/metrics \
     --num-real-samples 1000

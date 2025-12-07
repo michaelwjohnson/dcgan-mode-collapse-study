@@ -32,7 +32,7 @@ echo ""
 nvidia-smi dmon -s um -d 5 > logs/gpu_monitor_diffusion_${SLURM_JOB_ID}.log &
 MONITOR_PID=$!
 
-apptainer exec --nv $CONTAINER python3 scripts/train_diffusion.py \
+apptainer exec --nv $CONTAINER python3 python/train_diffusion.py \
     --mode denoise \
     --num-samples 8 \
     --inference-steps 100
@@ -40,7 +40,7 @@ apptainer exec --nv $CONTAINER python3 scripts/train_diffusion.py \
 # Comparison with GAN
 echo ""
 echo "=== COMPARISON: Diffusion vs GAN ==="
-apptainer exec --nv $CONTAINER python3 scripts/train_diffusion.py \
+apptainer exec --nv $CONTAINER python3 python/train_diffusion.py \
     --mode compare
 
 # Stop GPU monitoring

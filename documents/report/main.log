@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.5)  6 DEC 2025 20:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.5)  6 DEC 2025 21:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -347,44 +347,49 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
 )
 \Hy@SectionHShift=\skip57
-) (/home1/michael2024/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+) (/home1/michael2024/texlive/texmf-dist/tex/latex/bookmark/bookmark.sty
+Package: bookmark 2023-12-10 v1.31 PDF bookmarks (HO)
+ (/home1/michael2024/texlive/texmf-dist/tex/latex/bookmark/bkm-pdftex.def
+File: bkm-pdftex.def 2023-12-10 v1.31 bookmark driver for pdfTeX and luaTeX (HO)
+\BKM@id=\count322
+)) (/home1/michael2024/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count322
+\l__color_backend_stack_int=\count323
 ) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
 
 -- Lines per column: 56 (exact).
 (/home1/michael2024/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count323
+\scratchcounter=\count324
 \scratchdimen=\dimen256
 \scratchbox=\box57
-\nofMPsegments=\count324
-\nofMParguments=\count325
+\nofMPsegments=\count325
+\nofMParguments=\count326
 \everyMPshowfont=\toks24
-\MPscratchCnt=\count326
+\MPscratchCnt=\count327
 \MPscratchDim=\dimen257
-\MPnumerator=\count327
-\makeMPintoPDFobject=\count328
+\MPnumerator=\count328
+\makeMPintoPDFobject=\count329
 \everyMPtoPDFconversion=\toks25
 ) (/home1/michael2024/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -392,39 +397,41 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (/home1/michael2024/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 11.
- (./main.out) (./main.out)
-\@outlinefile=\write3
-\openout3 = `main.out'.
-
-LaTeX Font Info:    Trying to load font information for U+msa on input line 23.
+Package hyperref Info: Link coloring OFF on input line 12.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 24.
  (/home1/michael2024/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 23.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 24.
  (/home1/michael2024/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 47.
- (/home1/michael2024/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+
+LaTeX Warning: Citation `goodfellow2014generative' on page 1 undefined on input line 37.
+
+
+LaTeX Warning: Citation `radford2015unsupervised' on page 1 undefined on input line 37.
+
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 48.
+(/home1/michael2024/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-Underfull \hbox (badness 10000) in paragraph at lines 47--48
+Underfull \hbox (badness 10000) in paragraph at lines 48--49
 []\OT1/ptm/m/n/10 A pre-trained De-nois-ing Dif-fu-sion Prob-a-bilis-tic
  []
 
 
-Underfull \hbox (badness 6001) in paragraph at lines 47--48
+Underfull \hbox (badness 6001) in paragraph at lines 48--49
 \OT1/ptm/m/n/10 Model (DDPM) from Hug-ging-Face's Dif-fusers li-brary
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 47--48
+Underfull \hbox (badness 3029) in paragraph at lines 48--49
 \OT1/ptm/m/n/10 em-ploys a UNet back-bone with timestep con-di-tion-ing,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 58--60
+Underfull \hbox (badness 10000) in paragraph at lines 59--61
  \OT1/ptm/m/it/10 1) Base-line Con-fig-u-ra-tion (la-tent[]dim=256, depth=3,
  []
 
@@ -432,135 +439,142 @@ Underfull \hbox (badness 10000) in paragraph at lines 58--60
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 69--71
+Underfull \hbox (badness 10000) in paragraph at lines 70--72
  \OT1/ptm/m/it/10 2) Mod-i-fied Con-fig-u-ra-tion (la-tent[]dim=64, depth=4,
  []
 
-<../../output/dcgan_baseline/samples/epoch_001.png, id=128, 722.7pt x 722.7pt>
+<../../output/dcgan_baseline/samples/epoch_001.png, id=31, 722.7pt x 722.7pt>
 File: ../../output/dcgan_baseline/samples/epoch_001.png Graphic file (type png)
 <use ../../output/dcgan_baseline/samples/epoch_001.png>
-Package pdftex.def Info: ../../output/dcgan_baseline/samples/epoch_001.png  used on input line 81.
+Package pdftex.def Info: ../../output/dcgan_baseline/samples/epoch_001.png  used on input line 82.
 (pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
-<../../output/dcgan_baseline/samples/epoch_050.png, id=130, 722.7pt x 722.7pt>
+<../../output/dcgan_baseline/samples/epoch_050.png, id=33, 722.7pt x 722.7pt>
 File: ../../output/dcgan_baseline/samples/epoch_050.png Graphic file (type png)
 <use ../../output/dcgan_baseline/samples/epoch_050.png>
-Package pdftex.def Info: ../../output/dcgan_baseline/samples/epoch_050.png  used on input line 82.
+Package pdftex.def Info: ../../output/dcgan_baseline/samples/epoch_050.png  used on input line 83.
 (pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
-<../../output/dcgan_modified/samples/epoch_001.png, id=131, 722.7pt x 722.7pt>
+<../../output/dcgan_modified/samples/epoch_001.png, id=34, 722.7pt x 722.7pt>
 File: ../../output/dcgan_modified/samples/epoch_001.png Graphic file (type png)
 <use ../../output/dcgan_modified/samples/epoch_001.png>
-Package pdftex.def Info: ../../output/dcgan_modified/samples/epoch_001.png  used on input line 89.
+Package pdftex.def Info: ../../output/dcgan_modified/samples/epoch_001.png  used on input line 90.
 (pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
-<../../output/dcgan_modified/samples/epoch_050.png, id=132, 722.7pt x 722.7pt>
+<../../output/dcgan_modified/samples/epoch_050.png, id=35, 722.7pt x 722.7pt>
 File: ../../output/dcgan_modified/samples/epoch_050.png Graphic file (type png)
 <use ../../output/dcgan_modified/samples/epoch_050.png>
-Package pdftex.def Info: ../../output/dcgan_modified/samples/epoch_050.png  used on input line 90.
+Package pdftex.def Info: ../../output/dcgan_modified/samples/epoch_050.png  used on input line 91.
 (pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
 [2 <../../output/dcgan_baseline/samples/epoch_001.png> <../../output/dcgan_baseline/samples/epoch_050.png>]
-<../../output/dcgan_baseline/training_losses.png, id=145, 722.7pt x 361.35pt>
+<../../output/dcgan_baseline/training_losses.png, id=50, 722.7pt x 361.35pt>
 File: ../../output/dcgan_baseline/training_losses.png Graphic file (type png)
 <use ../../output/dcgan_baseline/training_losses.png>
-Package pdftex.def Info: ../../output/dcgan_baseline/training_losses.png  used on input line 145.
+Package pdftex.def Info: ../../output/dcgan_baseline/training_losses.png  used on input line 146.
 (pdftex.def)             Requested size: 247.6778pt x 123.83882pt.
-<../../output/dcgan_modified/training_losses.png, id=146, 722.7pt x 361.35pt>
+<../../output/dcgan_modified/training_losses.png, id=51, 722.7pt x 361.35pt>
 File: ../../output/dcgan_modified/training_losses.png Graphic file (type png)
 <use ../../output/dcgan_modified/training_losses.png>
-Package pdftex.def Info: ../../output/dcgan_modified/training_losses.png  used on input line 146.
+Package pdftex.def Info: ../../output/dcgan_modified/training_losses.png  used on input line 147.
 (pdftex.def)             Requested size: 247.6778pt x 123.83882pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 157--158
+Underfull \hbox (badness 10000) in paragraph at lines 158--159
 []\OT1/ptm/b/n/10 Modified: \OT1/ptm/m/n/10 Re-quired 12.22 min-utes (14.66
  []
 
 [3 <../../output/dcgan_modified/samples/epoch_001.png> <../../output/dcgan_modified/samples/epoch_050.png> <../../output/dcgan_baseline/training_losses.png> <../../output/dcgan_modified/training_losses.png>]
-Underfull \hbox (badness 1460) in paragraph at lines 222--223
+Underfull \hbox (badness 1460) in paragraph at lines 223--224
 []\OT1/ptm/m/n/10 The dis-crim-i-na-tor achieves near-perfect clas-si-fi-ca-tion
  []
 
 [4]
+
+LaTeX Warning: Citation `salimans2016improved' on page 5 undefined on input line 258.
+
+
+LaTeX Warning: Citation `arjovsky2017wasserstein' on page 5 undefined on input line 259.
+
+
+LaTeX Warning: Citation `radford2015unsupervised' on page 5 undefined on input line 260.
+
 File: ../../output/dcgan_baseline/samples/epoch_050.png Graphic file (type png)
 <use ../../output/dcgan_baseline/samples/epoch_050.png>
-Package pdftex.def Info: ../../output/dcgan_baseline/samples/epoch_050.png  used on input line 288.
+Package pdftex.def Info: ../../output/dcgan_baseline/samples/epoch_050.png  used on input line 289.
 (pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
-<../../output/diffusion_denoise/denoise_noise_0.3.png, id=170, 1140.4206pt x 428.3202pt>
+<../../output/diffusion_denoise/denoise_noise_0.3.png, id=76, 1140.4206pt x 428.3202pt>
 File: ../../output/diffusion_denoise/denoise_noise_0.3.png Graphic file (type png)
 <use ../../output/diffusion_denoise/denoise_noise_0.3.png>
-Package pdftex.def Info: ../../output/diffusion_denoise/denoise_noise_0.3.png  used on input line 295.
+Package pdftex.def Info: ../../output/diffusion_denoise/denoise_noise_0.3.png  used on input line 296.
 (pdftex.def)             Requested size: 165.12378pt x 62.0166pt.
-<../../output/diffusion_denoise/denoise_noise_0.5.png, id=171, 1140.4206pt x 428.3202pt>
+<../../output/diffusion_denoise/denoise_noise_0.5.png, id=77, 1140.4206pt x 428.3202pt>
 File: ../../output/diffusion_denoise/denoise_noise_0.5.png Graphic file (type png)
 <use ../../output/diffusion_denoise/denoise_noise_0.5.png>
-Package pdftex.def Info: ../../output/diffusion_denoise/denoise_noise_0.5.png  used on input line 296.
+Package pdftex.def Info: ../../output/diffusion_denoise/denoise_noise_0.5.png  used on input line 297.
 (pdftex.def)             Requested size: 165.12378pt x 62.0166pt.
-<../../output/diffusion_denoise/denoise_noise_0.7.png, id=172, 1140.4206pt x 428.3202pt>
+<../../output/diffusion_denoise/denoise_noise_0.7.png, id=78, 1140.4206pt x 428.3202pt>
 File: ../../output/diffusion_denoise/denoise_noise_0.7.png Graphic file (type png)
 <use ../../output/diffusion_denoise/denoise_noise_0.7.png>
-Package pdftex.def Info: ../../output/diffusion_denoise/denoise_noise_0.7.png  used on input line 297.
+Package pdftex.def Info: ../../output/diffusion_denoise/denoise_noise_0.7.png  used on input line 298.
 (pdftex.def)             Requested size: 165.12378pt x 62.0166pt.
- [5] [6]
-Underfull \hbox (badness 3323) in paragraph at lines 390--391
+[5] [6]
+Underfull \hbox (badness 3323) in paragraph at lines 391--392
 []\OT1/ptm/b/n/10 Dimensionality Re-duc-tion: \OT1/ptm/m/n/10 An au-toen-coder com-
  []
 
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 417.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 418.
 (/home1/michael2024/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Underfull \hbox (badness 2103) in paragraph at lines 417--418
+Underfull \hbox (badness 2103) in paragraph at lines 418--419
 []\OT1/ptm/b/n/10 Data Par-al-lel: \OT1/ptm/m/n/10 Use Py-Torch Dis-tributed-Dat-a-Paral-lel
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 417--418
+Underfull \hbox (badness 10000) in paragraph at lines 418--419
 \OT1/ptm/m/n/10 (DDP) to repli-cate the model across GPUs,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 417--418
+Underfull \hbox (badness 10000) in paragraph at lines 418--419
 \OT1/ptm/m/n/10 split batches, and syn-chro-nize gra-di-ents. Mod-ify
  []
 
 
-Underfull \hbox (badness 2409) in paragraph at lines 417--418
+Underfull \hbox (badness 2409) in paragraph at lines 418--419
 \OT1/ptm/m/n/10 SLURM script: \OT1/pcr/m/n/10 gres=gpu:4\OT1/ptm/m/n/10 , add \OT1/pcr/m/n/10 torchrun \OT1/ptm/m/n/10 or
  []
 
 [7 <../../output/diffusion_denoise/denoise_noise_0.3.png> <../../output/diffusion_denoise/denoise_noise_0.5.png> <../../output/diffusion_denoise/denoise_noise_0.7.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 423--424
+Underfull \hbox (badness 10000) in paragraph at lines 424--425
 []\OT1/ptm/b/n/10 SLURM Con-fig-u-ra-tion: \OT1/ptm/m/n/10 Re-quest mul-ti-ple nodes
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 423--424
+Underfull \hbox (badness 10000) in paragraph at lines 424--425
 \OT1/ptm/m/n/10 (\OT1/pcr/m/n/10 --nodes=4\OT1/ptm/m/n/10 ), con-fig-ure net-work com-mu-ni-ca-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 434--435
+Underfull \hbox (badness 10000) in paragraph at lines 435--436
 []\OT1/ptm/b/n/10 Infrastructure: \OT1/ptm/m/n/10 Train-ing Style-GAN2/3 on high-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 434--435
+Underfull \hbox (badness 10000) in paragraph at lines 435--436
 \OT1/ptm/m/n/10 resolution im-ages (1024$\OMS/cmsy/m/n/10 ^^B$\OT1/ptm/m/n/10 1024) re-quires mul-ti-ple
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 440--441
+Underfull \hbox (badness 10000) in paragraph at lines 441--442
 []\OT1/ptm/b/n/10 Code Changes: \OT1/ptm/m/n/10 Mod-ify
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 440--441
+Underfull \hbox (badness 10000) in paragraph at lines 441--442
 \OT1/pcr/m/n/10 Generator(latent_dim, num_classes)
  []
 
 [8]
-** WARNING: Ignoring useless \section in Appendix (line 478).
-** WARNING: Ignoring useless \section in Appendix (line 486).
+** WARNING: Ignoring useless \section in Appendix (line 479).
+** WARNING: Ignoring useless \section in Appendix (line 487).
+(./main.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -581,30 +595,22 @@ L3 programming layer <2025-11-14>
  ***********
 
 
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
+LaTeX Warning: There were undefined references.
 
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: 2F43D0FDB63058A123F0BE0DCCA2E75D;5860
-(rerunfilecheck)             After:  BBD05F2818EAB247C5E26CDF25FFCB7B;6112.
  ) 
 Here is how much of TeX's memory you used:
- 11538 strings out of 467538
- 181372 string characters out of 5417989
- 614116 words of memory out of 5000000
- 40224 multiletter control sequences out of 15000+600000
+ 11794 strings out of 467538
+ 185303 string characters out of 5417989
+ 616317 words of memory out of 5000000
+ 40481 multiletter control sequences out of 15000+600000
  669335 words of font info for 122 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,8n,79p,1322b,543s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{section*.3} has been referenced but does not exist, replaced by a fixed one
-
+ 75i,8n,79p,1322b,542s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (9 pages, 2036895 bytes).
+Output written on main.pdf (9 pages, 2035621 bytes).
 PDF statistics:
- 309 PDF objects out of 1000 (max. 8388607)
- 245 compressed objects within 3 object streams
- 66 named destinations out of 1000 (max. 500000)
+ 297 PDF objects out of 1000 (max. 8388607)
+ 233 compressed objects within 3 object streams
+ 60 named destinations out of 1000 (max. 500000)
  254 words of extra memory for PDF output out of 10000 (max. 10000000)
 

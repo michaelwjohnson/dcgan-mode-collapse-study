@@ -26,7 +26,7 @@ nvidia-smi dmon -s um -d 5 > logs/gpu_monitor_modified_${SLURM_JOB_ID}.log &
 MONITOR_PID=$!
 
 # Run training with modified configuration
-apptainer exec --nv $CONTAINER python3 scripts/train_dcgan.py \
+apptainer exec --nv $CONTAINER python3 python/train_dcgan.py \
     --dataset mnist \
     --epochs 50 \
     --latent-dim 64 \

@@ -30,7 +30,7 @@ echo "GPU Node: $SLURM_NODELIST"
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 
 # Run the training script inside the container
-apptainer exec --nv ${CONTAINER} python3 scripts/train_dcgan.py \
+apptainer exec --nv ${CONTAINER} python3 python/train_dcgan.py \
     --epochs ${EPOCHS} \
     --save_dir outputs/dcgan \
 

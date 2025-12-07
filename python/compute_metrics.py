@@ -202,19 +202,8 @@ def main():
         print("  Loading generated samples...")
         fake_samples = load_generated_samples(gan_baseline_path, num_samples=64)
         
-        print("  Computing FID score...")
-        start = time.time()
-        # Use subset of real samples matching fake samples size for fair comparison
-        real_subset = real_samples[:64]
-        fid_score = compute_fid_score(real_subset, fake_samples, device)
-        fid_time = time.time() - start
-        print(f"    FID Score: {fid_score:.2f} (computed in {fid_time:.2f}s)")
-        
-        print("  Computing Inception Score...")
-        start = time.time()
-        is_mean, is_std = compute_inception_score(fake_samples, device)
-        is_time = time.time() - start
-        print(f"    Inception Score: {is_mean:.3f} ± {is_std:.3f} (computed in {is_time:.2f}s)")
+        # Skip FID and IS due to missing torch-fidelity and read-only filesystem
+        print("  ⚠ Skipping FID/IS (requires pretrained InceptionV3 download)")
         
         print("  Computing diversity metrics...")
         diversity = compute_diversity_metrics(fake_samples)
@@ -222,9 +211,9 @@ def main():
         print(f"    Mean Pairwise Distance: {diversity['mean_pairwise_distance']:.4f}")
         
         results['dcgan_baseline'] = {
-            'fid_score': fid_score,
-            'inception_score_mean': is_mean,
-            'inception_score_std': is_std,
+            'fid_score': None,
+            'inception_score_mean': None,
+            'inception_score_std': None,
             **diversity
         }
     else:
@@ -237,14 +226,8 @@ def main():
         print("  Loading generated samples...")
         fake_samples = load_generated_samples(gan_modified_path, num_samples=64)
         
-        print("  Computing FID score...")
-        real_subset = real_samples[:64]
-        fid_score = compute_fid_score(real_subset, fake_samples, device)
-        print(f"    FID Score: {fid_score:.2f}")
-        
-        print("  Computing Inception Score...")
-        is_mean, is_std = compute_inception_score(fake_samples, device)
-        print(f"    Inception Score: {is_mean:.3f} ± {is_std:.3f}")
+        # Skip FID and IS due to missing torch-fidelity and read-only filesystem
+        print("  ⚠ Skipping FID/IS (requires pretrained InceptionV3 download)")
         
         print("  Computing diversity metrics...")
         diversity = compute_diversity_metrics(fake_samples)
@@ -252,9 +235,9 @@ def main():
         print(f"    Mean Pairwise Distance: {diversity['mean_pairwise_distance']:.4f}")
         
         results['dcgan_modified'] = {
-            'fid_score': fid_score,
-            'inception_score_mean': is_mean,
-            'inception_score_std': is_std,
+            'fid_score': None,
+            'inception_score_mean': None,
+            'inception_score_std': None,
             **diversity
         }
     else:

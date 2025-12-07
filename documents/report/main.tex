@@ -7,6 +7,7 @@
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{hyperref}
+\usepackage{bookmark}
 
 \begin{document}
 
@@ -96,7 +97,7 @@ The modified model exhibits textbook mode collapse, where the generator finds a 
 
 Table~\ref{tab:metrics} summarizes quantitative metrics:
 
-\begin{table}[h]
+\begin{table}[!t]
 \centering
 \caption{Training Metrics Comparison}
 \label{tab:metrics}
@@ -140,7 +141,7 @@ Figure~\ref{fig:loss_curves} shows loss evolution over 23,450 iterations:
 
 The stark contrast in loss curves provides quantitative evidence supporting the visual observations: baseline achieves stable adversarial balance while modified exhibits catastrophic divergence.
 
-\begin{figure}[htbp]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.48\textwidth]{../../output/dcgan_baseline/training_losses.png}
 \includegraphics[width=0.48\textwidth]{../../output/dcgan_modified/training_losses.png}
@@ -283,14 +284,14 @@ Figure~\ref{fig:comparison_samples} and Figure~\ref{fig:diffusion_denoising} pre
 
 \textbf{Key Observations:} The DCGAN baseline successfully generates diverse, sharp digits from random latent vectors. The diffusion model successfully denoises noisy MNIST images, producing realistic handwritten digits. However, the denoised outputs do not exactly match the original inputs, revealing a fundamental characteristic of diffusion models: they are \textbf{generative} rather than reconstructive. The model samples from the learned MNIST distribution conditioned on the noisy input, which may produce different digit classes or styles than the originals. This contrasts with deterministic denoising methods (e.g., denoising autoencoders) which aim for pixel-wise reconstruction. For applications requiring exact reconstruction, this generative behavior is a limitation; for applications requiring diverse, realistic outputs, it is an advantage.
 
-\begin{figure}[htbp]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.48\textwidth]{../../output/dcgan_baseline/samples/epoch_050.png}
 \caption{DCGAN baseline model generating diverse, high-quality MNIST digits from random latent vectors. All digit classes represented with varied styles.}
 \label{fig:comparison_samples}
 \end{figure}
 
-\begin{figure*}[htbp]
+\begin{figure*}[!t]
 \centering
 \includegraphics[width=0.32\textwidth]{../../output/diffusion_denoise/denoise_noise_0.3.png}
 \includegraphics[width=0.32\textwidth]{../../output/diffusion_denoise/denoise_noise_0.5.png}
@@ -303,7 +304,7 @@ Figure~\ref{fig:comparison_samples} and Figure~\ref{fig:diffusion_denoising} pre
 
 Table~\ref{tab:gan_vs_diffusion} compares performance metrics:
 
-\begin{table}[h]
+\begin{table}[!t]
 \centering
 \caption{DCGAN vs. Diffusion Model Comparison}
 \label{tab:gan_vs_diffusion}
@@ -487,11 +488,7 @@ Future work should explore quantitative metrics (FID, IS) for objective quality 
 % Place extra images, loss curves, or tables here.
 
 % -------------------
-\begin{thebibliography}{00}
-\bibitem{goodfellow2014generative} I. Goodfellow, J. Pouget-Abadie, M. Mirza, et al., ``Generative adversarial nets,'' in \textit{Advances in Neural Information Processing Systems}, 2014, pp. 2672--2680.
-\bibitem{radford2015unsupervised} A. Radford, L. Metz, and S. Chintala, ``Unsupervised representation learning with deep convolutional generative adversarial networks,'' in \textit{International Conference on Learning Representations (ICLR)}, 2016.
-\bibitem{salimans2016improved} T. Salimans, I. Goodfellow, W. Zaremba, et al., ``Improved techniques for training GANs,'' in \textit{Advances in Neural Information Processing Systems}, 2016, pp. 2234--2242.
-\bibitem{arjovsky2017wasserstein} M. Arjovsky, S. Chintala, and L. Bottou, ``Wasserstein GAN,'' in \textit{International Conference on Machine Learning (ICML)}, 2017.
-\end{thebibliography}
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
 
 \end{document}
