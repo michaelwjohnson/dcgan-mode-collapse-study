@@ -21,6 +21,10 @@ echo "Job ID: $SLURM_JOB_ID"
 echo "Node: $SLURM_NODELIST"
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 
+# Start GPU monitoring (samples every 5 seconds)
+nvidia-smi dmon -s um -d 5 > logs/gpu_monitor_baseline_${SLURM_JOB_ID}.log &
+MONITOR_PID=$!
+
 # Run training with baseline configuration
 apptainer exec --nv $CONTAINER python3 scripts/train_dcgan.py \
     --dataset mnist \
@@ -33,5 +37,8 @@ apptainer exec --nv $CONTAINER python3 scripts/train_dcgan.py \
     --disc-depth 3 \
     --dropout 0.0 \
     --output-dir output/dcgan_baseline
+
+# Stop GPU monitoring
+kill $MONITOR_PID 2>/dev/null || true
 
 echo "Baseline training complete!"

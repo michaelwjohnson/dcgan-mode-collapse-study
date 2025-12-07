@@ -30,6 +30,7 @@ From: /home1/michael2024/ML_Course/container/pytorch_25.09-py3.sif
         scipy \
         torch \
         torchmetrics \
+        torch-fidelity \
         torchvision \
         torchsummary \
         diffusers \

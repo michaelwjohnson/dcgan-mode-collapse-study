@@ -27,16 +27,24 @@ echo "=== EXPERIMENT: Denoising Diffusion Process ==="
 echo "Adding Gaussian noise to MNIST images and denoising them"
 echo "Noise levels: 0.3, 0.5, 0.7"
 echo ""
+
+# Start GPU monitoring (samples every 5 seconds)
+nvidia-smi dmon -s um -d 5 > logs/gpu_monitor_diffusion_${SLURM_JOB_ID}.log &
+MONITOR_PID=$!
+
 apptainer exec --nv $CONTAINER python3 scripts/train_diffusion.py \
     --mode denoise \
     --num-samples 8 \
-    --inference-steps 50
+    --inference-steps 100
 
 # Comparison with GAN
 echo ""
 echo "=== COMPARISON: Diffusion vs GAN ==="
 apptainer exec --nv $CONTAINER python3 scripts/train_diffusion.py \
     --mode compare
+
+# Stop GPU monitoring
+kill $MONITOR_PID 2>/dev/null || true
 
 echo ""
 echo "Diffusion experiment complete!"

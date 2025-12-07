@@ -1,7 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=test_gpu
 #SBATCH --output=logs/test_gpu_%j.out
-#SBATCH --error=logs/test_gpu_%j.err
 #SBATCH --partition=gpu1         # Use your cluster's GPU partition name
 #SBATCH --nodes=1
 #SBATCH --ntasks=1

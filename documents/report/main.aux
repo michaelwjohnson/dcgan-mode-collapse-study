@@ -17,12 +17,12 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-A}1}Baseline Configuration (latent\_dim=256, depth=3, dropout=0.0)}{1}{subsubsection.3.1.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-A}2}Modified Configuration (latent\_dim=64, depth=4, dropout=0.3)}{2}{subsubsection.3.1.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Quantitative Metrics or Proxy Measures}{2}{subsection.3.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Training Metrics Comparison}}{2}{table.1}\protected@file@percent }
-\newlabel{tab:metrics}{{I}{2}{Training Metrics Comparison}{table.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Baseline model samples at epochs 1 (left) and 50 (right), showing clear progression from noise to diverse, high-quality digits.}}{2}{figure.1}\protected@file@percent }
 \newlabel{fig:baseline_samples}{{1}{2}{Baseline model samples at epochs 1 (left) and 50 (right), showing clear progression from noise to diverse, high-quality digits}{figure.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Modified model samples at epochs 1 (left) and 50 (right), showing mode collapse to identical grid patterns.}}{3}{figure.2}\protected@file@percent }
 \newlabel{fig:modified_samples}{{2}{3}{Modified model samples at epochs 1 (left) and 50 (right), showing mode collapse to identical grid patterns}{figure.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Training Metrics Comparison}}{3}{table.1}\protected@file@percent }
+\newlabel{tab:metrics}{{I}{3}{Training Metrics Comparison}{table.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Training loss curves for baseline (left) and modified (right) models. Baseline shows stable oscillation; modified shows catastrophic divergence.}}{3}{figure.3}\protected@file@percent }
 \newlabel{fig:loss_curves}{{3}{3}{Training loss curves for baseline (left) and modified (right) models. Baseline shows stable oscillation; modified shows catastrophic divergence}{figure.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Training and Inference Performance}{3}{subsection.3.3}\protected@file@percent }
@@ -32,13 +32,24 @@
 \citation{salimans2016improved}
 \citation{arjovsky2017wasserstein}
 \citation{radford2015unsupervised}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Comparative Analysis: DCGAN vs. Diffusion Models}{5}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-C}1}Qualitative Comparison of Generated Samples}{5}{subsubsection.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-C}2}Quantitative and Proxy Metrics}{5}{subsubsection.4.3.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces DCGAN vs. Diffusion Model Comparison}}{5}{table.2}\protected@file@percent }
+\newlabel{tab:gan_vs_diffusion}{{II}{5}{DCGAN vs. Diffusion Model Comparison}{table.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces DCGAN baseline model generating diverse, high-quality MNIST digits from random latent vectors. All digit classes represented with varied styles.}}{6}{figure.4}\protected@file@percent }
+\newlabel{fig:comparison_samples}{{4}{6}{DCGAN baseline model generating diverse, high-quality MNIST digits from random latent vectors. All digit classes represented with varied styles}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-C}3}Training and Inference Cost Analysis}{6}{subsubsection.4.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-C}4}Theoretical Reflection on Model Behavior}{6}{subsubsection.4.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Diffusion model denoising experiment at three noise levels. Top row: original clean MNIST images. Middle row: noisy images after adding Gaussian noise with $\sigma = 0.3$ (left), $0.5$ (center), $0.7$ (right), demonstrating the forward diffusion process. Bottom row: denoised outputs after 100 inference steps. The model successfully removes noise and generates realistic digits, though they differ from the originals. This demonstrates the generative nature of diffusion models: rather than reconstructing exact inputs, they sample plausible outputs from the learned distribution.}}{7}{figure.5}\protected@file@percent }
+\newlabel{fig:diffusion_denoising}{{5}{7}{Diffusion model denoising experiment at three noise levels. Top row: original clean MNIST images. Middle row: noisy images after adding Gaussian noise with $\sigma = 0.3$ (left), $0.5$ (center), $0.7$ (right), demonstrating the forward diffusion process. Bottom row: denoised outputs after 100 inference steps. The model successfully removes noise and generates realistic digits, though they differ from the originals. This demonstrates the generative nature of diffusion models: rather than reconstructing exact inputs, they sample plausible outputs from the learned distribution}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-C}5}Scaling and Engineering Perspective}{7}{subsubsection.4.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Limitations of Your Approach}{8}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion}{8}{section.5}\protected@file@percent }
 \bibcite{goodfellow2014generative}{1}
 \bibcite{radford2015unsupervised}{2}
 \bibcite{salimans2016improved}{3}
 \bibcite{arjovsky2017wasserstein}{4}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Interpretation of Diffusion Model Behaviour}{5}{subsection.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Limitations of Your Approach}{5}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion}{5}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Appendix}{5}{section*.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{References}{5}{section*.2}\protected@file@percent }
-\gdef \@abspage@last{5}
+\@writefile{toc}{\contentsline {section}{Appendix}{9}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{9}{section*.2}\protected@file@percent }
+\gdef \@abspage@last{9}

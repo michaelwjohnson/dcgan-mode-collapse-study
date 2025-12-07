@@ -11,14 +11,14 @@
         "beta1": 0.5
     },
     "training_performance": {
-        "total_training_time_seconds": 732.25,
-        "total_training_time_minutes": 12.2,
-        "time_per_epoch_seconds": 14.65,
+        "total_training_time_seconds": 733.2,
+        "total_training_time_minutes": 12.22,
+        "time_per_epoch_seconds": 14.66,
         "total_iterations": 23450
     },
     "inference_performance": {
-        "average_inference_time_ms": 0.69,
-        "std_inference_time_ms": 2.2
+        "average_inference_time_ms": 0.7,
+        "std_inference_time_ms": 2.31
     },
     "loss_metrics": {
         "final_generator_loss": 10.3982,

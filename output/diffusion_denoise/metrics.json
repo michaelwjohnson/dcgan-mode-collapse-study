@@ -1,25 +1,25 @@
 {
     "experiment": "denoising_diffusion",
     "num_samples": 8,
-    "num_inference_steps": 50,
+    "num_inference_steps": 100,
     "results": [
         {
             "noise_level": 0.3,
-            "time_seconds": 1.822862148284912,
-            "time_per_sample_ms": 227.857768535614,
-            "num_steps": 50
+            "time_seconds": 2.3747894763946533,
+            "time_per_sample_ms": 296.84868454933167,
+            "num_steps": 100
         },
         {
             "noise_level": 0.5,
-            "time_seconds": 0.7895665168762207,
-            "time_per_sample_ms": 98.69581460952759,
-            "num_steps": 50
+            "time_seconds": 1.2215385437011719,
+            "time_per_sample_ms": 152.69231796264648,
+            "num_steps": 100
         },
         {
             "noise_level": 0.7,
-            "time_seconds": 0.7909832000732422,
-            "time_per_sample_ms": 98.87290000915527,
-            "num_steps": 50
+            "time_seconds": 1.2401838302612305,
+            "time_per_sample_ms": 155.0229787826538,
+            "num_steps": 100
         }
     ]
 }

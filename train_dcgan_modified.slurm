@@ -21,6 +21,10 @@ echo "Job ID: $SLURM_JOB_ID"
 echo "Node: $SLURM_NODELIST"
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 
+# Start GPU monitoring (samples every 5 seconds)
+nvidia-smi dmon -s um -d 5 > logs/gpu_monitor_modified_${SLURM_JOB_ID}.log &
+MONITOR_PID=$!
+
 # Run training with modified configuration
 apptainer exec --nv $CONTAINER python3 scripts/train_dcgan.py \
     --dataset mnist \
@@ -46,6 +50,8 @@ apptainer exec --nv $CONTAINER python3 scripts/train_dcgan.py \
 # Impact of network depth on image quality and training stability
 # How regularization affects mode collapse and generalization
 
+# Stop GPU monitoring
+kill $MONITOR_PID 2>/dev/null || true
 
 echo "Modified training complete!"
 
