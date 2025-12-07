@@ -21,7 +21,7 @@ December 9, 2025}}
 \maketitle
 
 \begin{abstract}
-This paper presents a comparative study of Deep Convolutional Generative Adversarial Networks (DCGANs) and diffusion models applied to MNIST digit generation and denoising. I investigate the effects of different architectural configurations on training stability and output quality by comparing a baseline DCGAN with a modified architecture featuring altered latent dimensions, network depth, and regularization, and contrast both with a pretrained diffusion model. The experiments demonstrate how hyperparameter choices significantly impact GAN performance, with the baseline configuration producing diverse, high-quality samples while the modified architecture exhibits severe mode collapse. Comparative analysis reveals fundamental tradeoffs: GANs offer fast inference (1.29ms/sample) but suffer from training instability and mode collapse, while diffusion models provide inherent stability and consistent quality at the cost of 115$\times$--230$\times$ slower inference (153--297ms/sample for 100 denoising steps). These findings validate theoretical predictions from lecture material and provide practical insights for model selection and scaling considerations in production environments.
+This paper presents a comparative study of Deep Convolutional Generative Adversarial Networks (DCGANs) and diffusion models applied to MNIST digit generation and denoising. The study investigates the effects of different architectural configurations on training stability and output quality by comparing a baseline DCGAN with a modified architecture featuring altered latent dimensions, network depth, and regularization. Experiments demonstrate how hyperparameter choices significantly impact GAN performance, with the baseline configuration producing diverse, high-quality samples while the modified architecture exhibits severe mode collapse. Comparative analysis reveals fundamental tradeoffs: GANs offer fast inference (1.29ms/sample) but may suffer from training instability and mode collapse, while diffusion models provide inherent stability and consistent quality at the cost of 115$\times$--230$\times$ slower inference (153--297ms/sample for 100 denoising steps). These findings validate theoretical predictions from lecture material and provide practical insights for model selection and scaling considerations in production environments.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -34,7 +34,7 @@ Generative Adversarial Networks, DCGAN, Diffusion Models, MNIST, Mode Collapse, 
 Image generation is a core challenge in machine learning, enabling applications in data augmentation, creative AI, and simulation. Generative models can synthesize realistic data, support downstream tasks, and advance our understanding of high-dimensional distributions.
 
 \subsection{Brief Overview of GANs and Diffusion Models}
-Generative Adversarial Networks (GANs) \cite{goodfellow2014generative} are a class of generative models where a generator and discriminator compete in a minimax game. DCGANs \cite{radford2015unsupervised} use convolutional architectures for improved image synthesis. Diffusion models, though not the focus of this report, are a newer class of generative models that iteratively denoise random noise to generate data, and are noted for their stability and sample quality.
+Generative Adversarial Networks (GANs) \cite{goodfellow2014generative} consist of a generator and discriminator competing in a minimax game. DCGANs \cite{radford2015unsupervised} use convolutional architectures for improved image synthesis. Diffusion models iteratively denoise random noise to generate data and demonstrate stable training with high sample quality.
 
 % -------------------
 \section{Methods}
@@ -163,7 +163,7 @@ The stark contrast in loss curves provides quantitative evidence supporting the 
 
 \textbf{Computational Efficiency:}
 \begin{itemize}
-    \item \textbf{Baseline:} Completed 50 epochs in 7.49 minutes (8.98 seconds/epoch) on a single GPU, demonstrating efficient training despite the larger latent dimension (256). GPU utilization maintained 100\% throughout training with consistent memory usage of 12.6 GB (28--31\% of available 40GB GPU memory).
+    \item \textbf{Baseline:} Completed 50 epochs in 7.49 minutes (8.98 seconds/epoch) on a single GPU with the larger latent dimension (256). GPU utilization maintained 100\% throughout training with consistent memory usage of 12.6 GB (28--31\% of available 40GB GPU memory).
     
     \item \textbf{Modified:} Required 12.22 minutes (14.66 seconds/epoch), representing a 63\% increase in training time. This overhead stems from the deeper architecture (4 vs. 3 layers in both G and D) and dropout regularization (0.3), which adds computational cost without improving results. Despite the longer runtime, GPU utilization remained at 100\% with identical memory footprint (12.6 GB), indicating the slowdown is due to increased FLOPs rather than resource contention.
 \end{itemize}
@@ -175,7 +175,7 @@ The stark contrast in loss curves provides quantitative evidence supporting the 
     \item \textbf{Modified:} Faster inference at 0.70ms per sample (46\% reduction) due to the smaller latent dimension (64 vs. 256), requiring fewer computations in the initial generator layers. However, this speed advantage is meaningless given the model's complete failure to generate valid samples.
 \end{itemize}
 
-\textbf{Efficiency-Quality Tradeoff:} The modified model demonstrates a critical failure mode: architectural changes that reduce inference latency but sacrifice training stability result in worthless outputs. The baseline model's slightly longer inference time is a negligible cost for successful learning. This highlights that computational efficiency metrics are secondary to training success in generative models.
+\textbf{Efficiency-Quality Tradeoff:} The modified model demonstrates a critical failure mode: architectural changes that reduce inference latency but sacrifice training stability result in worthless outputs. The baseline model's slightly longer inference time represents a negligible cost for successful learning. Computational efficiency metrics are secondary to training success in generative models.
 
 % -------------------
 \section{Discussion}
@@ -202,7 +202,7 @@ The stark contrast in loss curves provides quantitative evidence supporting the 
 
 \textit{Architecture Interactions:} The modified configuration combines three destabilizing factors:
 \begin{enumerate}
-    \item \textbf{Reduced Latent Dimension (64 vs. 256):} Constrains the generator's expressive capacity, limiting its ability to represent diverse digit modes. With insufficient capacity, the generator cannot learn the full distribution.
+    \item \textbf{Reduced Latent Dimension (64 vs. 256):} Constrains the generator's expressive capacity, limiting representation of diverse digit modes. Insufficient capacity prevents learning the full distribution.
     \item \textbf{Increased Depth (4 vs. 3 layers):} Adds discriminator capacity disproportionately, making it easier for D to reject fake samples. This exacerbates the G-D power imbalance.
     \item \textbf{Dropout Regularization (0.3):} While intended to prevent overfitting, dropout in the generator architecture can impede gradient flow during training, slowing generator learning relative to the discriminator.
 \end{enumerate}
@@ -223,12 +223,12 @@ The experimental results directly validate theoretical concepts covered in the c
 
 \textbf{1. Mode Collapse as Nash Equilibrium Failure:}
 
-The lecture notes describe GANs as minimax games seeking Nash equilibrium:
+GANs represent minimax games seeking Nash equilibrium:
 \[
 \min_G \max_D \mathbb{E}_{x \sim p_{data}}[\log D(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D(G(z)))]
 \]
 
-Ideally, equilibrium occurs when $D$ cannot distinguish real from fake ($D(x) = D(G(z)) = 0.5$) and $G$ has learned $p_{data}$. However, as the lectures emphasize, this equilibrium is often unstable. The modified model demonstrates failure to reach equilibrium:
+Ideally, equilibrium occurs when $D$ cannot distinguish real from fake ($D(x) = D(G(z)) = 0.5$) and $G$ has learned $p_{data}$. This equilibrium is often unstable. The modified model demonstrates failure to reach equilibrium:
 \begin{itemize}
     \item The discriminator achieves near-perfect classification ($D(x) \approx 1$, $D(G(z)) \approx 0$), dominating the game.
     \item The generator, unable to compete, collapses to a single mode that minimizes its loss locally but fails to represent $p_{data}$ globally.
@@ -236,7 +236,7 @@ Ideally, equilibrium occurs when $D$ cannot distinguish real from fake ($D(x) = 
 
 \textbf{2. Discriminator-Generator Power Imbalance:}
 
-Lecture notes warn that if $D$ becomes too powerful relative to $G$, gradients for $G$ vanish or become uninformative. The modified model exemplifies this:
+When $D$ becomes too powerful relative to $G$, gradients for $G$ may vanish or become uninformative. The modified model exemplifies this:
 \begin{itemize}
     \item Increased discriminator depth (4 layers) and dropout gives $D$ excessive capacity.
     \item Reduced latent dimension (64) limits $G$'s capacity.
@@ -245,25 +245,25 @@ Lecture notes warn that if $D$ becomes too powerful relative to $G$, gradients f
 
 \textbf{3. Vanishing Gradients and Mode Collapse:}
 
-The lectures explain that when $D$ perfectly classifies fake samples, $\log(1 - D(G(z))) \approx 0$, causing gradients for $G$ to vanish. The modified model's discriminator loss of $\sim$0.0001 confirms near-perfect classification, explaining why the generator cannot escape collapse despite continued training.
+When $D$ perfectly classifies fake samples, $\log(1 - D(G(z))) \approx 0$, causing gradients for $G$ to vanish. The modified model's discriminator loss of $\sim$0.0001 confirms near-perfect classification, explaining why the generator cannot escape collapse despite continued training.
 
 \textbf{4. Hyperparameter Sensitivity:}
 
-GAN training is notoriously sensitive to hyperparameter choices, as emphasized in lectures. The baseline and modified models differ only in latent dimension, depth, and dropout, yet produce wildly different outcomes:
+GAN training is highly sensitive to hyperparameter choices. The baseline and modified models differ only in latent dimension, depth, and dropout, yet produce substantially different outcomes:
 \begin{itemize}
     \item Baseline: Stable training, diverse outputs
     \item Modified: Complete collapse, meaningless outputs
 \end{itemize}
 
-This sensitivity underscores the importance of careful architecture design and hyperparameter tuning, consistent with lecture recommendations.
+This sensitivity demonstrates the importance of careful architecture design and hyperparameter tuning.
 
 \textbf{5. Lack of Convergence Guarantees:}
 
-The lectures note that GANs lack theoretical convergence guarantees, unlike maximum likelihood methods. The modified model's inability to recover from collapse after epoch 30—despite continued training through epoch 50—illustrates this limitation. Once collapse occurs, the adversarial dynamics do not naturally restore equilibrium.
+GANs lack theoretical convergence guarantees, unlike maximum likelihood methods. The modified model's inability to recover from collapse after epoch 30 (despite continued training through epoch 50) illustrates this limitation. Once collapse occurs, the adversarial dynamics do not naturally restore equilibrium.
 
 \textbf{Connection to Proposed Solutions:}
 
-Lecture notes discuss techniques to mitigate mode collapse and instability, including:
+Techniques to mitigate mode collapse and instability include:
 \begin{itemize}
     \item Feature matching and minibatch discrimination (Salimans et al., 2016 \cite{salimans2016improved})
     \item Wasserstein GAN (Arjovsky et al., 2017 \cite{arjovsky2017wasserstein}) to improve gradient behavior
@@ -289,10 +289,10 @@ Figure~\ref{fig:comparison_samples} and Figure~\ref{fig:diffusion_denoising} pre
 \begin{itemize}
     \item \textbf{Diversity:} The denoised outputs are realistic handwritten digits but do not reconstruct the exact original inputs. This demonstrates the \textbf{generative nature} of diffusion models: they sample from the learned data distribution conditioned on the noisy input, rather than performing deterministic pixel-wise reconstruction. Each denoised digit is a plausible MNIST sample but may differ in digit class or style from the original.
     \item \textbf{Sharpness:} Denoised images show clear digit structures with reasonable sharpness, though fine details may differ from the originals. The model successfully removes noise while generating coherent digit shapes.
-    \item \textbf{Reconstruction vs. Generation:} At $\sigma = 0.3$ (low noise), denoised outputs tend to preserve more similarity to originals but still exhibit generative variation. At higher noise levels ($\sigma = 0.5, 0.7$), the model has less information from the noisy input and generates digits more freely from the learned distribution. This behavior contrasts with deterministic denoisers (e.g., autoencoders) which would attempt exact reconstruction.
+    \item \textbf{Reconstruction vs. Generation:} At $\sigma = 0.3$ (low noise), denoised outputs preserve more similarity to originals but still exhibit generative variation. At higher noise levels ($\sigma = 0.5, 0.7$), the model generates digits more freely from the learned distribution. This behavior contrasts with deterministic denoisers (e.g., autoencoders) which attempt exact reconstruction.
 \end{itemize}
 
-\textbf{Key Observations:} The DCGAN baseline successfully generates diverse, sharp digits from random latent vectors. The diffusion model successfully denoises noisy MNIST images, producing realistic handwritten digits. However, the denoised outputs do not exactly match the original inputs, revealing a fundamental characteristic of diffusion models: they are \textbf{generative} rather than reconstructive. The model samples from the learned MNIST distribution conditioned on the noisy input, which may produce different digit classes or styles than the originals. This contrasts with deterministic denoising methods (e.g., denoising autoencoders) which aim for pixel-wise reconstruction. For applications requiring exact reconstruction, this generative behavior is a limitation; for applications requiring diverse, realistic outputs, it is an advantage.
+\textbf{Key Observations:} The DCGAN baseline generates diverse, sharp digits from random latent vectors. The diffusion model denoises noisy MNIST images, producing realistic handwritten digits. The denoised outputs do not exactly match the original inputs, revealing a fundamental characteristic: diffusion models are \textbf{generative} rather than reconstructive. The model samples from the learned MNIST distribution conditioned on the noisy input, potentially producing different digit classes or styles than the originals. This contrasts with deterministic denoising methods (e.g., denoising autoencoders) which aim for pixel-wise reconstruction. For applications requiring exact reconstruction, this generative behavior presents a limitation; for applications requiring diverse, realistic outputs, it offers an advantage.
 
 \begin{figure}[!t]
 \centering
@@ -339,7 +339,7 @@ GPU Utilization & 100\% & 45--99\% \\
 
 \textbf{Proxy Metrics Discussion:}
 
-\textit{Inference Speed:} The DCGAN achieves 115$\times$--230$\times$ faster inference (1.29ms vs. 153--297ms per sample) due to single-pass generation. Diffusion models require 100 sequential denoising steps, making them computationally expensive at inference time despite stable training. The variation in diffusion timing (153--155ms for $\sigma=0.5,0.7$ vs. 297ms for $\sigma=0.3$) reflects GPU warmup effects and batch processing overhead, with the first denoising pass showing higher latency due to model initialization.
+\textit{Inference Speed:} The DCGAN achieves 115$\times$--230$\times$ faster inference (1.29ms vs. 153--297ms per sample) due to single-pass generation. Diffusion models require 100 sequential denoising steps, making them computationally expensive at inference time. The variation in diffusion timing (153--155ms for $\sigma=0.5,0.7$ vs. 297ms for $\sigma=0.3$) likely reflects GPU warmup effects and batch processing overhead, with the first denoising pass showing higher latency due to model initialization.
 
 \textit{Training Stability Proxy:} Loss curve behavior serves as a stability proxy. The DCGAN baseline shows oscillating losses (healthy adversarial balance), while the modified DCGAN exhibits divergence (collapse). Diffusion models inherently avoid adversarial instability through likelihood-based training, though this experiment used a pretrained model.
 
@@ -350,9 +350,9 @@ GPU Utilization & 100\% & 45--99\% \\
     \item \textbf{Correlation:} 0.347--0.369 (weak positive correlation). Low correlation coefficients confirm the generative (vs. reconstructive) nature—the model produces plausible MNIST digits but not the specific original digits.
 \end{itemize}
 
-These metrics, consistent across noise levels, provide quantitative evidence that diffusion models generate samples from the learned distribution rather than reconstructing inputs. This behavior contrasts with deterministic denoisers (e.g., denoising autoencoders) which would show PSNR $>$30 dB and correlation $>$0.9.
+These metrics, consistent across noise levels, provide quantitative evidence that diffusion models generate samples from the learned distribution rather than reconstructing inputs. This behavior contrasts with deterministic denoisers (e.g., denoising autoencoders) which typically show PSNR $>$30 dB and correlation $>$0.9.
 
-\textit{Metric Limitations:} Formal metrics like Inception Score (IS) or Fréchet Inception Distance (FID) require pretrained classifiers unavailable in this environment due to filesystem constraints. The denoising task differs from unconditional generation, making direct quality comparison challenging. However, diversity metrics (inter-sample variance, pairwise distance) and reconstruction metrics (MSE, PSNR, correlation) provide objective quantitative comparison.
+\textit{Metric Limitations:} Formal metrics like Inception Score (IS) or Fréchet Inception Distance (FID) require pretrained classifiers unavailable in this environment due to filesystem constraints. The denoising task differs from unconditional generation, complicating direct quality comparison. Diversity metrics (inter-sample variance, pairwise distance) and reconstruction metrics (MSE, PSNR, correlation) provide objective quantitative comparison.
 
 \subsubsection{Training and Inference Cost Analysis}
 

@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.5)  6 DEC 2025 22:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.5)  7 DEC 2025 14:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/home1/michael2024/ML_Course/as4/documents/report/main
-(/home1/michael2024/ML_Course/as4/documents/report/main.tex
+**main.tex
+(./main.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-14>
 (/home1/michael2024/texlive/texmf-dist/tex/latex/ieeetran/IEEEtran.cls
@@ -437,22 +437,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 70--72
  \OT1/ptm/m/it/10 2) Mod-i-fied Con-fig-u-ra-tion (la-tent[]dim=64, depth=4,
  []
 
-<../../output/dcgan_baseline/samples/epoch_001.png, id=35, 722.7pt x 722.7pt>
+<../../output/dcgan_baseline/samples/epoch_001.png, id=36, 722.7pt x 722.7pt>
 File: ../../output/dcgan_baseline/samples/epoch_001.png Graphic file (type png)
 <use ../../output/dcgan_baseline/samples/epoch_001.png>
 Package pdftex.def Info: ../../output/dcgan_baseline/samples/epoch_001.png  used on input line 82.
 (pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
-<../../output/dcgan_baseline/samples/epoch_050.png, id=37, 722.7pt x 722.7pt>
+<../../output/dcgan_baseline/samples/epoch_050.png, id=38, 722.7pt x 722.7pt>
 File: ../../output/dcgan_baseline/samples/epoch_050.png Graphic file (type png)
 <use ../../output/dcgan_baseline/samples/epoch_050.png>
 Package pdftex.def Info: ../../output/dcgan_baseline/samples/epoch_050.png  used on input line 83.
 (pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
-<../../output/dcgan_modified/samples/epoch_001.png, id=38, 722.7pt x 722.7pt>
+<../../output/dcgan_modified/samples/epoch_001.png, id=39, 722.7pt x 722.7pt>
 File: ../../output/dcgan_modified/samples/epoch_001.png Graphic file (type png)
 <use ../../output/dcgan_modified/samples/epoch_001.png>
 Package pdftex.def Info: ../../output/dcgan_modified/samples/epoch_001.png  used on input line 90.
 (pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
-<../../output/dcgan_modified/samples/epoch_050.png, id=39, 722.7pt x 722.7pt>
+<../../output/dcgan_modified/samples/epoch_050.png, id=40, 722.7pt x 722.7pt>
 File: ../../output/dcgan_modified/samples/epoch_050.png Graphic file (type png)
 <use ../../output/dcgan_modified/samples/epoch_050.png>
 Package pdftex.def Info: ../../output/dcgan_modified/samples/epoch_050.png  used on input line 91.
@@ -478,31 +478,36 @@ File: ../../output/dcgan_modified/training_losses.png Graphic file (type png)
 <use ../../output/dcgan_modified/training_losses.png>
 Package pdftex.def Info: ../../output/dcgan_modified/training_losses.png  used on input line 157.
 (pdftex.def)             Requested size: 247.6778pt x 123.83882pt.
-
+ [3 <../../output/dcgan_modified/samples/epoch_001.png> <../../output/dcgan_modified/samples/epoch_050.png> <../../output/dcgan_baseline/training_losses.png> <../../output/dcgan_modified/training_losses.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 168--169
 []\OT1/ptm/b/n/10 Modified: \OT1/ptm/m/n/10 Re-quired 12.22 min-utes (14.66
  []
 
-[3 <../../output/dcgan_modified/samples/epoch_001.png> <../../output/dcgan_modified/samples/epoch_050.png>] [4 <../../output/dcgan_baseline/training_losses.png> <../../output/dcgan_modified/training_losses.png>]
+
 Underfull \hbox (badness 1460) in paragraph at lines 233--234
 []\OT1/ptm/m/n/10 The dis-crim-i-na-tor achieves near-perfect clas-si-fi-ca-tion
+ []
+
+[4]
+Underfull \hbox (badness 3590) in paragraph at lines 248--249
+[]\OT1/ptm/m/n/10 When $\OML/cmm/m/it/10 D$ \OT1/ptm/m/n/10 per-fectly clas-si-fies fake sam-ples, $[]\OT1/cmr/m/n/10 (1 \OMS/cmsy/m/n/10 ^^@
  []
 
 File: ../../output/dcgan_baseline/samples/epoch_050.png Graphic file (type png)
 <use ../../output/dcgan_baseline/samples/epoch_050.png>
 Package pdftex.def Info: ../../output/dcgan_baseline/samples/epoch_050.png  used on input line 299.
 (pdftex.def)             Requested size: 247.6778pt x 247.67764pt.
-<../../output/diffusion_denoise/denoise_noise_0.3.png, id=80, 1140.4206pt x 428.3202pt>
+<../../output/diffusion_denoise/denoise_noise_0.3.png, id=83, 1140.4206pt x 428.3202pt>
 File: ../../output/diffusion_denoise/denoise_noise_0.3.png Graphic file (type png)
 <use ../../output/diffusion_denoise/denoise_noise_0.3.png>
 Package pdftex.def Info: ../../output/diffusion_denoise/denoise_noise_0.3.png  used on input line 306.
 (pdftex.def)             Requested size: 165.12378pt x 62.0166pt.
-<../../output/diffusion_denoise/denoise_noise_0.5.png, id=81, 1140.4206pt x 428.3202pt>
+<../../output/diffusion_denoise/denoise_noise_0.5.png, id=84, 1140.4206pt x 428.3202pt>
 File: ../../output/diffusion_denoise/denoise_noise_0.5.png Graphic file (type png)
 <use ../../output/diffusion_denoise/denoise_noise_0.5.png>
 Package pdftex.def Info: ../../output/diffusion_denoise/denoise_noise_0.5.png  used on input line 307.
 (pdftex.def)             Requested size: 165.12378pt x 62.0166pt.
-<../../output/diffusion_denoise/denoise_noise_0.7.png, id=82, 1140.4206pt x 428.3202pt>
+<../../output/diffusion_denoise/denoise_noise_0.7.png, id=85, 1140.4206pt x 428.3202pt>
 File: ../../output/diffusion_denoise/denoise_noise_0.7.png Graphic file (type png)
 <use ../../output/diffusion_denoise/denoise_noise_0.7.png>
 Package pdftex.def Info: ../../output/diffusion_denoise/denoise_noise_0.7.png  used on input line 308.
@@ -581,22 +586,24 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[9] (./main.aux)
+[9
+
+] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-14>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 11808 strings out of 467538
- 185622 string characters out of 5417989
+ 11807 strings out of 467538
+ 185474 string characters out of 5417989
  615495 words of memory out of 5000000
  40490 multiletter control sequences out of 15000+600000
  669335 words of font info for 122 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,8n,79p,1322b,548s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,8n,79p,1232b,529s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (9 pages, 2038425 bytes).
+Output written on main.pdf (9 pages, 2038171 bytes).
 PDF statistics:
  311 PDF objects out of 1000 (max. 8388607)
  247 compressed objects within 3 object streams

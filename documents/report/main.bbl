@@ -7,8 +7,7 @@
 \providecommand{\BIBentrySTDinterwordspacing}{\spaceskip=0pt\relax}
 \providecommand{\BIBentryALTinterwordstretchfactor}{4}
 \providecommand{\BIBentryALTinterwordspacing}{\spaceskip=\fontdimen2\font plus
-\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
-  \fontdimen4\font\relax}
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus \fontdimen4\font\relax}
 \providecommand{\BIBforeignlanguage}[2]{{%
 \expandafter\ifx\csname l@#1\endcsname\relax
 \typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
@@ -22,24 +21,15 @@
 \BIBdecl
 
 \bibitem{goodfellow2014generative}
-I.~Goodfellow, J.~Pouget-Abadie, M.~Mirza, B.~Xu, D.~Warde-Farley, S.~Ozair,
-  A.~Courville, and Y.~Bengio, ``Generative adversarial nets,'' in
-  \emph{Advances in Neural Information Processing Systems}, vol.~27, 2014, pp.
-  2672--2680.
+I.~Goodfellow, J.~Pouget-Abadie, M.~Mirza, B.~Xu, D.~Warde-Farley, S.~Ozair, A.~Courville, and Y.~Bengio, ``Generative adversarial nets,'' in \emph{Advances in Neural Information Processing Systems}, vol.~27, 2014, pp. 2672--2680.
 
 \bibitem{radford2015unsupervised}
-A.~Radford, L.~Metz, and S.~Chintala, ``Unsupervised representation learning
-  with deep convolutional generative adversarial networks,'' in
-  \emph{International Conference on Learning Representations (ICLR)}, 2016.
+A.~Radford, L.~Metz, and S.~Chintala, ``Unsupervised representation learning with deep convolutional generative adversarial networks,'' in \emph{International Conference on Learning Representations (ICLR)}, 2016.
 
 \bibitem{salimans2016improved}
-T.~Salimans, I.~Goodfellow, W.~Zaremba, V.~Cheung, A.~Radford, and X.~Chen,
-  ``Improved techniques for training gans,'' in \emph{Advances in Neural
-  Information Processing Systems}, vol.~29, 2016, pp. 2234--2242.
+T.~Salimans, I.~Goodfellow, W.~Zaremba, V.~Cheung, A.~Radford, and X.~Chen, ``Improved techniques for training gans,'' in \emph{Advances in Neural Information Processing Systems}, vol.~29, 2016, pp. 2234--2242.
 
 \bibitem{arjovsky2017wasserstein}
-M.~Arjovsky, S.~Chintala, and L.~Bottou, ``Wasserstein gan,'' in
-  \emph{International Conference on Machine Learning (ICML)}, 2017, pp.
-  214--223.
+M.~Arjovsky, S.~Chintala, and L.~Bottou, ``Wasserstein gan,'' in \emph{International Conference on Machine Learning (ICML)}, 2017, pp. 214--223.
 
 \end{thebibliography}
