@@ -44,7 +44,14 @@ Generative Adversarial Networks (GANs) \cite{goodfellow2014generative} consist o
 Experiments use the MNIST dataset of 60,000 handwritten digit images (28×28 grayscale). Images are normalized to $[-1, 1]$ to match the generator's Tanh output.
 
 \subsection{DCGAN Architecture and Training Regime}
-The generator maps a latent vector $z \sim \mathcal{N}(0,I)$ to an image using transposed convolutions, batch normalization, and ReLU activations with Tanh at the output. The discriminator uses strided convolutions, batch normalization, LeakyReLU, and adaptive pooling to produce a $1\times1$ output. Dropout provides optional regularization. Training alternates between discriminator updates (classifying real vs. fake) and generator updates (fooling the discriminator) using binary cross-entropy loss. Fixed random seeds and deterministic cuDNN settings ensure reproducibility.
+Figure~\ref{fig:gan_architecture} illustrates the complete DCGAN architecture. The generator maps a latent vector $z \sim \mathcal{N}(0,I)$ to an image using transposed convolutions, batch normalization, and ReLU activations with Tanh at the output. The discriminator uses strided convolutions, batch normalization, LeakyReLU, and adaptive pooling to produce a $1\times1$ output. Dropout provides optional regularization. Training alternates between discriminator updates (classifying real vs. fake) and generator updates (fooling the discriminator) using binary cross-entropy loss. Fixed random seeds and deterministic cuDNN settings ensure reproducibility.
+
+\begin{figure*}
+\centering
+\includegraphics[width=0.9\textwidth]{GAN_Architecture.pdf}
+\caption{DCGAN architecture showing the generator network (latent noise → 256×7×7 → 128×14×14 → 64×28×28 → 1×28×28 output) and discriminator network (1×28×28 input → 64×14×14 → 128×7×7 → 256×3×3 → Real/Fake classification). Real MNIST training images and fake generated images are both processed by the discriminator during adversarial training.}
+\label{fig:gan_architecture}
+\end{figure*}
 
 \subsection{Diffusion Model Configuration}
 A pretrained Denoising Diffusion Probabilistic Model (DDPM) from HuggingFace's Diffusers library (1aurent/ddpm-mnist) provides comparison. The model uses a UNet backbone with timestep conditioning, trained on MNIST digits at 28×28 resolution. Gaussian noise at three levels ($\sigma = 0.3, 0.5, 0.7$) is added to MNIST images to demonstrate forward diffusion. The model then performs iterative denoising over 100 steps using the DDPM scheduler.
@@ -145,7 +152,7 @@ Mean Pairwise Distance & 0.451 & 0.154 \\
     \item \textbf{Mean Pairwise Distance:} Baseline (0.451) vs Modified (0.154) shows 65.8\% reduction in inter-sample distance. Samples are nearly identical, characteristic of a generator producing limited distinct outputs regardless of input noise.
 \end{itemize}
 
-\begin{figure*}[!b]
+\begin{figure*}
 \centering
 \includegraphics[width=0.48\textwidth]{../../output/dcgan_baseline/training_losses.png}
 \includegraphics[width=0.48\textwidth]{../../output/dcgan_modified/training_losses.png}
@@ -367,6 +374,7 @@ Figure~\ref{fig:baseline_evolution} shows the complete training evolution for th
 \label{fig:baseline_evolution}
 \end{figure*}
 
+\clearpage
 Figure~\ref{fig:modified_evolution} shows the training progression for the modified DCGAN. Mode collapse becomes evident by epoch 25 and completes by epoch 35.
 
 \begin{figure*}[!h]

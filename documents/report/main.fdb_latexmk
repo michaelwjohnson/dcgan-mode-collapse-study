@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1765245575.70379 "main.aux" "main.bbl" "main" 1765245582.81659 0
+["bibtex main"] 1765299447.14316 "main.aux" "main.bbl" "main" 1765299519.23032 0
   "./refs.bib" 1765245422.00437 3080 11ea1065c31b564e01ed371003fac198 ""
   "/home1/michael2024/texlive/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1440712899 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "main.aux" 1765245582.37063 18365 512cf8a27f5196b760a767cc9798934f "pdflatex"
+  "main.aux" 1765299518.76866 19266 5d2fa3447ede1452a60f2d206207e171 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1765245575.90832 "main.tex" "main.pdf" "main" 1765245582.81695 0
+["pdflatex"] 1765299512.08606 "main.tex" "main.pdf" "main" 1765299519.23101 0
   "../../output/dcgan_baseline/samples/epoch_001.png" 1765069454.00443 59153 abbb2eff8d03e9ac646f2a7c0ba1830d ""
   "../../output/dcgan_baseline/samples/epoch_005.png" 1765069489.63115 60833 aea9f898f4ea5363443709cd6023257c ""
   "../../output/dcgan_baseline/samples/epoch_010.png" 1765069534.54954 61040 61663f4f7e280bb30bcc2835fdc9f3d6 ""
@@ -36,6 +36,7 @@
   "../../output/diffusion_denoise/denoise_noise_0.5.png" 1765069251.05171 63407 558ec7ff0b2ba422e88a84b315777041 ""
   "../../output/diffusion_denoise/denoise_noise_0.7.png" 1765069252.75165 63276 f8cb7b9291b6c934c664f64518338967 ""
   "/home1/michael2024/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
+  "/home1/michael2024/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/home1/michael2024/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/home1/michael2024/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
   "/home1/michael2024/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm" 1136768653 1292 bd42be2f344128bff6d35d98474adfe3 ""
@@ -49,6 +50,7 @@
   "/home1/michael2024/texlive/texmf-dist/fonts/tfm/adobe/times/ptmrc7t.tfm" 1136768653 2680 312a2d12b1f1df8ee0212e7ba1962402 ""
   "/home1/michael2024/texlive/texmf-dist/fonts/tfm/adobe/times/ptmri7t.tfm" 1136768653 2288 f478fc8fed18759effb59f3dad7f3084 ""
   "/home1/michael2024/texlive/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm" 1136768653 4640 532ca3305aad10cc01d769f3f91f1029 ""
+  "/home1/michael2024/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm0900.tfm" 1136768653 1536 c4f439db76ef96a9c53bc437f35ffe20 ""
   "/home1/michael2024/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/home1/michael2024/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
   "/home1/michael2024/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex9.tfm" 1246382020 996 a18840b13b499c08ac2de96a99eda4bc ""
@@ -78,6 +80,7 @@
   "/home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb" 1248133631 33993 9b89b85fd2d9df0482bd47194d1d3bf3 ""
   "/home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/home1/michael2024/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb" 1248133631 32626 4f5c1b83753b1dd3a97d1b399a005b4b ""
+  "/home1/michael2024/texlive/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb" 1215737283 149037 995a6f1e12c1d647b99b1cf55db78699 ""
   "/home1/michael2024/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb" 1136849748 45758 19968a0990191524e34e1994d4a31cb6 ""
   "/home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1136849748 44729 811d6c62865936705a31c797a1d5dada ""
   "/home1/michael2024/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb" 1136849748 44656 0cbca70e0534538582128f6b54593cca ""
@@ -153,9 +156,10 @@
   "/home1/michael2024/texlive/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1764980582 5541383 c2c47dbebf09779c53cee61d765b9d4d ""
   "/home1/michael2024/texlive/texmf-var/web2c/pdftex/pdflatex.fmt" 1764980903 3635749 8bbb7d5e51f985b8d61c116d64bc4b73 ""
   "/home1/michael2024/texlive/texmf.cnf" 1764980558.69533 496 01ab80fa0036a81d2df86fb0ac70c709 ""
-  "main.aux" 1765245582.37063 18365 512cf8a27f5196b760a767cc9798934f "pdflatex"
-  "main.bbl" 1765245575.89086 3086 9c1ccab50f167367dbb25add485a55b6 "bibtex main"
-  "main.tex" 1765245571.83901 28489 fe7c51969816b5edcfab83804fee3510 ""
+  "GAN_Architecture.pdf" 1765298888.09962 916864 c9c6d9771c2455fc3ba79e4d89d271cf ""
+  "main.aux" 1765299518.76866 19266 5d2fa3447ede1452a60f2d206207e171 "pdflatex"
+  "main.bbl" 1765299447.32726 3086 9c1ccab50f167367dbb25add485a55b6 "bibtex main"
+  "main.tex" 1765299511.43293 29085 803433d3d5c3a8be597427a6be125a0c ""
   (generated)
   "main.aux"
   "main.log"
