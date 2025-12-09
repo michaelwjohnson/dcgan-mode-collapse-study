@@ -21,15 +21,43 @@
 \BIBdecl
 
 \bibitem{goodfellow2014generative}
-I.~Goodfellow, J.~Pouget-Abadie, M.~Mirza, B.~Xu, D.~Warde-Farley, S.~Ozair, A.~Courville, and Y.~Bengio, ``Generative adversarial nets,'' in \emph{Advances in Neural Information Processing Systems}, vol.~27, 2014, pp. 2672--2680.
+\BIBentryALTinterwordspacing
+I.~J. Goodfellow, J.~Pouget-Abadie, M.~Mirza, B.~Xu, D.~Warde-Farley, S.~Ozair, A.~Courville, and Y.~Bengio, ``Generative adversarial networks,'' 2014. [Online]. Available: \url{https://arxiv.org/abs/1406.2661}
+\BIBentrySTDinterwordspacing
 
-\bibitem{radford2015unsupervised}
-A.~Radford, L.~Metz, and S.~Chintala, ``Unsupervised representation learning with deep convolutional generative adversarial networks,'' in \emph{International Conference on Learning Representations (ICLR)}, 2016.
+\bibitem{radford2016unsupervised}
+\BIBentryALTinterwordspacing
+A.~Radford, L.~Metz, and S.~Chintala, ``Unsupervised representation learning with deep convolutional generative adversarial networks,'' 2016. [Online]. Available: \url{https://arxiv.org/abs/1511.06434}
+\BIBentrySTDinterwordspacing
+
+\bibitem{ho2020denoisingdiffusion}
+\BIBentryALTinterwordspacing
+J.~Ho, A.~Jain, and P.~Abbeel, ``Denoising diffusion probabilistic models,'' 2020. [Online]. Available: \url{https://arxiv.org/abs/2006.11239}
+\BIBentrySTDinterwordspacing
+
+\bibitem{miyato2018spectral}
+\BIBentryALTinterwordspacing
+T.~Miyato, T.~Kataoka, M.~Koyama, and Y.~Yoshida, ``Spectral normalization for generative adversarial networks,'' 2018. [Online]. Available: \url{https://arxiv.org/abs/1802.05957}
+\BIBentrySTDinterwordspacing
+
+\bibitem{karras2018progressive}
+\BIBentryALTinterwordspacing
+T.~Karras, T.~Aila, S.~Laine, and J.~Lehtinen, ``Progressive growing of gans for improved quality, stability, and variation,'' 2018. [Online]. Available: \url{https://arxiv.org/abs/1710.10196}
+\BIBentrySTDinterwordspacing
 
 \bibitem{salimans2016improved}
-T.~Salimans, I.~Goodfellow, W.~Zaremba, V.~Cheung, A.~Radford, and X.~Chen, ``Improved techniques for training gans,'' in \emph{Advances in Neural Information Processing Systems}, vol.~29, 2016, pp. 2234--2242.
+\BIBentryALTinterwordspacing
+T.~Salimans, I.~Goodfellow, W.~Zaremba, V.~Cheung, A.~Radford, and X.~Chen, ``Improved techniques for training gans,'' 2016. [Online]. Available: \url{https://arxiv.org/abs/1606.03498}
+\BIBentrySTDinterwordspacing
 
-\bibitem{arjovsky2017wasserstein}
-M.~Arjovsky, S.~Chintala, and L.~Bottou, ``Wasserstein gan,'' in \emph{International Conference on Machine Learning (ICML)}, 2017, pp. 214--223.
+\bibitem{karras2019stylegan}
+\BIBentryALTinterwordspacing
+T.~Karras, S.~Laine, and T.~Aila, ``A style-based generator architecture for generative adversarial networks,'' 2019. [Online]. Available: \url{https://arxiv.org/abs/1812.04948}
+\BIBentrySTDinterwordspacing
+
+\bibitem{rombach2022latent}
+\BIBentryALTinterwordspacing
+R.~Rombach, A.~Blattmann, D.~Lorenz, P.~Esser, and B.~Ommer, ``High-resolution image synthesis with latent diffusion models,'' 2022. [Online]. Available: \url{https://arxiv.org/abs/2112.10752}
+\BIBentrySTDinterwordspacing
 
 \end{thebibliography}
