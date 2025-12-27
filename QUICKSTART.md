@@ -165,7 +165,7 @@ squeue -u $USER --start
 
 ## 🚀 Next Steps
 
-1. **Explore the paper**: Read [documents/report/main.tex](documents/report/main.tex) for detailed analysis
+1. **Explore the paper**: Read [documents/report/main.pdf](documents/report/main.pdf) for detailed analysis
 2. **Modify architectures**: Edit [python/train_dcgan.py](python/train_dcgan.py) to test new configurations
 3. **Add metrics**: Implement FID/IS scores in [python/compute_metrics.py](python/compute_metrics.py)
 4. **Try new datasets**: Extend to CIFAR-10 or CelebA
