@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1765299447.14316 "main.aux" "main.bbl" "main" 1765299519.23032 0
+["bibtex main"] 1765305928.08976 "main.aux" "main.bbl" "main" 1765305935.57597 0
   "./refs.bib" 1765245422.00437 3080 11ea1065c31b564e01ed371003fac198 ""
   "/home1/michael2024/texlive/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1440712899 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "main.aux" 1765299518.76866 19266 5d2fa3447ede1452a60f2d206207e171 "pdflatex"
+  "main.aux" 1765305935.00642 19266 3e2761318557dda5ac8cfd02ddbbb08f "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1765299512.08606 "main.tex" "main.pdf" "main" 1765299519.23101 0
+["pdflatex"] 1765305928.29308 "main.tex" "main.pdf" "main" 1765305935.57681 0
   "../../output/dcgan_baseline/samples/epoch_001.png" 1765069454.00443 59153 abbb2eff8d03e9ac646f2a7c0ba1830d ""
   "../../output/dcgan_baseline/samples/epoch_005.png" 1765069489.63115 60833 aea9f898f4ea5363443709cd6023257c ""
   "../../output/dcgan_baseline/samples/epoch_010.png" 1765069534.54954 61040 61663f4f7e280bb30bcc2835fdc9f3d6 ""
@@ -157,9 +157,9 @@
   "/home1/michael2024/texlive/texmf-var/web2c/pdftex/pdflatex.fmt" 1764980903 3635749 8bbb7d5e51f985b8d61c116d64bc4b73 ""
   "/home1/michael2024/texlive/texmf.cnf" 1764980558.69533 496 01ab80fa0036a81d2df86fb0ac70c709 ""
   "GAN_Architecture.pdf" 1765298888.09962 916864 c9c6d9771c2455fc3ba79e4d89d271cf ""
-  "main.aux" 1765299518.76866 19266 5d2fa3447ede1452a60f2d206207e171 "pdflatex"
-  "main.bbl" 1765299447.32726 3086 9c1ccab50f167367dbb25add485a55b6 "bibtex main"
-  "main.tex" 1765299511.43293 29085 803433d3d5c3a8be597427a6be125a0c ""
+  "main.aux" 1765305935.00642 19266 3e2761318557dda5ac8cfd02ddbbb08f "pdflatex"
+  "main.bbl" 1765305928.27465 3086 9c1ccab50f167367dbb25add485a55b6 "bibtex main"
+  "main.tex" 1765305920.49893 29103 cf089929734bacdcd49c53b8edcf525b ""
   (generated)
   "main.aux"
   "main.log"

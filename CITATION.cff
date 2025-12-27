@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this work in your research, please cite it as below."
+authors:
+  - family-names: Johnson
+    given-names: Michael
+title: "Comparative Analysis of DCGANs and Diffusion Models for MNIST Generation"
+version: 1.0.0
+date-released: 2025-12-09
+url: "https://github.com/yourusername/dcgan-diffusion-comparison"
+keywords:
+  - generative adversarial networks
+  - DCGAN
+  - diffusion models
+  - MNIST
+  - mode collapse
+  - deep learning
+  - image generation
+license: MIT
+abstract: >
+  This study compares Deep Convolutional Generative Adversarial Networks (DCGANs) 
+  and diffusion models for MNIST digit generation and denoising. Two DCGAN 
+  configurations are evaluated: a baseline with latent dimension 256, depth 3, 
+  and no dropout, and a modified version with latent dimension 64, depth 4, 
+  and dropout 0.3. The baseline produces diverse, high-quality samples while 
+  the modified configuration exhibits severe mode collapse. Results reveal 
+  fundamental tradeoffs between model families.

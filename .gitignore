@@ -1,2 +1,65 @@
+# Container images
 *.sif
+
+# SLURM logs
 logs/
+*.out
+*.err
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+*.ipynb_checkpoints
+
+# Data
+data/cifar-10-batches-py/
+data/MNIST/
+
+# Model checkpoints (optional - uncomment if models are too large)
+# models/
+# *.pth
+# *.pt
+# *.ckpt
+
+# Large output files (optional - uncomment if too large)
+# output/
+
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.toc
+*.out
+*.nav
+*.snm
+*.vrb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+tmp/
+temp/

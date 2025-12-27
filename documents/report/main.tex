@@ -21,6 +21,7 @@
 December 9, 2025}}
 
 \maketitle
+\pagestyle{plain}
 
 \begin{abstract}
 This study compares Deep Convolutional Generative Adversarial Networks (DCGANs) and diffusion models for MNIST digit generation and denoising. Two DCGAN configurations are evaluated: a baseline with latent dimension 256, depth 3, and no dropout, and a modified version with latent dimension 64, depth 4, and dropout 0.3. The baseline produces diverse, high-quality samples while the modified configuration exhibits severe mode collapse. Results reveal fundamental tradeoffs between model families. GANs offer fast inference (1.29ms/sample) but suffer from training instability. Diffusion models provide stable training and consistent quality but require 115--230 times longer inference (153--297ms/sample for 100 denoising steps). These findings validate theoretical predictions and provide insights for model selection in production environments.
