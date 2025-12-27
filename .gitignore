@@ -51,6 +51,12 @@ documents/report/*.snm
 documents/report/*.vrb
 !documents/report/*.pdf
 
+# Internal documentation (not for public GitHub)
+AGENTS.md
+ASSIGNMENT_WALKTHROUGH.md
+README_TEMPLATE.md
+GITHUB_SETUP.md
+
 # IDE
 .vscode/
 .idea/
