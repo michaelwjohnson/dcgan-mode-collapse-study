@@ -19,7 +19,7 @@ This project investigates fundamental tradeoffs between two prominent generative
 - **Modified DCGAN** (latent_dim=64, depth=4, dropout=0.3): Exhibits complete mode collapse by epoch 35, generating identical grid patterns
 - **Diffusion Model**: Demonstrates stable generative behavior with consistent quality but significantly higher computational cost
 
-📄 **Full Paper**: [documents/report/main.tex](documents/report/main.tex)
+📄 **Full Paper**: [documents/report/main.pdf](documents/report/main.pdf)
 
 ## 📊 Visual Results
 
@@ -118,7 +118,7 @@ as4/
 │   ├── train_diffusion.slurm
 │   └── compute_metrics.slurm
 ├── documents/report/               # Academic paper
-│   └── main.tex                    # IEEE conference paper
+│   └── main.pdf                    # IEEE conference paper (PDF)
 ├── output/                         # Experimental results
 │   ├── dcgan_baseline/            # Baseline samples & metrics
 │   ├── dcgan_modified/            # Modified samples & metrics
