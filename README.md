@@ -215,5 +215,5 @@ This project is part of academic coursework for ECE5570 - Machine Learning at Sc
 ## 🙏 Acknowledgments
 
 - **Course**: ECE5570 - Machine Learning at Scale
-- **Institution**: University of Utah
+- **Institution**: Florida Institute of Technology
 - **Compute Resources**: AI-Panther HPC Cluster
