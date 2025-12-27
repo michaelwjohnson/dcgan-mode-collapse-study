@@ -2,7 +2,7 @@
 
 This guide will help you get the DCGAN-Diffusion comparison project running quickly.
 
-## ⚡ 5-Minute Setup
+## 5-Minute Setup
 
 ### Step 1: Clone and Setup (1 min)
 
@@ -59,7 +59,7 @@ ls output/dcgan_baseline/training_losses.png
 ls models/dcgan_baseline/
 ```
 
-## 🎯 Common Tasks
+## Common Tasks
 
 ### Compare Baseline vs Modified DCGAN
 
@@ -97,7 +97,7 @@ Edit the SLURM script to modify training parameters:
 --batch_size 256        # Larger batches
 ```
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### GPU Not Available
 ```bash
@@ -142,7 +142,7 @@ squeue -u $USER --start
 #SBATCH --gres=gpu:1     # Single GPU
 ```
 
-## 📊 Expected Results
+## Expected Results
 
 ### Baseline DCGAN (Success)
 - **Training time**: ~7-8 minutes for 50 epochs
@@ -163,7 +163,7 @@ squeue -u $USER --start
 - **Quality**: Consistent, high-quality digits
 - **Behavior**: Generative, not reconstructive
 
-## 🚀 Next Steps
+## Next Steps
 
 1. **Explore the paper**: Read [documents/report/main.pdf](documents/report/main.pdf) for detailed analysis
 2. **Modify architectures**: Edit [python/train_dcgan.py](python/train_dcgan.py) to test new configurations
@@ -171,7 +171,7 @@ squeue -u $USER --start
 4. **Try new datasets**: Extend to CIFAR-10 or CelebA
 5. **Implement improvements**: Add spectral normalization, progressive growing, etc.
 
-## 💡 Tips
+## Tips
 
 - **Save checkpoints regularly**: Training can be interrupted
 - **Use tmux/screen**: Keep sessions alive during long runs
@@ -179,17 +179,17 @@ squeue -u $USER --start
 - **Compare configurations**: Use WandB or TensorBoard for tracking
 - **Document experiments**: Keep a lab notebook of hyperparameters and results
 
-## 📚 Further Reading
+## Further Reading
 
 - [DCGAN Paper (Radford et al., 2016)](https://arxiv.org/abs/1511.06434)
 - [DDPM Paper (Ho et al., 2020)](https://arxiv.org/abs/2006.11239)
 - [GAN Training Tips](https://github.com/soumith/ganhacks)
 
-## 🆘 Getting Help
+## Getting Help
 
 - **Check logs**: Always start with `cat logs/jobname_*.err`
 - **Read error messages**: They usually indicate the exact problem
 - **Open an issue**: Provide logs, system info, and steps to reproduce
 - **Ask questions**: No question is too basic!
 
-Happy experimenting! 🎨
+Happy experimenting!

@@ -6,7 +6,7 @@
 
 A comprehensive comparative study examining Deep Convolutional Generative Adversarial Networks (DCGANs) and diffusion models for MNIST digit generation, with focus on training stability, mode collapse, and computational tradeoffs.
 
-## 🔬 Research Overview
+## Research Overview
 
 This project investigates fundamental tradeoffs between two prominent generative model families:
 
@@ -19,9 +19,9 @@ This project investigates fundamental tradeoffs between two prominent generative
 - **Modified DCGAN** (latent_dim=64, depth=4, dropout=0.3): Exhibits complete mode collapse by epoch 35, generating identical grid patterns
 - **Diffusion Model**: Demonstrates stable generative behavior with consistent quality but significantly higher computational cost
 
-📄 **Full Paper**: [documents/report/main.pdf](documents/report/main.pdf)
+**Full Paper**: [documents/report/main.pdf](documents/report/main.pdf)
 
-## 📊 Visual Results
+## Visual Results
 
 ### Baseline DCGAN Training Evolution
 Progressive improvement from random noise to diverse, high-quality digit generation:
@@ -48,7 +48,7 @@ Demonstrates classic mode collapse failure pattern:
 | Training Time | 7.49 min | 12.22 min |
 | Inference Time | 1.29 ms | 0.70 ms |
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -100,7 +100,7 @@ watch -n 1 nvidia-smi
 sbatch slurm/compute_metrics.slurm
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 as4/
@@ -130,7 +130,7 @@ as4/
 └── data/                          # MNIST dataset (auto-downloaded)
 ```
 
-## 🔧 Technical Details
+## Technical Details
 
 ### Environment
 
@@ -166,7 +166,7 @@ torch.backends.cudnn.benchmark = False
 - **Resolution**: 28×28 grayscale
 - **Inference Steps**: 100 sequential denoising steps
 
-## 📈 Results Summary
+## Results Summary
 
 ### Training Stability
 
@@ -188,7 +188,7 @@ Three architectural factors combine to cause collapse in the modified configurat
 - **Diffusion Advantages**: Stable likelihood-based training, consistent quality, no collapse
 - **Diffusion Disadvantages**: 115-230× slower inference, 100 sequential denoising steps
 
-## 📚 Citation
+## Citation
 
 If you use this work in your research, please cite:
 
@@ -202,17 +202,17 @@ If you use this work in your research, please cite:
 }
 ```
 
-## 🔗 References
+## References
 
 - Goodfellow et al. (2014): [Generative Adversarial Networks](https://arxiv.org/abs/1406.2661)
 - Radford et al. (2016): [Unsupervised Representation Learning with DCGANs](https://arxiv.org/abs/1511.06434)
 - Ho et al. (2020): [Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239)
 
-## 📝 License
+## License
 
 This project is part of academic coursework for ECE5570 - Machine Learning at Scale.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Course**: ECE5570 - Machine Learning at Scale
 - **Institution**: Florida Institute of Technology
