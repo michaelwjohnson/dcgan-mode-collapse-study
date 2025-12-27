@@ -34,19 +34,22 @@ data/MNIST/
 # Large output files (optional - uncomment if too large)
 # output/
 
-# LaTeX auxiliary files
-*.aux
-*.bbl
-*.blg
-*.fdb_latexmk
-*.fls
-*.log
-*.synctex.gz
-*.toc
-*.out
-*.nav
-*.snm
-*.vrb
+# LaTeX source and auxiliary files (keep only PDFs)
+documents/report/*.tex
+documents/report/*.bib
+documents/report/*.aux
+documents/report/*.bbl
+documents/report/*.blg
+documents/report/*.fdb_latexmk
+documents/report/*.fls
+documents/report/*.log
+documents/report/*.synctex.gz
+documents/report/*.toc
+documents/report/*.out
+documents/report/*.nav
+documents/report/*.snm
+documents/report/*.vrb
+!documents/report/*.pdf
 
 # IDE
 .vscode/
